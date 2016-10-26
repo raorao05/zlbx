@@ -1,0 +1,194 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=GBK" />
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+
+<title>{$page_title}</title>
+
+<link href="/css/w_css.css" type="text/css" rel="stylesheet" />
+
+<script src="/js/jquery.min.js.js"></script>
+<script src="/js/w_index.js"></script>
+<script type="text/javascript" src="/js/tab.js"></script>
+{* 包含脚本文件 *}
+	{insert_scripts files="transport.js,region.js"}
+{insert_scripts files='jquery.js,jquery.json-2.4.min.js'}
+{insert_scripts files='common.js,global.js,compare.js'}
+</head>
+
+<body>
+<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
+<div class="w_center">
+	<div class="w_dqwz"><!-- #BeginLibraryItem "/library/ur_here.lbi" --><!-- #EndLibraryItem --></div>
+	<div class="w_qcgg" style="position: relative"><img src="/images/w_cxlb_1.jpg" title="" alt=""/>
+		<div class="w_sy_bfd">
+			<h2>车险快速投保</h2>
+			<div class="w_sy_bfd_1">
+				<span>用车城市</span>
+				<div class="w_sy_bfd_1x">
+					<select name="country" id="selCountries" onchange="region.changed(this, 1, 'selProvinces')" style="display:none;">
+						<option value="1">中国</option>
+					</select>
+					<select name="province" id="selProvinces" onchange="region.changed(this, 2, 'selCities')" style="border:none; width:80px; margin:0 20px;">
+						<option value="0">请选择省</option>
+					</select>
+					<select name="city" id="selCities" onchange="region.changed(this, 3, 'selDistricts')" style="border:none; width:80px;">
+						<option value="0">请选择市</option>
+					</select>
+					<div style="display:none;">
+						<select name="district" id="selDistricts" >
+							<option value="0">请选择区</option>
+						</select>
+					</div>
+					<!--<i></i><span>长沙</span>
+                    <ul>
+                      <li><a href="" title="">长沙</a></li>
+                      <li><a href="" title="">长沙</a></li>
+                      <li><a href="" title="">长沙</a></li>
+                      <li><a href="" title="">长沙</a></li>
+                    </ul>-->
+				</div>
+			</div>
+			<div class="w_sy_bfd_2">
+				{foreach from=$cx item=r key=k}
+				{if $k < 7}
+				<span {if $k ==1 || $k ==4}class="no_le"{/if} onclick="fuzhi('cat_id','{$r.cat_id}');"><i></i>{$r.cat_name}</span>
+				{/if}
+				{/foreach}
+				<input type="hidden" id="cat_id" value="" />
+			</div>
+			<div class="w_sy_bfd_3">
+				<a href="javascript:quote();" title="获取报价" class="w_sy_bfd_31">获取报价</a>
+				<a href="" title="续保">续保</a>
+			</div>
+		</div>
+		<script>
+			region.isAdmin = true;
+			$("#selCountries").change();
+			function quote(){
+				var cat_id=document.getElementById('cat_id').value;
+				var reg_id=document.getElementById('selCities').value;
+
+				window.location.href='category.php?id='+cat_id+'&reg_id='+reg_id;
+			}
+			function fuzhi(id,zhi){
+				document.getElementById(id).value=zhi;
+			}
+			$(function(){
+				$(".w_sy_bfd_2 span").click(function(){
+					$(".w_sy_bfd_2").find("span").removeClass("w_span_dq");
+					$(this).addClass('w_span_dq');
+				});
+			});
+		</script>
+	</div>
+	<!--广告位END-->
+
+	<div class="w_cxlb_boxl">
+		<div class="title_box"><b>车险保什么？<i>车险不复杂，中联车险管家为您条条解读，选您所需。</i> </b></div>
+		<div class="cxlb_box2">
+			<div class="title_1 title">乘客座位责任险
+				<div class="content">乘客座位险是什么
+					？在这里看看。这个是有必要买的。在这里看看。这个是有必要买的。在这里看看。
+					这个是有必要买的。</div>
+			</div>
+			<div class="title_2 title">玻璃单独破碎险
+				<div class="content">乘客座位险是什么
+					？在这里看看。这个是有必要买的。在这里看看。这个是有必要买的。在这里看看。
+					这个是有必要买的。</div>
+			</div>
+			<div class="title_3 title">自燃损失险
+				<div class="content">乘客座位险是什么
+					？在这里看看。这个是有必要买的。在这里看看。这个是有必要买的。在这里看看。
+					这个是有必要买的。</div>
+			</div>
+			<div class="title_4 title">车辆损失险
+				<div class="content">乘客座位险是什么
+					？在这里看看。这个是有必要买的。在这里看看。这个是有必要买的。在这里看看。
+					这个是有必要买的。</div>
+			</div>
+			<div class="title_5 title">商业第三者责任险
+				<div class="content">乘客座位险是什么
+					？在这里看看。这个是有必要买的。在这里看看。这个是有必要买的。在这里看看。
+					这个是有必要买的。</div>
+			</div>
+			<div class="title_6 title">涉水行驶损失险
+				<div class="content">乘客座位险是什么
+					？在这里看看。这个是有必要买的。在这里看看。这个是有必要买的。在这里看看。
+					这个是有必要买的。</div>
+			</div>
+			<div class="title_7 title">全车盗抢险
+				<div class="content">乘客座位险是什么
+					？在这里看看。这个是有必要买的。在这里看看。这个是有必要买的。在这里看看。
+					这个是有必要买的。</div>
+			</div>
+			<div class="title_8 title">不计免赔率特约条款
+				<div class="content">乘客座位险是什么
+					？在这里看看。这个是有必要买的。在这里看看。这个是有必要买的。在这里看看。
+					这个是有必要买的。</div>
+			</div>
+			<div class="title_9 title">车身划痕险
+				<div class="content">乘客座位险是什么
+					？在这里看看。这个是有必要买的。在这里看看。这个是有必要买的。在这里看看。
+					这个是有必要买的。</div>
+			</div>
+			<div class="title_10 title">司机座位责任险
+				<div class="content">乘客座位险是什么
+					？在这里看看。这个是有必要买的。在这里看看。这个是有必要买的。在这里看看。
+					这个是有必要买的。</div>
+			</div>
+		</div>
+	</div>
+	<!-- 左边部分end-->
+	<div class="w_cplb_r">
+		<div class="w_bxxyl_1">
+			<h2>热销产品</h2>
+			<ul class="w_bxxyl_3l">
+				<!--{foreach from=$hot_goods item=r key=k}-->
+				<!-- {if $k < 4} -->
+				<li>
+					<a href="{$r.url}" title="{$r.name}">
+						<img src="/{$r.goods_img}" title="{$r.name}" alt="{$r.name}"/>
+						<p>{$r.short_name}</p>
+						<span><i>{if $r.promote_price}{$r.promote_price}{else}{$r.shop_price}{/if}</i></span>
+					</a>
+				</li>
+				<!-- {/if} -->
+				<!--{/foreach}-->
+			</ul>
+		</div>
+	</div>
+	<div class="clear"></div>
+	<div class="cxlb_table">
+		<img src="/images/cxlb_table.jpg" alt="表格" title="表格"/>
+		<div class="but_box">
+			<a href="category.php?id=32">获取报价</a>
+			<a href="category.php?id=3">获取报价</a>
+			<a href="category.php?id=2">获取报价</a>
+			<a href="">获取报价</a>
+			<a href="">获取报价</a>
+			<a href="">获取报价</a>
+			<a href="">获取报价</a>
+			<div class="clear"></div>
+		</div>
+	</div>
+	<div class="cxhdd">
+		<div class="title_box"><b>车险好搭档<i>全面抵御出行风险</i> </b></div>
+		<div class="cxhdd_pro">
+			<!--{foreach from=$best_goods item=r key=k}-->
+			<!-- {if $k < 4} -->
+			<div class="pro_1">
+				<img src="/{$r.goods_img}"/>
+				<div class="pro_txt"><h5>{$r.name}</h5><p>{$r.short_name}<a href="{$r.url}">查看详情></a></p></div>
+				<div class="clear"></div>
+			</div>
+			<!--{/if}-->
+			<!--{/foreach}-->
+		</div>
+	</div>
+</div>
+<!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
+</body>
+</html>

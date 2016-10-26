@@ -1,0 +1,57 @@
+{include file='header.html'}
+
+<!--导航 -->
+<div class="container top-menu">
+    <a href="javascript:history.back(-1)"><span class="glyphicon glyphicon-chevron-left" style="font-size:2rem;"></span></a>
+    <div class="cf-title" id="fd-caidan">汽车保险</div>
+    <div data-toggle="dropdown" href="#3" style="display:none;"><span class="glyphicon glyphicon-align-justify"style="font-size:2rem;"></span></div>
+    <ul class="dropdown-menu izl-fmenu" role="menu" aria-labelledby="dLabel" style="right:0; width:30%; left:auto">
+        <li><A href="">我的订单</A></li>
+        <li><A href="">我的视频</A></li>
+        <li><A href="">我的视频</A></li>
+    </ul>
+</div>
+
+<div class="bg-hight"></div>
+<!--内容 -->
+<div class="qcbx-box">
+    <ul class="qcbx-list" id="mores">
+        {foreach from=$cat_desc item=child_data}
+        <li class="list1"><a href="{$child_data.cat_desc}"><h3>{$child_data.cat_name}</h3><span>{$child_data.keywords}</span></a></li>
+        {/foreach}
+    </ul>
+    <div class="clearfix"></div>
+    <div class="look-more" style="border-top:0; border-bottom:0; font-size:1.3rem;" id="more"><a href="#3">查看更多</a></div>
+    <div class="qcbx-ads"><a href="category.php?id=2" ><img src="/images/qcbx-ads_07.gif" ></a></div>
+    <div class="bg-hight"></div>
+    <div class="qcbx-ads"><img src="/images/qcbx-ads_03.gif" ></div>
+    <h3 class="qcbx-list2-tit">哪个更适合我？</h3>
+    <ul class="qcbx-list2">
+        <a href="JavaScript:alert('车损、三责30万，车上人员险，普遍适用');"><li><span>大众版</span></li></a>
+        <a href="JavaScript:alert('车损、三责30万，车上人员险，适合工作用车较多人群');"><li><span>加强版</span></li></a>
+        <a href="JavaScript:alert('选择自己最适用的保险');"><li><span>定制版</span></li></a>
+    </ul>
+</div>
+{include file='footer.html'}
+<script>
+    $(document).ready(function(){
+        var more_id=1;
+        $("#more").click(function(){
+            more_id=more_id+1;
+            $("#more").html('<a href="#3">加载中...</a>');
+            $.ajax({
+                type:"GET",
+                url: "/mobile/category.php"+window.location.search+"&c=more",
+                data: "p="+more_id,
+                success: function(msg){
+                    if(msg){
+                        $("#mores").append(msg);
+                        $("#more").html('<a href="#3">查看更多</a>');
+                    }else{
+                        $("#more").html('<a href="#3">没有更多了</a>');
+                    }
+                }
+            });
+        })
+    });
+</script>

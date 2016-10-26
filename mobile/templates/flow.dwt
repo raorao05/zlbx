@@ -1,0 +1,1285 @@
+{include file='header.html'}
+
+  <!-- {if $step eq "cart"} -->
+  <!-- 购物车内容 -->
+  {* 包含脚本文件 *}
+<script type="text/javascript" src="/js/transport.org.js" xmlns="http://www.w3.org/1999/html"></script>
+<script type="text/javascript" src="/js/common.js"></script>
+<script type="text/javascript" src="/js/shopping_flow.js"></script>
+<script type="text/javascript" src="/js/showdiv.js"></script>
+  <script type="text/javascript">
+  {foreach from=$lang.password_js item=item key=key}
+    var {$key} = "{$item}";
+  {/foreach}
+  var checkflag = "false";
+  function check_1(fieldName) {
+		var field=document.getElementsByName(fieldName);
+		if (checkflag == "false") {
+		for (i = 0; i < field.length; i++) {
+		field[i].checked = true;}
+		checkflag = "true";
+		return "Uncheck All"; }
+		else {
+		for (i = 0; i < field.length; i++) {
+		field[i].checked = false; }
+		checkflag = "false";
+		return "Check All"; }
+	}
+  </script>
+<script type="text/javascript">
+
+	/* 购物车选中不选 */
+	$(document).ready(function(){
+		$(".izl-gwc-list li .xz").click(function () {
+			$(this).find('.xz').toggleClass("on");
+		});
+	});
+	/* 购物车删除 */
+	$(document).ready(function(){
+		$(".izl-fd-js li .xz").click(function () {
+			$(this).find('.xz').toggleClass("on");
+			$(".izl-gwc-list li").find('.xz').toggleClass("on");
+		});
+	});
+
+</script>
+<style>
+
+	.czsc {
+		display: box;
+		display: -moz-box;
+		display: -webkit-box;
+		text-align: center;
+		width: 100%;
+		float: none;
+		margin-bottom: 10px;
+	}
+
+	.czsc .but {
+		background: #ffffff;
+		color: #555555;
+		padding: 10px 0;
+		border-top: solid 1px #eeeeee;
+		border-bottom: solid 1px #eeeeee;
+		-moz-box-flex: 1.0;
+		-webkit-box-flex: 1.0;
+		box-flex: 1.0;
+		width: 50%;
+	}
+	.czsc .on {
+		background: #f67f00;
+		color: #fff;
+	}
+	.czsc .off {
+		background: #eeeeee;
+		color: #555555;
+	}
+</style>
+<!--导航 -->
+<div class="container top-menu">
+	<a href="javascript:history.back(-1)"><span class="glyphicon glyphicon-chevron-left" style="font-size:2rem;"></span></a>
+	<div class="cf-title" id="fd-caidan">购物车</div>
+	<div data-toggle="dropdown" href="#3"><span class="glyphicon glyphicon-align-justify"style="font-size:2rem;"></span></div>
+	<ul class="dropdown-menu izl-fmenu" role="menu" aria-labelledby="dLabel" style="right:0; width:30%; left:auto">
+		<li><A href="">我的订单</A></li>
+		<li><A href="">我的视频</A></li>
+		<li><A href="">我的视频</A></li>
+	</ul>
+</div>
+<div class="bg-hight"></div>
+<!--内容 -->
+<div class="">
+	<div class="izl-gwc">
+		<form id="formCart" name="formCart" method="post" action="flow.php">
+		<p class="del-but"><a href="javascript:document.getElementById('formCart').submit();" title="删除选中的商品"><i class="gwc_sc1"></i>删除选中的商品</a></span></p>
+		<ul class="izl-gwc-list">
+			<!-- {foreach from=$goods_list item=goods} -->
+			<li style="margin-bottom: 0px; border-bottom: none;">
+				<div class="xz" style="display:block;position:relative;"><input type="checkbox" name="order_goods_id[]" value="{$goods.rec_id}" style="position:absolute;top:39%;left:3px;"></div>
+				<div class="izl-photo"><span><a href="#3"><img src="/{$goods.goods_thumb}"></a></span></div>
+				<div class="izl-text">
+					<h3><a href="#3">{$goods.goods_name}</a></h3>
+					<p class="num">{$goods.brand_name}  |   {if $goods.goods_attr}{$goods.goods_attr}{else}无{/if} </p>
+					<p class="price"><span class="cor-red">{$goods.goods_price}</span> </p>
+					<div class="izl-del"><a href="javascript:if (confirm('{$lang.drop_goods_confirm}')) location.href='flow.php?step=drop_goods&amp;id={$goods.rec_id}'; " title="删除" class="w_gwc_2_s62"><img src="/images/izl-icon-del_16.png"></a></div>
+				</div>
+			</li>
+			<div class="czsc">
+				<div class="but off"><a href="javascript:collect({$goods.goods_id});" title="收藏" class="w_gwc_2_s63">收藏</a></div>
+				<div class="but on"><a href="flow.php?step=add_insure&rec_id={$goods.rec_id}" title="填写投保信息" class="w_gwc_2_s61">填写投保信息</a></div>
+			</div>
+			<!-- {/foreach} -->
+		</ul>
+		<input type="hidden" name="step" value="drop_goods_list" />
+		</form>
+		<div class="clearfix"></div>
+
+	</div>
+</div>
+<!--浮动结算 -->
+<div class="izl-fd-js">
+	<ul>
+		<li>
+			<div class="xz" style="display:block;position:relative;"><input type="checkbox" onClick="this.value=check_1('order_goods_id[]')"   style="position:absolute;top:25%;left:3px;"/></div>
+			<div class="izl-fdjs-jg">
+				<p><span>{$total.real_goods_count}</span>件商品</p>
+				<p>总共<span>￥{$total.goods_amount}</span>元</p>
+			</div>
+			<div class="izl-fdjs-btn">
+				<a href="index.php" class="btn">继续浏览</a>
+			</div>
+			<div class="clearfix"></div>
+		</li>
+	</ul>
+</div>
+<div class="izl-place"></div>
+       <!-- {if $smarty.session.user_id gt 0} -->
+       {insert_scripts files='transport.org.js'}
+       <script type="text/javascript" charset="utf-8">
+        function collect_to_flow(goodsId)
+        {
+          var goods        = new Object();
+          var spec_arr     = new Array();
+          var fittings_arr = new Array();
+          var number       = 1;
+          goods.spec     = spec_arr;
+          goods.goods_id = goodsId;
+          goods.number   = number;
+          goods.parent   = 0;
+          Ajax.call('flow.php?step=add_to_cart', 'goods=' + $.toJSON(goods), collect_to_flow_response, 'POST', 'JSON');
+        }
+        function collect_to_flow_response(result)
+        {
+          if (result.error > 0)
+          {
+            // 如果需要缺货登记，跳转
+            if (result.error == 2)
+            {
+              if (confirm(result.message))
+              {
+                location.href = 'user.php?act=add_booking&id=' + result.goods_id;
+              }
+            }
+            else if (result.error == 6)
+            {
+              openSpeDiv(result.message, result.goods_id);
+            }
+            else
+            {
+              alert(result.message);
+            }
+          }
+          else
+          {
+            location.href = 'flow.php';
+          }
+        }
+      </script>
+  <!-- {/if} -->
+  <!-- {/if} -->
+
+<!-- 填写投保人信息 -->
+<!-- {if $step eq "add_insure"} -->
+<script type="text/javascript" src="/js/transport.org.js" xmlns="http://www.w3.org/1999/html"></script>
+<script type="text/javascript" src="/js/common.js"></script>
+<script type="text/javascript" src="/js/shopping_flow.js"></script>
+<script src="/js/MyDate/WdatePicker.js"></script>
+<script>
+function g(element){return document.getElementById(element);}
+function check(zhi,id){
+	if(!zhi){
+		document.getElementById(id).style.display = "";
+	}else{
+		document.getElementById(id).style.display = "none";
+	}
+}
+function tijiao(){
+	if(!g('insure_time').value){
+		alert('请填写保单起始日期')
+	}else if(!g('tb_name').value){
+		alert('请填写投保人姓名')
+	}else if(!g('tbzj_number').value){
+		alert('请填写证件号码')
+	}else if(!g('address').value){
+		alert('请填写居住地址')
+	}else if(!g('tb_mobile').value){
+		alert('请填写手机')
+	}else if(!g('tb_name').value){
+		alert('请填写投保人姓名')
+	}else{
+		g("add_insure").submit();
+	}
+}
+function contacts_dy(id){
+	Ajax.call('flow.php?step=contacts_dy', 'id='+id, get_back, 'POST', 'JSON');
+}
+function get_back(msg){
+	if(msg.error == 1){
+		alert(msg.message);
+	}else{
+		g('tb_name').value=msg.name;
+		g('tbzj_number').value=msg.zj_number;
+		g('address').value=msg.address;
+		g('tb_mobile').value=msg.mobile;
+		g('email').value=msg.email;
+	}
+}
+</script>
+<style>
+	.red{color:red;}
+</style>
+<!--导航 -->
+<div class="container top-menu">
+	<a href="javascript:history.back(-1)"><span class="glyphicon glyphicon-chevron-left" style="font-size:2rem;"></span></a>
+	<div class="cf-title" id="fd-caidan">填写投保人信息</div>
+	<div data-toggle="dropdown" href="#3" style="display:none;"><span class="glyphicon glyphicon-align-justify"style="font-size:2rem;"></span></div>
+	<ul class="dropdown-menu izl-fmenu" role="menu" aria-labelledby="dLabel" style="right:0; width:30%; left:auto">
+		<li><A href="">我的订单</A></li>
+		<li><A href="">我的视频</A></li>
+		<li><A href="">我的视频</A></li>
+	</ul>
+</div>
+
+<div class="bg-hight"></div>
+<!--内容 -->
+<div class="ddxq-box">
+	<h4>{$cart_info.goods_name}</h4>
+	<p>为了保障您的权益，请填写真实有效的信息。您填写的内容仅供投保使用，对于您的信息我们会严格保密。</p>
+	<form action="flow.php" method="post" id="add_insure" onsubmit="return tijiao();">
+	<ul class="xgdlmm">
+		<b>投保计划：</b>
+		<li><span>为谁投保：</span><input type="checkbox" name="ws_insure" value="子女" {if $arr['ws_insure'] == '子女'}checked="checked"{/if} />子女</li>
+		<li><span>保险计划</span>{$cart_info.goods_attr}<input type="text" value="{$cart_info.goods_attr}" readOnly="true"/></li>
+		<li><span>保障起始日期</span><input type="text" placeholder="请选择起始日期" id="insure_time" name="insure_time" validate=" required:true" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" onblur="check(this.value,'insure_time_xs')" value="{$arr.insure_time}" />00时
+		<div class="red" style="display:none;" id="insure_time_xs">请填写保单起始日期</div></li>
+
+		<b>投保人信息（填写我的信息）：</b>
+		<li><span>常用联系人</span>
+			<!--{foreach from=$contacts item=r}-->
+			{$r.name}<input type="radio" name="contacts" value="{$r.contacts_id}" onclick="contacts_dy('{$r.contacts_id}');" />
+			<!--{/foreach}-->
+		</li>
+		<li><span>姓名</span><input type="text" onblur="check(this.value,'tb_name_xs')" value="{$arr.tb_name}" id="tb_name" name="tb_name" />
+			<div class="red" style="display:none;" id="tb_name_xs">请填写投保人姓名</div>
+		</li>
+		<li><span>证件类型</span>
+			<select  class="input-lgr">
+				<option>身份证</option>
+			</select>
+		</li>
+		<li>
+			<span>证件号码</span><input type="text" name="tbzj_number" id="tbzj_number" onblur="check(this.value,'tbzj_number_xs')" value="{$arr.tbzj_number}"/>
+			<div class="red" style="display:none;" id="tbzj_number_xs">请填写证件号码</div>
+		</li>
+		<li><span>居住地址</span>
+			<input type="text" name="address" id="address" onblur="check(this.value,'address_xs')" value="{$arr.tbzj_number}"/>
+			<div class="red" style="display:none;" id="address_xs">请填写居住地址</div>
+		</li>
+		<li><span>手机</span><input type="text" id="tb_mobile" name="tb_mobile" value="{$arr.tb_mobile}" onblur="check(this.value,'tb_mobile_xs')" placeholder=" 请填写真实手机号码"/>
+			<div class="red" style="display:none;" id="tb_mobile_xs">请填写手机</div>
+		</li>
+		<li><span>邮箱</span><input type="text" name="email" placeholder="请填写真实邮箱" value="{$arr.email}" id="email" onblur="check(this.value,'email_xs')"/>
+			<div class="red" style="display:none;" id="email_xs">请填写邮箱</div></li>
+
+		<b>被保险人信息（我要帮TA买保险）：</b>
+		<li><span>TA是我：</span><input type="checkbox" name="relation" value="子女" {if $arr['relation'] == '子女'}checked="checked"{/if} />子女</li>
+		<li><span>姓名</span><input type="text" name="bb_name" value="{$arr.bb_name}" onblur="check(this.value,'bb_name_xs')"/>
+			<div class="red" style="display:none;" id="bb_name_xs">请填写被保险人姓名</div>
+		</li>
+		<li><span>证件类型</span>
+			<select   class="input-lgr">
+				<option>身份证</option>
+			</select>
+		</li>
+		<li>
+			<span>证件号码</span><input type="text" name="bbzj_number" onblur="check(this.value,'bbzj_number_xs')" value="{$arr.bbzj_number}" placeholder="证件号码直接影响索赔，请仔细确认。"/>
+			<div class="red" style="display:none;" id="bbzj_number_xs">请填写被保险人证件号码</div>
+		</li>
+		<li><span>手机</span><input type="text" name="bb_mobile" value="{$arr.bb_mobile}" onblur="check(this.value,'bb_mobile_xs')" placeholder="请填写真实手机号码"/>
+			<div class="red" style="display:none;" id="bb_mobile_xs"><i></i>请填写被保险人手机</div>
+		</li>
+		<li><span>受益人</span><div>法定（依照《中华人民共和国继承法》规定，法定第一顺序继承人为配偶、子女、父母；第二顺序继承人为兄弟姐妹、祖父母、外祖父母。）</div></li>
+		<li><span>设置紧急联系人</span><input type="text" name="jj_contacts" value="{$arr.jj_contacts}" /></li>
+
+
+		<b>其他信息：</b>
+			<li><span class="w_txbd_2s"> 是否需要发票</span>
+				<input type="radio" name="is_invoice" {if $arr['is_invoice'] == 1}checked="checked"{/if} value="1" /><label>是</label>
+				<input type="radio" {if $arr['is_invoice'] == 0}checked="checked"{/if} name="is_invoice" value="0" /><label>否</label></li>
+		<input type="hidden" name="insure_plan" value="{$cart_info.goods_attr}" />
+		<input type="hidden" name="rec_id" value="{$rec_id}" />
+		<input type="hidden" name="insure_id" value="{$arr.insure_id}" />
+		<input type="hidden" name="step" value="{if $arr['insure_id']}up_insure_cl{else}add_insure_cl{/if}" />
+		<li><b>投保声明</b><div>
+			<p>1、投保时，本投保人已就该产品的保障内容以及保险金额向被保险人进行了明确说明，并征得其同意。</p>
+			<p>2、本投保人兹声明上述各项内容填写属实，并知道如果投保信息不真实，保险公司将有权拒赔，一切后果由本人承担。</p>
+			<p>3、本投保人已阅读该产品详细条款，并特别就条款中有关责任免除和投保人、被保险人义务的内容进行阅读。本投保人特此同意接受条款全部内容。</p>
+			<p>4、根据&laquo;中华人民共和国合同法&raquo;第十一条规定，数据电文是合法的合同表现形式。本人接受保险公司在新一站提供的电子保单作为本投保书成立生效的合法</p>
+			<p>5、有效凭证，具有完全证据效力。</p>
+		</div></li>
+		<div class=""><input type="submit" value="确认" class="but"></div>
+	</ul>
+</form>
+</div>
+
+<!-- {/if} -->
+
+        <!-- {if $step eq "consignee"} -->
+        <!-- 开始收货人信息填写界面 -->
+        {insert_scripts files='region.js,utils.js'}
+
+        <script type="text/javascript">
+          region.isAdmin = false;
+          {foreach from=$lang.flow_js item=item key=key}
+          var {$key} = "{$item}";
+          {/foreach}
+
+          {literal}
+          onload = function() {
+            if (!document.all)
+            {
+              document.forms['theForm'].reset();
+            }
+          }
+          {/literal}
+        </script>
+        <!-- 如果有收货地址，循环显示用户的收获地址 -->
+        <!-- {foreach from=$consignee_list item=consignee key=sn} -->
+        <form action="flow.php" method="post" name="theForm" id="theForm" onsubmit="return checkConsignee(this)">
+        <!-- #BeginLibraryItem "/Library/consignee.lbi" --><!-- #EndLibraryItem -->
+        </form>
+        <!-- {/foreach} -->
+        <!-- {/if} -->
+
+<!-- {if $step eq "checkout"} 开始订单确认界面 -->
+<script src="/js/transport.org.js"></script>
+<script src="/js/utils.js"></script>
+<!--导航 -->
+<div class="container top-menu">
+	<a href="javascript:history.back(-1)"><span class="glyphicon glyphicon-chevron-left" style="font-size:2rem;"></span></a>
+	<div class="cf-title" id="fd-caidan">确认投保信息</div>
+	<div data-toggle="dropdown" href="#3"><span class="glyphicon glyphicon-align-justify"style="font-size:2rem;"></span></div>
+	<ul class="dropdown-menu izl-fmenu" role="menu" aria-labelledby="dLabel" style="right:0; width:30%; left:auto">
+		<li><A href="">我的订单</A></li>
+		<li><A href="">我的视频</A></li>
+		<li><A href="">我的视频</A></li>
+	</ul>
+</div>
+<div class="bg-hight"></div>
+<!--内容 -->
+<div class="">
+	<!--保单管理 -->
+	<div>
+		<p>.订单确认后不可修改，请仔细核对您的投保信息，确认之后的投保信息将作为保险公司核保的依据。</p><br>
+		<p>.为保护您的权益，请仔细阅读理赔指南。当保险事故发生后，请及时联系新一站客服或保险公司，我们将在第一时间免费协助您索赔。</p>
+	</div>
+	<br>
+	<form action="flow.php" method="post" name="theForm" id="theForm1">
+	<div class="per-list3">
+		<ul>
+			<li>
+				<div class="time"><span class="xdtime">下单时间：{$info.insure_time}</span>金额：<span class="red">{$goods.formated_goods_price}</span></div>
+				<div class="infoxx">
+					<div class="photo"><a href="goods.php?id={$goods.goods_id}"><img src="/{$img}"></a></div>
+					<div class="text mar-ai" style="padding-top: 0px; margin: 0px;">
+						<p>{$goods.goods_name}</p>
+						<p>{$brand_name}</p>
+						<p>被保险人：<span class="corhs">{$info.bb_name}</span></p>
+						<p>有无发票{if $info['is_invoice']}有{else}无{/if}</p>
+					</div>
+					<div class="art"></div>
+				</div>
+				<div  class="time">
+					<span class="xdtime">
+						<!-- {foreach from=$payment_list item=payment key=k} -->
+						<!-- 循环支付方式 -->
+						<span><input type="radio" name="payment" value="{$payment.pay_id}" {if $k eq 0}checked{/if} isCod="{$payment.is_cod}" onclick="selectPayment(this,{$rec_id})" {if $cod_disabled and $payment.is_cod eq "1"}disabled="true"{/if}/>
+						<strong>{$payment.pay_name}</strong>
+						手续费：{$payment.format_pay_fee}</span>
+						<!-- {/foreach} 循环支付方式 -->
+					</span>
+					实付款：<span class="red" id="ECS_ORDERTOTAL">{$total.amount_formated}</span>
+				</div>
+				<div  class="time">
+					<input type="checkbox" name="is_check" value="1" />已了解责任免除在内的保险条款内容
+				</div>
+				<div class="czsc">
+					<div class="but off"><a href="flow.php?step=examine_insure&id={$info.insure_id}" title="查看投保信息" class="w_qrtb_2_ds6a">查看投保信息</a></div>
+					<div class="but on"><a href="javascript:document.getElementById('theForm1').submit();" title="确认并支付" class="w_qran">确认并支付</a></div>
+				</div>
+			</li>
+		</ul>
+	</div>
+  <input type="hidden" name="rec_id" value="{$rec_id}" />
+  <input type="hidden" name="bx_type" value="1" />
+  <input type="hidden" name="step" value="done" />
+  </form>
+  </div>
+<script type="text/javascript">
+var flow_no_payment = "{$lang.flow_no_payment}";
+var flow_no_shipping = "{$lang.flow_no_shipping}";
+</script>
+<!-- {/if} -->
+
+<!-- 查看投保信息 -->
+<!-- {if $step eq "examine_insure"} -->
+<style>
+	.tbqr-tj .but {
+		background: #f67f00;
+		border: 0px;
+		border-radius: 5px;
+		width: 94%;
+		text-align: center;
+		color: #fff;
+		font-size: 1.5rem;
+		padding: 5px 0;
+		margin: 10px 3%;
+		display:block;
+	}
+</style>
+<div class="container top-menu">
+	<a href="javascript:history.back(-1)"><span class="glyphicon glyphicon-chevron-left" style="font-size:2rem;"></span></a>
+	<div class="cf-title" id="fd-caidan">查看投保信息</div>
+	<div data-toggle="dropdown" href="#3" style="display:none;"><span class="glyphicon glyphicon-align-justify"style="font-size:2rem;"></span></div>
+	<ul class="dropdown-menu izl-fmenu" role="menu" aria-labelledby="dLabel" style="right:0; width:30%; left:auto">
+		<li><A href="">我的订单</A></li>
+		<li><A href="">我的视频</A></li>
+		<li><A href="">我的视频</A></li>
+	</ul>
+</div>
+
+<div class="bg-hight"></div>
+<!--内容 -->
+<div class="bxcp-box" id="accordion">
+	<h5>{$goods.goods_name}</h5><br>
+	<ul class="bxcp-list">
+		<li class="r-list"><a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">保单明细</a></li>
+		<div id="collapseOne" class="panel-collapse collapse in">
+			<ul class="bxcp-list-small">
+				<li><span>{$time}</span>投保日期</li>
+				<li><span>{$arr.insure_time}</span>保障起始日</li>
+				<li><span>{$arr.insure_plan}</span>投保计划</li>
+				<li><span>电子保单</span>保单形式</li>
+				<li><span>{if $arr['is_invoice']}有{else}无{/if}</span>发票抬头</li>
+			</ul>
+		</div>
+
+
+
+
+		<li class="r-list"><a data-toggle="collapse" data-parent="#accordion" href="#collapse2">投保人信息</a></li>
+		<div id="collapse2" class="panel-collapse collapse">
+			<ul class="bxcp-list-small">
+				<li><span>{$arr.tb_name}</span>姓名</li>
+				<li><span>{$arr.email}</span>邮箱</li>
+				<li><span>身份证</span>证件类型</li>
+				<li><span>{$arr.tbzj_number}</span>证件号码</li>
+				<li><span>{$arr.tb_mobile}</span>手机</li>
+				<li><span>{$arr.address}</span>所在城市</li>
+			</ul>
+
+		</div>
+
+		<li class="r-list"><a data-toggle="collapse" data-parent="#accordion"
+							  href="#collapse3">被保人信息</a></li>
+		<div id="collapse3" class="panel-collapse collapse">
+			<ul class="bxcp-list-small">
+				<li><span>{$arr.relation}</span>TA是我</li>
+				<li><span>{$arr.bb_name}</span>姓名</li>
+				<li><span>{$arr.bb_mobile}</span>联系方式</li>
+				<li><span>身份证</span>证件类型</li>
+				<li><span>{$arr.bbzj_number}</span>证件号码</li>
+				<li><span>法定</span>受益人</li>
+			</ul>
+
+		</div>
+
+
+		<li class="r-list"><a data-toggle="collapse" data-parent="#accordion"
+							  href="#collapse4">投保声明</a></li>
+		<div id="collapse4" class="panel-collapse collapse">
+			<ul class="bxcp-list-small">
+				<li>意外身故和残疾</li>
+				<li>1、投保时，本投保人已就该产品的保障内容以及保险金额向被保险人进行了明确说明，并征得其同意。</li>
+				<li>2、本投保人兹声明上述各项内容填写属实，并知道如果投保信息不真实，保险公司将有权拒赔，一切后果由本人承担。</li>
+				<li>3、本投保人已阅读该产品详细条款，并特别就条款中有关责任免除和投保人、被保险人义务的内容进行阅读。本投保人特此同意接受条款全部内容。</li>
+				<li>4、根据&laquo;中华人民共和国合同法&raquo;第十一条规定，数据电文是合法的合同表现形式。本人接受保险公司在新一站提供的电子保单作为本投保书成立生效的合法</li>
+				<li>5、有效凭证，具有完全证据效力。</li>
+			</ul>
+
+		</div>
+		<div class="tbqr-tj">
+			<p><a href="flow.php?step=add_insure&rec_id={$goods.rec_id}" title="返回修改">返回修改</a></p>
+			<p>共投保<span>1</span>份</p>
+			<p class="bgw">保费合计：<small class="red"> {$goods.goods_price}</small></p>
+			<a href="flow.php?step=checkout&rec_id={$goods.rec_id}" title="返回结算" class="but">返回结算</a>
+		</div>
+
+
+
+
+
+	</ul>
+</div>
+        <!-- {/if} -->
+
+        <!-- {if $step eq "done"} -->
+        <link href="{$ecs_css_path}" rel="stylesheet" type="text/css" />
+        <!-- 订单提交成功 -->
+        <div class="flowBox" style="margin:30px auto 70px auto;">
+         <h6 style="text-align:center; height:30px; line-height:30px;">{$lang.remember_order_number}: <font style="color:red">{$order.order_sn}</font></h6>
+          <table width="99%" align="center" border="0" cellpadding="15" cellspacing="0" bgcolor="#fff" style="border:1px solid #ddd; margin:20px auto;" >
+            <tr>
+              <td align="center" bgcolor="#FFFFFF">
+              {$lang.select_payment}: <strong>{$order.pay_name}</strong>。{$lang.order_amount}: <strong>{$total.amount_formated}</strong>
+              </td>
+            </tr>
+            <tr>
+              <td align="center" bgcolor="#FFFFFF">{$order.pay_desc}</td>
+            </tr>
+            <!-- {if $pay_online} -->
+            <!-- 如果是线上支付则显示支付按钮 -->
+            <tr>
+              <td align="center" bgcolor="#FFFFFF">
+				  {if $order.pay_name eq "微信支付"}<a href="./weixinpay.php?out_trade_no={$order.log_id}" class=" sub_btn" style="color:#FFF;">微信支付</a> {else}
+				  {$pay_online}{/if}</td>
+            </tr>
+            <!-- {/if} -->
+          </table>
+          <!--{if $virtual_card}-->
+          <div style="text-align:center;overflow:hidden;border:1px solid #E2C822;background:#FFF9D7;margin:10px;padding:10px 50px 30px;">
+          <!--{foreach from=$virtual_card item=vgoods}-->
+            <h3 style="color:#2359B1; font-size:12px;">{$vgoods.goods_name}</h3>
+            <!--{foreach from=$vgoods.info item=card}-->
+              <ul style="list-style:none;padding:0;margin:0;clear:both">
+              <!--{if $card.card_sn}-->
+              <li style="margin-right:50px;float:left;">
+              <strong>{$lang.card_sn}:</strong><span style="color:red;">{$card.card_sn}</span>
+              </li><!--{/if}-->
+              <!--{if $card.card_password}-->
+              <li style="margin-right:50px;float:left;">
+              <strong>{$lang.card_password}:</strong><span style="color:red;">{$card.card_password}</span>
+              </li><!--{/if}-->
+              <!--{if $card.end_date}-->
+              <li style="float:left;">
+              <strong>{$lang.end_date}:</strong>{$card.end_date}
+              </li><!--{/if}-->
+              </ul>
+            <!--{/foreach}-->
+          <!--{/foreach}-->
+          </div>
+          <!--{/if}-->
+          <p style="text-align:center; margin-bottom:20px;">{$order_submit_back}</p>
+        </div>
+        <!-- {/if} -->
+        
+<!-- 选择投保方案 -->
+<!-- {if $step eq "cx_insure_cl"} -->
+<!--导航 -->
+<div class="container top-menu">
+	<a href="javascript:history.back(-1)"><span class="glyphicon glyphicon-chevron-left" style="font-size:2rem;"></span></a>
+	<div class="cf-title" id="fd-caidan">选择投保方案</div>
+	<a data-toggle="dropdown" href="#3" style="display:none;"><span class="glyphicon glyphicon-align-justify"style="font-size:2rem;"></span></a>
+	<ul class="dropdown-menu izl-fmenu" role="menu" aria-labelledby="dLabel" style="right:0; width:30%; left:auto">
+		<li><A href="">我的订单</A></li>
+		<li><A href="">我的视频</A></li>
+		<li><A href="">我的视频</A></li>
+	</ul>
+</div>
+
+<div class="bg-hight"></div>
+<!--内容 -->
+<article>
+	<div class="xztbfa-box">
+		<div class="xztbfa-head">
+			<ul>
+				<li class="on bxcp-list1" onclick="huadong('bxcp-list1')"><a href="#">单交强</a></li>
+				<li class="bxcp-list2" onclick="huadong('bxcp-list2')"><a href="#">大众版</a></li>
+				<li class="bxcp-list3" onclick="huadong('bxcp-list3')"><a href="#">加强版</a></li>
+				<li class="bxcp-list4" onclick="huadong('bxcp-list4')"><a href="#">自定义</a></li>
+			</ul>
+		</div>
+		<div>
+			<div id="bxcp-list1">
+				<ul class="xztbfa-list">
+					<!--{foreach from=$djq item=r}-->
+					<li>
+						<article>
+							<h3 class="tit on">{$r.goods_name}</h3>
+							<div class="photo"><img src="/{$r.goods_img}"></div>
+							<div class="text">
+								{$r.goods_desc}
+								<p class="price">参考报价：<span class="red">￥{$r.shop_price}</span></p>
+							</div>
+						</article>
+					</li>
+					<!--{/foreach}-->
+				</ul>
+				<div class="xztbfa-tab">
+					<table width="100%" class="table">
+						<tr>
+							<th width="40%">投保险种 </th>
+							<th colspan="2">投保金额</th>
+							<th>&nbsp;</th>
+							<th width="14%">保费</th>
+						</tr>
+						<!-- {foreach from=$djq_xz.tbxz item=r} -->
+						<tr>
+							<td>{$r.xz_name}</td>
+							<td width="14%">{$r.tb_price}</td>
+							<td width="32%">
+								{if $r.is_mp == 1}<div class="izl-xzg">不计免赔</div>{/if}
+							</td>
+							<td>￥{$r.price}</td>
+						</tr>
+						<!--{/foreach}-->
+						<tr>
+							<td colspan="4"><span class="hj">合计保费：<span class="red">￥{$djq_total}</span></span></td>
+						</tr>
+					</table>
+				</div>
+				<div class="pub-but"><a href="flow.php?step=tj_insure&goods_id={$djq_xz.goods_id}&cx_id={$cx_id}" class="but">下一步</a></div>
+			</div>
+			<div id="bxcp-list2" style="display: none;">
+				<ul class="xztbfa-list">
+					<!--{foreach from=$dzb item=r}-->
+					<li>
+						<article>
+							<h3 class="tit on">{$r.goods_name}</h3>
+							<div class="photo"><img src="/{$r.goods_img}"></div>
+							<div class="text">
+								{$r.goods_desc}
+								<p class="price">参考报价：<span class="red">￥{$r.shop_price}</span></p>
+							</div>
+						</article>
+					</li>
+					<!--{/foreach}-->
+				</ul>
+				<div class="xztbfa-tab">
+					<table width="100%" class="table">
+						<tr>
+							<th width="40%">投保险种 </th>
+							<th colspan="2">投保金额</th>
+							<th width="14%">保费</th>
+						</tr>
+						<!-- {foreach from=$dzb_xz.tbxz item=r} -->
+						<tr>
+							<td>{$r.xz_name}</td>
+							<td width="14%">{$r.tb_price}</td>
+							<td width="32%">
+								{if $r.is_mp == 1}<div class="izl-xzg">不计免赔</div>{/if}
+							</td>
+							<td>￥{$r.price}</td>
+						</tr>
+						<!--{/foreach}-->
+						<tr>
+							<td colspan="4"><span class="hj">合计保费：<span class="red">￥{$dzb_total}</span></span></td>
+						</tr>
+					</table>
+				</div>
+				<div class="pub-but"><a href="flow.php?step=tj_insure&goods_id={$dzb_xz.goods_id}&cx_id={$cx_id}" class="but">下一步</a></div>
+			</div>
+			<div id="bxcp-list3" style="display: none;">
+				<ul class="xztbfa-list">
+					<!--{foreach from=$jqb item=r}-->
+					<li>
+						<article>
+							<h3 class="tit on">{$r.goods_name}</h3>
+							<div class="photo"><img src="/{$r.goods_img}"></div>
+							<div class="text">
+								{$r.goods_desc}
+								<p class="price">参考报价：<span class="red">￥{$r.shop_price}</span></p>
+							</div>
+						</article>
+					</li>
+					<!--{/foreach}-->
+				</ul>
+				<div class="xztbfa-tab">
+					<table width="100%" class="table">
+						<tr>
+							<th width="40%">投保险种 </th>
+							<th colspan="2">投保金额</th>
+							<th width="14%">保费</th>
+						</tr>
+						<!-- {foreach from=$jqb_xz.tbxz item=r} -->
+						<tr>
+							<td>{$r.xz_name}</td>
+							<td width="14%">{$r.tb_price}</td>
+							<td width="32%">
+								{if $r.is_mp == 1}<div class="izl-xzg">不计免赔</div>{/if}
+							</td>
+							<td>￥{$r.price}</td>
+						</tr>
+						<!--{/foreach}-->
+						<tr>
+							<td colspan="4"><span class="hj">合计保费：<span class="red">￥{$jqb_total}</span></span></td>
+						</tr>
+					</table>
+				</div>
+				<div class="pub-but"><a href="flow.php?step=tj_insure&goods_id={$jqb_xz.goods_id}&cx_id={$cx_id}" class="but">下一步</a></div>
+			</div>
+			<div id="bxcp-list4" style="display: none;">
+				<form action="flow.php" method="post" name="theForm" id="tbform">
+				<div class="xztbfa-tab">
+					<table width="100%" class="table">
+						<tr>
+							<th width="40%">投保险种 </th>
+							<th colspan="2">投保金额</th>
+							<th width="14%">保费</th>
+						</tr>
+						<tr>
+							<td>车辆损失险</td>
+							<td><select name="clss" id="cs_price" onchange="js_price('clss',this.value);">
+								<option>投保</option>
+								<option value="50000">50000</option>
+								<option value="100000">100000</option>
+								<option value="150000">150000</option>
+								<option value="200000">200000</option>
+								<option value="300000">300000</option>
+								<option value="500000">500000</option>
+								<option value="1000000">1000000</option>
+							</select></td>
+							<td><div class="checkbox">
+								<label>
+									<input type="checkbox" name="clss_bj" id="clss_bj" value="1" onclick="js_bjmp('clss',document.getElementById('cs_price').value,this.checked)" /> 不计免赔
+								</label>
+							</div> </td>
+							<td id="clss_price">￥0.00</td>
+						</tr>
+						<tr>
+							<td>第三责任险</td>
+							<td><select name="dszr" id="dszr" onchange="js_price('dszr',this.value);">
+								<option>投保</option>
+								<option value="50000">50000</option>
+								<option value="100000">100000</option>
+								<option value="150000">150000</option>
+								<option value="200000">200000</option>
+								<option value="300000">300000</option>
+								<option value="500000">500000</option>
+								<option value="1000000">1000000</option>
+							</select></td>
+							<td width="31%"><div class="checkbox">
+								<label>
+									<input type="checkbox" name="dszr_bj" id="dszr_bj" value="1" onclick="js_bjmp('dszr',document.getElementById('dszr').value,this.checked)" /> 不计免赔
+								</label>
+							</div> </td>
+							<td id="dszr_price">￥0.00</td>
+						</tr>
+						<tr>
+							<td>司机座位险</td>
+							<td><select name="sjzw" id="sjzw" onchange="js_price('sjzw',this.value);">
+								<option>投保</option>
+								<option value="50000">50000</option>
+								<option value="100000">100000</option>
+								<option value="150000">150000</option>
+								<option value="200000">200000</option>
+								<option value="300000">300000</option>
+								<option value="500000">500000</option>
+								<option value="1000000">1000000</option>
+							</select></td>
+							<td width="31%"><div class="checkbox">
+								<label>
+									<input type="checkbox" name="sjzw_bj" id="sjzw_bj" value="1" onclick="js_bjmp('sjzw',document.getElementById('sjzw').value,this.checked)" /> 不计免赔
+								</label>
+							</div> </td>
+							<td id="sjzw_price">￥0.00</td>
+						</tr>
+						<tr>
+							<td>乘客座位险</td>
+							<td><select name="ckzw" id="ckzw" onchange="js_price('ckzw',this.value);">
+								<option>投保</option>
+								<option value="50000">50000</option>
+								<option value="100000">100000</option>
+								<option value="150000">150000</option>
+								<option value="200000">200000</option>
+								<option value="300000">300000</option>
+								<option value="500000">500000</option>
+								<option value="1000000">1000000</option>
+							</select></td>
+							<td width="31%"><div class="checkbox">
+								<label>
+									<input type="checkbox" name="ckzw_bj" id="ckzw_bj" value="1" onclick="js_bjmp('ckzw',document.getElementById('ckzw').value,this.checked)" /> 不计免赔
+								</label>
+							</div> </td>
+							<td id="ckzw_price">￥0.00</td>
+						</tr>
+						<tr>
+							<td>盗抢险</td>
+							<td><select name="qdx" id="qdx" onchange="js_price('qdx',this.value);">
+								<option>投保</option>
+								<option value="50000">50000</option>
+								<option value="100000">100000</option>
+								<option value="150000">150000</option>
+								<option value="200000">200000</option>
+								<option value="300000">300000</option>
+								<option value="500000">500000</option>
+								<option value="1000000">1000000</option>
+							</select></td>
+							<td width="31%"><div class="checkbox">
+								<label>
+									<input type="checkbox" name="qdx_bj" id="qdx_bj" value="1" onclick="js_bjmp('qdx',document.getElementById('qdx').value,this.checked)" /> 不计免赔
+								</label>
+							</div> </td>
+							<td id="qdx_price">￥0.00</td>
+						</tr>
+						<tr>
+							<td>玻璃破碎险</td>
+							<td> <select name="blps" id="blps" onchange="js_price1('blps',this.value);">
+								<option>投保</option>
+								<option value="1">国产车</option>
+								<option value="2">进口车</option>
+							</select></td>
+							<td width="31%">&nbsp; </td>
+							<td id="blps_price">￥0.00</td>
+						</tr>
+						<tr>
+							<td>指定专修险</td>
+							<td><select name="zdzx" id="zdzx" onchange="js_price1('zdzx',this.value);">
+								<option>不投保</option>
+								<option value="1">国产车</option>
+								<option value="2">进口车</option>
+							</select></td>
+							<td width="31%">&nbsp;</td>
+							<td id="zdzx_price">￥0.00</td>
+						</tr>
+						<tr>
+							<td colspan="4"><span class="hj">合计保费：<span class="red" id="xz_total">￥0.00</span></span></td>
+						</tr>
+					</table>
+				</div>
+				<div class="pub-but"><a href="javascript:document.getElementById('tbform').submit();" class="but">下一步</a></div>
+				<input type="hidden" name="step" value="tj_insure" />
+				<input type="hidden" name="cx_id" value="{$cx_id}" />
+				<input type="hidden" name="cat_id" value="{$cat_id}" />
+				</form>
+			</div>
+		</div>
+	</div>
+</article>
+<script>
+/* *
+ * 计算费用
+ */
+function js_price(xz,price)
+{
+  var cs_price=document.getElementById('cs_price').value;
+  document.getElementById(xz+'_bj').checked == true ? bjmp=1 : bjmp=0;
+  Ajax.call('flow.php?step=js_price', 'xz=' + xz+'&price='+price+'&cs_price='+cs_price+'&bjmp='+bjmp, js_priceResponse, 'GET', 'JSON');
+}
+
+function js_price1(xz,price)
+{
+  var cs_price=document.getElementById('cs_price').value;
+  Ajax.call('flow.php?step=js_price', 'xz=' + xz+'&price='+price+'&cs_price='+cs_price, js_priceResponse, 'GET', 'JSON');
+}
+
+/*不计免赔*/
+function js_bjmp(xz,price,checked)
+{
+  checked == true ? bjmp=1 : bjmp=0;
+  Ajax.call('flow.php?step=js_price', 'xz=' + xz+'&price='+price+'&bjmp='+bjmp, js_priceResponse, 'GET', 'JSON');
+}
+
+function js_priceResponse(result){
+	document.getElementById(result.xz_id).innerHTML='￥'+result.price;
+	document.getElementById('xz_total').innerHTML='￥'+result.total;
+	if(result.xz_id == 'clss_price'){
+  	  $("#blps").change();
+	  $("#zdzx").change();
+    }
+}
+</script>
+<!-- {/if} -->
+
+<!-- {if $step eq "tj_insure"} -->
+
+<script src="/js/MyDate/WdatePicker.js"></script>
+<script src="/js/region.js"></script>
+<script>
+function g(element){return document.getElementById(element);}
+function tijiao(){
+	if(!g('c_city').value){
+		alert('请填写城市');
+	}else if(!g('frame_number').value){
+		alert('请填写车架号');
+	}else if(!g('cp_number').value){
+		alert('请填写车牌号');
+	}else if(!g('engine_number').value){
+		alert('请填写发动机号');
+	}else if(!g('dj_time').value){
+		alert('请填写登记日期');
+	}else if(!g('brand').value){
+		alert('请填写品牌型号');
+	}else if(!g('cz_name').value){
+		alert('请填写车主姓名');
+	}else if(!g('configure').value){
+		alert('请填写配置型号');
+	}else if(!g('sfz_number').value){
+		alert('请填写身份证号');
+	}else if(!g('mobile').value){
+		alert('请填写手机号');
+	}else if(!g('bd_name').value){
+		alert('请填写保单姓名');
+	}else if(!g('bd_mobile').value){
+		alert('请填写保单手机号');
+	}else if(!g('address').value){
+		alert('请填写详细地址');
+	}else if(!g('ps_time').value){
+		alert('请填写配送时间');
+	}else{
+		g("insure_cx").submit();
+	}
+}
+</script>
+<!--导航 -->
+<div class="container top-menu">
+	<a href="javascript:history.back(-1)"><span class="glyphicon glyphicon-chevron-left" style="font-size:2rem;"></span></a>
+	<div class="cf-title" id="fd-caidan">提交投保</div>
+	<div data-toggle="dropdown" href="#3" style="display:none;"><span class="glyphicon glyphicon-align-justify"style="font-size:2rem;"></span></div>
+	<ul class="dropdown-menu izl-fmenu" role="menu" aria-labelledby="dLabel" style="right:0; width:30%; left:auto">
+		<li><A href="">我的订单</A></li>
+		<li><A href="">我的视频</A></li>
+		<li><A href="">我的视频</A></li>
+	</ul>
+</div>
+
+<div class="bg-hight"></div>
+<!--内容 -->
+<form action="flow.php" method="post" name="theForm" id="insure_cx">
+<div class="ddxq-box">
+	<form action="flow.php" method="post" name="theForm" id="insure_cx">
+	<h4>人员信息（必填）</h4>
+	<h5>行驶证车主</h5>
+	<ul class="xgdlmm">
+		<li><span>城市：</span><input type="text" name="c_city" id="c_city" value="{$arr.c_city}" /></li>
+		<li><span>车架号：</span><input type="text" name="frame_number" id="frame_number" value="{$arr.frame_number}" /></li>
+		<li><span>车牌号：</span><input type="text" name="cp_number" id="cp_number" value="{$arr.cp_number}" /></li>
+		<li><span>发动机号：</span><input type="text" name="engine_number" id="engine_number" value="{$arr.engine_number}" /></li>
+		<li><span>登记日期：</span><input type="text" name="dj_time" id="dj_time" value="{$arr.dj_time}" /></li>
+		<li><span>品牌型号：</span><input type="text" name="brand" id="brand" value="{$arr.brand}" /></li>
+		<li><span>车主姓名：</span><input type="text" name="cz_name" id="cz_name"  value="{$arr.cz_name}" /></li>
+		<li><span>配置型号：</span><input type="text" name="configure" id="configure" value="{$arr.configure}" /></li>
+		<li><span>身份证号：</span><input type="text" name="sfz_number" id="sfz_number" value="{$arr.sfz_number}" /></li>
+		<li><span>过户车：</span><input type="radio" name="is_transfer" {if $arr.is_transfer == 0}checked="checked"{/if} value="0"/>否
+								<input type="radio" name="is_transfer" {if $arr.is_transfer == 1}checked="checked"{/if} value="1"/>是</li>
+		<li><span>手机号：</span><input type="text" name="mobile" id="mobile" value="{$arr.mobile}" /></li>
+		<li><span>被保险人{$arr.cz_name}&nbsp;&nbsp;&nbsp;&nbsp;同：</span>
+			<label for="select"></label>
+			<select>
+				<option>行驶证车主</option>
+			</select>
+		</li>
+		<li><span>投保人{$arr.cz_name}&nbsp;&nbsp;&nbsp;&nbsp;同：</span>
+			<label for="select"></label>
+			<select>
+				<option>行驶证车主</option>
+			</select>
+		</li>
+	</ul>
+</div>
+<div class="ddxq-box">
+	<h4>保单及发票信息（必填）</h4>
+	<h5>行驶证车主</h5>
+	<ul class="xgdlmm">
+		<li><span>姓名：</span><input type="text" name="bd_name" id="bd_name" value="{$address_info.consignee}"  /></li>
+		<li><span>手机：</span><input type="text" name="bd_mobile" id="bd_mobile" value="{$address_info.mobile}" /></li>
+		<li>
+			<span>配送地址：</span>
+			<select name="country" id="selCountries" onchange="region.changed(this, 1, 'selProvinces')" style="display:none">
+				<option value="1">中国</option>
+			</select>
+			<select name="province" id="selProvinces" onchange="region.changed(this, 2, 'selCities')">
+				<option value="0">请选择省</option>
+				<!-- {foreach from=$province_list item=province} -->
+				<option value="{$province.region_id}" {if $address_info.province eq $province.region_id}selected{/if}>{$province.region_name}</option>
+				<!-- {/foreach} -->
+			</select>
+			<select name="city" id="selCities" onchange="region.changed(this, 3, 'selDistricts')">
+				<option value="0">请选择市</option>
+				<!-- {foreach from=$city_list item=province} -->
+				<option value="{$province.region_id}" {if $address_info.city eq $province.region_id}selected{/if}>{$province.region_name}</option>
+				<!-- {/foreach} -->
+			</select>
+			<select name="district" id="selDistricts">
+				<option value="0">请选择区</option>
+				<!-- {foreach from=$district_list item=province} -->
+				<option value="{$province.region_id}" {if $address_info.district eq $province.region_id}selected{/if}>{$province.region_name}</option>
+				<!-- {/foreach} -->
+			</select>
+		</li>
+
+		<li><span>详细地址：</span><input type="text" name="address" id="address" value="{$address_info.address}" placeholder="请输入详细地址"/></li>
+		<li><span>配送时间：</span><input type="text" name="ps_time" id="ps_time" value="{$address_info.best_time}" validate=" required:true" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"/></li>
+		<li><span>开具发票：</span><input type="radio" name="is_invoice" value="0" />否
+								  <input type="radio" name="is_invoice" value="1" />是</li>
+		<li><span>发票抬头：</span><input type="text" name="invoice_title"/></li>
+		<li>
+			<span>支付方式：</span>
+			<!-- {foreach from=$payment_list item=payment key=k} -->
+			<!-- 循环支付方式 -->
+			<input type="radio" name="payment" value="{$payment.pay_id}" {if $k eq 0}checked{/if} isCod="{$payment.is_cod}" onclick="selectPayment(this,{$rec_id})" {if $cod_disabled and $payment.is_cod eq "1"}disabled="true"{/if} style="float:none;" />
+			<strong>{$payment.pay_name}</strong>
+			手续费：{$payment.format_pay_fee}
+			<!-- {/foreach} 循环支付方式 -->
+		</li>
+		<input type="hidden" name="address_id" value="{$address_info.address_id}" />
+		<input type="hidden" name="step" value="cx_done" />
+		<input type="hidden" name="goods_id" value="{$goods_id}" />
+		<input type="hidden" name="cx_id" value="{$cx_id}" />
+		<input type="hidden" name="custom" value="{$custom}" />
+		<input type="hidden" name="cat_id" value="{$cat_id}" />
+	</ul>
+</div>
+<div class="bxcp-box" id="accordion">
+	<ul class="bxcp-list">
+		<li class="r-list">订单信息确认</li>
+		<div id="collapse4" class="panel-collapse">
+		<li class="r-list">{$tbxz_info.cat_name}</li>
+			<ul class="xxqr-box2">
+				<li><span>保费（单位：元）</span>{if $tbxz_info.cx_type == 1}单交强{elseif $tbxz_info.cx_type == 2}大众版{elseif $tbxz_info.cx_type == 3}加强版{else}自定义{/if}</li>
+				<div class="clearfix"></div>
+				<!-- {foreach from=$tbxz item=r key=k} -->
+				<li><span>{$r.price}</span>{$r.xz_name}</li>
+				<!-- {/foreach} -->
+			</ul>
+
+		</div>
+
+	</ul>
+</div>
+<div class="tbqr-tj">
+	<p class="bgw">共计：<small class="red"> ￥{$tbxz_total}</small></p>
+	<p><input type="checkbox" name="is_check" value="1" /> 我已阅读并同意<a href="#3">《车险投保服务协议》</a></p>
+</div>
+<div class="pub-but">
+	<a href="javascript:history.go(-1);" title="上一步">上一步</a>
+	<br/>
+	<a href="javascript:tijiao();" title="提交订单" >提交订单</a>
+</div>
+</form>
+<script>
+region.isAdmin = true;
+if(!"{$address_info.address_id}"){
+	$("#selCountries").change();
+}
+//$("#selCountries").change();
+</script>
+<!-- {/if} -->
+
+<!-- {if $step eq "cx_done"} -->
+        <link href="{$ecs_css_path}" rel="stylesheet" type="text/css" />
+        <!-- 订单提交成功 -->
+        <div class="flowBox" style="margin:30px auto 70px auto;">
+         <h6 style="text-align:center; height:30px; line-height:30px;">{$lang.remember_order_number}: <font style="color:red">{$order.order_sn}</font></h6>
+          <table width="99%" align="center" border="0" cellpadding="15" cellspacing="0" bgcolor="#fff" style="border:1px solid #ddd; margin:20px auto;" >
+            <tr>
+              <td align="center" bgcolor="#FFFFFF">
+              {$lang.select_payment}: <strong>{$order.pay_name}</strong>。{$lang.order_amount}: <strong>{$order.order_amount}</strong>
+              </td>
+            </tr>
+            <tr>
+              <td align="center" bgcolor="#FFFFFF">{$order.pay_desc}</td>
+            </tr>
+            <!-- {if $pay_online} -->
+            <!-- 如果是线上支付则显示支付按钮 -->
+            <tr>
+              <td align="center" bgcolor="#FFFFFF">{$pay_online}</td>
+            </tr>
+            <!-- {/if} -->
+          </table>
+          <p style="text-align:center; margin-bottom:20px;">{$order_submit_back}</p>
+        </div>
+<!-- {/if} -->
+
+
+        <!-- {if $step eq "login"} -->
+        {insert_scripts files='utils.js,user.js'}
+        <script type="text/javascript">
+        {foreach from=$lang.flow_login_register item=item key=key}
+          var {$key} = "{$item}";
+        {/foreach}
+
+        {literal}
+        function checkLoginForm(frm) {
+          if (Utils.isEmpty(frm.elements['username'].value)) {
+            alert(username_not_null);
+            return false;
+          }
+
+          if (Utils.isEmpty(frm.elements['password'].value)) {
+            alert(password_not_null);
+            return false;
+          }
+
+          return true;
+        }
+
+        function checkSignupForm(frm) {
+          if (Utils.isEmpty(frm.elements['username'].value)) {
+            alert(username_not_null);
+            return false;
+          }
+
+          if (Utils.trim(frm.elements['username'].value).match(/^\s*$|^c:\\con\\con$|[%,\'\*\"\s\t\<\>\&\\]/))
+          {
+            alert(username_invalid);
+            return false;
+          }
+
+          if (Utils.isEmpty(frm.elements['email'].value)) {
+            alert(email_not_null);
+            return false;
+          }
+
+          if (!Utils.isEmail(frm.elements['email'].value)) {
+            alert(email_invalid);
+            return false;
+          }
+
+          if (Utils.isEmpty(frm.elements['password'].value)) {
+            alert(password_not_null);
+            return false;
+          }
+
+          if (frm.elements['password'].value.length < 6) {
+            alert(password_lt_six);
+            return false;
+          }
+
+          if (frm.elements['password'].value != frm.elements['confirm_password'].value) {
+            alert(password_not_same);
+            return false;
+          }
+          return true;
+        }
+        {/literal}
+        </script>
+        <!-- 开始用户登录注册界面 -->
+        <div class="flowBox">
+        <table width="99%" align="center" border="0" cellpadding="5" cellspacing="1" bgcolor="#dddddd">
+          <tr>
+            <td width="50%" valign="top" bgcolor="#ffffff">
+            <h6><span>用户登录：</span></h6>
+            <form action="flow.php?step=login" method="post" name="loginForm" id="loginForm" onsubmit="return checkLoginForm(this)">
+                <table width="90%" border="0" cellpadding="8" cellspacing="1" bgcolor="#B0D8FF" class="table">
+                  <tr>
+                    <td bgcolor="#ffffff"><div align="right"><strong>{$lang.username}</strong></div></td>
+                    <td bgcolor="#ffffff"><input name="username" type="text" class="inputBg" id="username" /></td>
+                  </tr>
+                  <tr>
+                    <td bgcolor="#ffffff"><div align="right"><strong>{$lang.password}</strong></div></td>
+                    <td bgcolor="#ffffff"><input name="password" class="inputBg" type="password" /></td>
+                  </tr>
+                  <!-- 判断是否启用验证码{if $enabled_login_captcha} -->
+                  <tr>
+                    <td bgcolor="#ffffff"><div align="right"><strong>{$lang.comment_captcha}:</strong></div></td>
+                    <td bgcolor="#ffffff"><input type="text" size="8" name="captcha" class="inputBg" />
+                    <img src="captcha.php?is_login=1&{$rand}" alt="captcha" style="vertical-align: middle;cursor: pointer;" onClick="this.src='captcha.php?is_login=1&'+Math.random()" /> </td>
+                  </tr>
+                  <!--{/if}-->
+                  <tr>
+            <td colspan="2"  bgcolor="#ffffff"><input type="checkbox" value="1" name="remember" id="remember" /><label for="remember">{$lang.remember}</label></td>
+          </tr>
+                  <tr>
+                    <td bgcolor="#ffffff" colspan="2" align="center"><a href="user.php?act=qpassword_name" class="f6">{$lang.get_password_by_question}</a>&nbsp;&nbsp;&nbsp;<a href="user.php?act=get_password" class="f6">{$lang.get_password_by_mail}</a></td>
+                  </tr>
+                  <tr>
+                    <td bgcolor="#ffffff" colspan="2"><div align="center">
+                        <input type="submit" class="bnt_blue" name="login" value="{$lang.forthwith_login}" />
+                        <!-- {if $anonymous_buy eq 1} 是否允许未登录用户购物 -->
+                        <input type="button" class="bnt_blue_2" value="{$lang.direct_shopping}" onclick="location.href='flow.php?step=consignee&amp;direct_shopping=1'" />
+                        <!-- {/if} -->
+                        <input name="act" type="hidden" value="signin" />
+                      </div></td>
+                  </tr>
+                </table>
+              </form>
+
+              </td>
+            <td valign="top" bgcolor="#ffffff">
+            <h6><span>用户注册：</span></h6>
+            <form action="flow.php?step=login" method="post" name="formUser" id="registerForm" onsubmit="return checkSignupForm(this)">
+               <table width="98%" border="0" cellpadding="8" cellspacing="1" bgcolor="#B0D8FF" class="table">
+                  <tr>
+                    <td bgcolor="#ffffff" align="right" width="25%"><strong>{$lang.username}</strong></td>
+                    <td bgcolor="#ffffff"><input name="username" type="text" class="inputBg" id="username" onblur="is_registered(this.value);" /><br />
+            <span id="username_notice" style="color:#FF0000"></span></td>
+                  </tr>
+                  <tr>
+                    <td bgcolor="#ffffff" align="right"><strong>{$lang.email_address}</strong></td>
+                    <td bgcolor="#ffffff"><input name="email" type="text" class="inputBg" id="email" onblur="checkEmail(this.value);" /><br />
+            <span id="email_notice" style="color:#FF0000"></span></td>
+                  </tr>
+                  <tr>
+                    <td bgcolor="#ffffff" align="right"><strong>{$lang.password}</strong></td>
+                    <td bgcolor="#ffffff"><input name="password" class="inputBg" type="password" id="password1" onblur="check_password(this.value);" onkeyup="checkIntensity(this.value)" /><br />
+            <span style="color:#FF0000" id="password_notice"></span></td>
+                  </tr>
+                  <tr>
+                    <td bgcolor="#ffffff" align="right"><strong>{$lang.confirm_password}</strong></td>
+                    <td bgcolor="#ffffff"><input name="confirm_password" class="inputBg" type="password" id="confirm_password" onblur="check_conform_password(this.value);" /><br />
+            <span style="color:#FF0000" id="conform_password_notice"></span></td>
+                  </tr>
+                  <!-- 判断是否启用验证码{if $enabled_register_captcha} -->
+                  <tr>
+                    <td bgcolor="#ffffff" align="right"><strong>{$lang.comment_captcha}:</strong></td>
+                    <td bgcolor="#ffffff"><input type="text" size="8" name="captcha" class="inputBg" />
+                    <img src="captcha.php?{$rand}" alt="captcha" style="vertical-align: middle;cursor: pointer;" onClick="this.src='captcha.php?'+Math.random()" /> </td>
+                  </tr>
+                  <!--{/if}-->
+                  <tr>
+                    <td colspan="2" bgcolor="#ffffff" align="center">
+                        <input type="submit" name="Submit" class="bnt_blue_1" value="{$lang.forthwith_register}" />
+                        <input name="act" type="hidden" value="signup" />
+                    </td>
+                  </tr>
+                </table>
+              </form>
+              </td>
+          </tr>
+          {if $need_rechoose_gift}
+          <tr>
+            <td colspan="2" align="center" style="border-top:1px #ccc solid; padding:5px; color:red;">{$lang.gift_remainder}</td>
+          </tr>
+          {/if}
+        </table>
+        </div>
+        <!-- 结束用户登录注册界面 -->
+        <!-- {/if} -->
+
+{include file='footer.html'}
+<script>
+	function huadong(id){
+		$('.'+id).addClass('on');
+		$('.'+id).siblings().removeClass('on');
+		$('#'+id).show();
+		$('#'+id).siblings().hide();
+	}
+</script>
+<style>
+	.pub-but a{
+		background: #f67f00 none repeat scroll 0 0;
+		border: 0 none;
+		border-radius: 5px;
+		color: #fff;
+		font-size: 1.5rem;
+		line-height: 35px;
+		margin: 0 3%;
+		text-align: center;
+		width: 94%;
+		cursor: pointer;
+		display:block;
+	}
+</style>
+<script type="text/javascript">
+var process_request = "{$lang.process_request}";
+{foreach from=$lang.passport_js item=item key=key}
+var {$key} = "{$item}";
+{/foreach}
+var username_exist = "{$lang.username_exist}";
+var compare_no_goods = "{$lang.compare_no_goods}";
+var btn_buy = "{$lang.btn_buy}";
+var is_cancel = "{$lang.is_cancel}";
+var select_spe = "{$lang.select_spe}";
+</script>
+

@@ -1,0 +1,87 @@
+{include file='header.html'}
+<script src="/js/jquery.js"></script>
+<script src="/js/common.js"></script>
+<script src="/js/global.js"></script>
+<script src="/js/compare.js"></script>
+<script src="/js/MyDate/WdatePicker.js"></script>
+<script>
+	function handlePromote(checked)
+	{
+		document.forms['theForm'].elements['cp_number'].disabled = checked;
+	}
+	function check(zhi,id,msg){
+		if(!zhi){
+			document.getElementById(id).innerHTML = msg;
+		}else{
+			document.getElementById(id).innerHTML = " ";
+		}
+	}
+	function g(element){return document.getElementById(element);}
+	function tijiao(){
+		if(!g("cp_number").value && !g('wsp').checked){ alert("请填写车牌号或者勾选新车未上牌！");return false;}
+		if(!g("dj_time").value){ alert("日期不能为空！");return false;}
+		if(!g("cz_name").value){ alert("车主姓名不能为空！");return false;}
+		if(!g("sfz_number").value){ alert("身份证号不能为空！");return false;}
+		if(!g("mobile").value){ alert("手机号不能为空！");return false;}
+		if(!g("frame_number").value){ alert("车架号不能为空！");return false;}
+		if(!g("engine_number").value){ alert("发动机号不能为空！");return false;}
+		if(!g("brand").value){ alert("品牌型号不能为空！");return false;}
+		if(!g("configure").value){ alert("配置型号不能为空！");return false;}
+		return true;
+	}
+</script>
+<style>
+	.red{color: red;}
+</style>
+<!--导航 -->
+<div class="container top-menu">
+	<a href="javascript:history.back(-1)"><span class="glyphicon glyphicon-chevron-left" style="font-size:2rem;"></span></a>
+	<div class="cf-title" id="fd-caidan">基本信息</div>
+	<div data-toggle="dropdown" href="#3" style="display:none;"><span class="glyphicon glyphicon-align-justify"style="font-size:2rem;"></span></div>
+	<ul class="dropdown-menu izl-fmenu" role="menu" aria-labelledby="dLabel" style="right:0; width:30%; left:auto">
+		<li><A href="">我的订单</A></li>
+		<li><A href="">我的视频</A></li>
+		<li><A href="">我的视频</A></li>
+	</ul>
+</div>
+
+<div class="bg-hight"></div>
+<!--内容 -->
+<div class="ddxq-box">
+	<form action="flow.php" method="post" name="theForm" onsubmit="return tijiao();">
+	<ul class="xgdlmm">
+		<li><span>城市：</span>
+			<select name="c_city">
+				<!--{foreach from=$region_list item=region}-->
+				<option value="{$region}" {if $region == $city}selected="selected"{/if}>{$region}</option>
+				<!--{/foreach}-->
+			</select>
+		</li>
+		<li><span>车牌号：</span><input type="text" name="cp_number" id="cp_number" onblur="check(this.value,'cx_cp_number','车牌号不能为空')"/></li>
+		<span class="red" id="cx_cp_number"></span>
+		<li><input type="checkbox" id="wsp" onclick="handlePromote(this.checked);" />新车未上牌</li>
+		<li><span>登记日期：</span><input type="text" name="dj_time" id="dj_time" value="" validate=" required:true" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" onblur="check(this.value,'cx_dj_time','日期不能为空')"/></li>
+		<span class="red" id="cx_dj_time"></span>
+		<li><span>车主姓名：</span><input type="text" name="cz_name" id="cz_name" onblur="check(this.value,'cx_cz_name','车主姓名不能为空')"/></li>
+		<span class="red" id="cx_cz_name"></span>
+		<li><span>身份证号：</span><input type="text" name="sfz_number" id="sfz_number" onblur="check(this.value,'cx_sfz_number','身份证号不能为空')"/></li>
+		<span class="red" id="cx_sfz_number"></span>
+		<li><span>手机号码：</span><input type="text" name="mobile" id="mobile" onblur="check(this.value,'cx_mobile','手机号不能为空')"/></li>
+		<span class="red" id="cx_mobile"></span>
+		<li><span>车架号：</span><input type="text" name="frame_number" id="frame_number" onblur="check(this.value,'cx_frame_number','车架号不能为空')"/></li>
+		<span class="red" id="cx_frame_number"></span>
+		<li><span>发动机号：</span><input type="text" name="engine_number" id="engine_number" onblur="check(this.value,'cx_engine_number','发动机号不能为空')"/></li>
+		<span class="red" id="cx_engine_number"></span>
+		<li><span>品牌型号：</span><input type="text" name="brand" id="brand" onblur="check(this.value,'cx_brand','品牌型号不能为空')"/></li>
+		<span class="red" id="cx_brand"></span>
+		<li><span>配置型号：</span><input type="text" name="configure" id="configure" onblur="check(this.value,'cx_configure','配置型号不能为空')"/></li>
+		<span class="red" id="cx_configure"></span>
+		<li><span>过户车：</span><input type="radio" name="is_transfer" checked="checked" value="0" />否
+								<input type="radio" name="is_transfer" value="1" />是</li>
+		<div class=""><input type="submit" value="下一步" class="but"></div>
+		<input type="hidden" name="cat_id" value="{$category}" />
+		<input type="hidden" name="step" value="cx_insure_cl" />
+	</ul>
+	</form>
+</div>
+{include file='footer.html'}

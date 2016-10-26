@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=GBK" />
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+
+<title>{$page_title}</title>
+<link href="/css/w_css.css" type="text/css" rel="stylesheet" />
+<script src="/js/jquery.min.js.js"></script>
+<script src="/js/w_index.js"></script>
+<script type="text/javascript" src="/js/tab.js"></script>	
+{* 包含脚本文件 *}
+{insert_scripts files='common.js'}
+</head>
+<body>
+<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
+<div class="w_center"> 
+   <!--当前位置-->
+   <div class="w_dqwz">
+    <!-- #BeginLibraryItem "/library/ur_here.lbi" --><!-- #EndLibraryItem -->
+   </div>
+   <div class="w_bxbanner"><div class="w_qcgg">{insert name="ads" id=3 num=1}</div></div>
+   <div class="w_bxxy_n">
+     <div class="w_bxxy_n1">
+	   <div class="w_bxxy_tit"><a href="article_cat.php?id=13" title="更多>>">更多>></a><i class="w_bxxyi_1"></i>热点</div>
+	   <div class="w_bxxy_n1_n">
+	    <a href="article.php?id={$rd.0.article_id}" title="{$rd.0.title}"><img src="{$rd.0.file_url}" title="{$rd.0.title}" alt="{$rd.0.title}"/></a>
+		<ul>
+		  <!-- {foreach from=$rd item=r key=k} -->
+          <li>
+		    <a href="article.php?id={$r.article_id}" title="{$r.title}"><i>·</i>{$r.title}</a>
+			{if $k == 0}<p>{$r.description}</p>{/if}
+		  </li>
+          <!-- {/foreach} -->
+		</ul>
+	   </div>
+	 </div>
+	 <div class="w_bxxy_n2">
+	   <div class="w_bxxy_tit"><a href="article_cat.php?id=14" title="更多>>">更多>></a><i class="w_bxxyi_2"></i>行业</div>
+	   <div class="w_bxxy_n1_n">
+	    <a href="article.php?id={$hy.0.article_id}" title="{$hy.0.title}"><img src="{$hy.0.file_url}" title="{$hy.0.title}" alt="{$hy.0.title}"/></a>
+		<ul>
+		  <!-- {foreach from=$hy item=r key=k} -->
+          <li>
+		    <a href="article.php?id={$r.article_id}" title="{$r.title}"><i>·</i>{$r.title}</a>
+			{if $k == 0}<p>{$r.description}</p>{/if}
+		  </li>
+          <!-- {/foreach} -->
+		</ul>
+	   </div>
+	 </div>
+	 <div class="w_bxxy_n3">
+	   <div class="w_bxxy_tit"><a href="article_cat.php?id=15" title="更多>>">更多>></a><i class="w_bxxyi_3"></i>百科</div>
+	   <div class="w_bxxy_n1_n">
+	    <a href="article.php?id={$bk.0.article_id}" title="{$bk.0.title}"><img src="{$bk.0.file_url}" title="{$bk.0.title}" alt="{$bk.0.title}"/></a>
+		<ul>
+		  <!-- {foreach from=$bk item=r key=k} -->
+          <li>
+		    <a href="article.php?id={$r.article_id}" title="{$r.title}"><i>·</i>{$r.title|truncate:22}</a>
+			{if $k == 0}<p>{$r.description}</p>{/if}
+		  </li>
+          <!-- {/foreach} -->
+		</ul>
+	   </div>
+	 </div>
+	 <div class="w_bxxy_n4">
+	   <div class="w_bxxy_tit"><a href="article_cat.php?id=16" title="更多>>">更多>></a><i class="w_bxxyi_4"></i>出行</div>
+	   <div class="w_bxxy_n1_n">
+	    <a href="article.php?id={$cx.0.article_id}" title="{$cx.0.title}"><img src="{$cx.0.file_url}" title="{$cx.0.title}" alt="{$cx.0.title}"/></a>
+		<ul>
+		  <!-- {foreach from=$cx item=r key=k} -->
+          <li>
+		    <a href="article.php?id={$r.article_id}" title="{$r.title}"><i>·</i>{$r.title}</a>
+			{if $k == 0}<p>{$r.description}</p>{/if}
+		  </li>
+          <!-- {/foreach} -->
+		</ul>
+	   </div>
+	 </div>
+   </div>
+   <div class="clear"></div>
+   <div class="w_bxxy_1n">
+      <div class="w_bxxy_tit"><a href="article_cat.php?id=17" title="更多>>">更多>></a><i class="w_bxxyi_5"></i>保险手册
+	  <div class="w_bxxy_5">
+	    <span class="w_bxxy_5t" id="tl1" onclick="setTab('tl',1,5,'w_bxxy_5t')"><i></i>旅游</span>
+		<span id="tl2" onclick="setTab('tl',2,5,'w_bxxy_5t')"><i></i>医疗</span>
+		<span id="tl3" onclick="setTab('tl',3,5,'w_bxxy_5t')"><i></i>家财</span>
+		<span id="tl4" onclick="setTab('tl',4,5,'w_bxxy_5t')"><i></i>养老</span>
+		<span id="tl5" onclick="setTab('tl',5,5,'w_bxxy_5t')"><i></i>教育</span>                                                                               
+	  </div>
+	  </div>
+	  <div class="w_bxxy_n1_n"  id="con_tl_1" style="display:block;">
+	    <a href="article.php?id={$ly.0.article_id}" title="{$ly.0.title}"><img src="{$ly.0.file_url}" title="{$ly.0.title}" alt="{$ly.0.title}"/></a>
+		<ul>
+		  <!-- {foreach from=$ly item=r key=k} -->
+          <li>
+		    <a href="article.php?id={$r.article_id}" title="{$r.title}"><i>·</i>{$r.title}</a>
+			<p>{$r.description}</p>
+		  </li>
+          <!-- {/foreach} -->
+		</ul>
+	   </div>
+	   <div class="w_bxxy_n1_n"  id="con_tl_2" style="display: none;">
+	    <a href="article.php?id={$yil.0.article_id}" title="{$yil.0.title}"><img src="{$yil.0.file_url}" title="{$yil.0.title}" alt="{$yil.0.title}"/></a>
+		<ul>
+		  <!-- {foreach from=$yil item=r key=k} -->
+          <li>
+		    <a href="article.php?id={$r.article_id}" title="{$r.title}"><i>·</i>{$r.title}</a>
+			<p>{$r.description}</p>
+		  </li>
+          <!-- {/foreach} -->
+		</ul>
+	   </div>
+	   <div class="w_bxxy_n1_n"  id="con_tl_3" style="display: none;">
+	    <a href="article.php?id={$jc.0.article_id}" title="{$jc.0.title}"><img src="{$jc.0.file_url}" title="{$jc.0.title}" alt="{$jc.0.title}"/></a>
+		<ul>
+		  <!-- {foreach from=$jc item=r key=k} -->
+          <li>
+		    <a href="article.php?id={$r.article_id}" title="{$r.title}"><i>·</i>{$r.title}</a>
+			<p>{$r.description}</p>
+		  </li>
+          <!-- {/foreach} -->
+		</ul>
+	   </div>
+	   <div class="w_bxxy_n1_n"  id="con_tl_4" style="display: none;">
+	    <a href="article.php?id={$yl.0.article_id}" title="{$yl.0.title}"><img src="{$yl.0.file_url}" title="{$yl.0.title}" alt="{$yl.0.title}"/></a>
+		<ul>
+		  <!-- {foreach from=$yl item=r key=k} -->
+          <li>
+		    <a href="article.php?id={$r.article_id}" title="{$r.title}"><i>·</i>{$r.title}</a>
+			<p>{$r.description}</p>
+		  </li>
+          <!-- {/foreach} -->
+		</ul>
+	   </div>
+	   <div class="w_bxxy_n1_n"  id="con_tl_5" style="display: none;">
+	    <a href="article.php?id={$jy.0.article_id}" title="{$jy.0.title}"><img src="{$jy.0.file_url}" title="{$jy.0.title}" alt="{$jy.0.title}"/></a>
+		<ul>
+		  <!-- {foreach from=$jy item=r key=k} -->
+          <li>
+		    <a href="article.php?id={$r.article_id}" title="{$r.title}"><i>·</i>{$r.title}</a>
+			<p>{$r.description}</p>
+		  </li>
+          <!-- {/foreach} -->
+		</ul>
+	   </div>
+   </div>
+</div>
+<!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
+</body>
+</html>

@@ -1,0 +1,33 @@
+{include file='header.html'}
+<style>
+	img{width: 100%;}
+</style>
+<!--导航 -->
+<div class="container top-menu">
+	<a href="javascript:history.back(-1)"><span class="glyphicon glyphicon-chevron-left" style="font-size:2rem;"></span></a>
+	<div class="cf-title" id="fd-caidan">{$catname}</div>
+	<div data-toggle="dropdown" href="#3" style="display:none;"><span class="glyphicon glyphicon-align-justify"style="font-size:2rem;"></span></div>
+	<ul class="dropdown-menu izl-fmenu" role="menu" aria-labelledby="dLabel" style="right:0; width:30%; left:auto">
+		<li><A href="">我的订单</A></li>
+		<li><A href="">我的视频</A></li>
+		<li><A href="">我的视频</A></li>
+	</ul>
+</div>
+
+<div class="bg-hight"></div>
+<!--内容 -->
+<article>
+	<div class="bxxyxq-box">
+		{if $article.cat_id eq 13}<div class="tip">热点</div>{/if}
+		<h3>{$article.title}</h3>
+		<p class="p1"><span><i class="iconfont">&#xe6f0;</i> {$article.add_time}</span><span class="name"><i class="iconfont">&#xe60a;</i> {$article.author}</span></p>
+		<div class="text">
+			{$article.content}
+		</div>
+		<ul>
+			<li><a href="article.php?id={$prev_article.article_id}">上一篇：{$prev_article.title}</a></li>
+			<li><a href="article.php?id={$next_article.article_id}">下一篇：{$next_article.title}</a></li>
+		</ul>
+	</div>
+</article>
+{include file='footer.html'}

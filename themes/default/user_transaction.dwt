@@ -1,0 +1,989 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+
+<title>{$page_title}</title>
+<link href="/css/w_css_1.css" type="text/css" rel="stylesheet" />
+<link rel="stylesheet" href="/css/zlbx_pc.css" />
+<script src="/js/jquery.min.js.js"></script>
+<script src="/js/w_index.js"></script>
+<script type="text/javascript" src="/js/tab.js"></script>
+<script type='text/javascript' src='/js/webwidget_scroller_tab.js'></script>
+<script type="text/javascript" src="/js/jquery.SuperSlide.2.1.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	$(".div2").click(function(){ 
+		$(this).next("div").slideToggle("slow")  
+		.siblings(".div3:visible").slideUp("slow");
+	});
+	var $tab_li = $('#tab ul li');
+	$tab_li.hover(function(){
+		$(this).addClass('selected').siblings().removeClass('selected');
+		var index = $tab_li.index(this);
+		$('div.tab_box > div').eq(index).show().siblings().hide();
+	});
+});
+</script>
+
+{* 包含脚本文件 *}
+{insert_scripts files='common.js,user.js'}
+</head>
+<body>
+<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
+<!--当前位置 start-->
+<div class="w_dqwz">
+    <!-- #BeginLibraryItem "/library/ur_here.lbi" --><!-- #EndLibraryItem -->
+   </div>
+<!--当前位置 end-->
+
+<!--{if $action neq 'order_detail'}-->
+<div class="content_pc">
+  <!--left start-->
+  <div class="left_pc">
+   <div class="div1">
+        <!-- #BeginLibraryItem "/library/user_menu.lbi" --><!-- #EndLibraryItem -->
+    </div>
+  </div>
+  <!--left end-->
+  <!--right start-->
+<div class="right_pc">
+<!--{/if}-->
+         <!-- 用户信息界面 start-->
+         <!--{if $action eq 'profile'}-->
+         {insert_scripts files='utils.js'}
+        <script type="text/javascript">
+          {foreach from=$lang.profile_js item=item key=key}
+            var {$key} = "{$item}";
+          {/foreach}
+        </script>
+ <div class="right_pc">
+    <div class="r_bt_pc">
+       <span>会员资料</span><em>Member information</em>
+    </div>
+    <div class="bdgl_xq">
+<form name="formEdit" action="user.php" method="post" id="formEdit" enctype="multipart/form-data">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+  <tr class="bt_b">
+    <td colspan="2"><strong>基本资料   快速完善个人信息</strong></td>
+    </tr>
+  <tr>
+    <td width="23%" class="td_r" align="right" style=" text-align:right;">* 会员类型</td>
+    <td width="77%" class="td_l" style=" text-align:left;">个人会员</td>
+  </tr>
+  <tr>
+    <td class="td_r" align="right" style=" text-align:right;">* 姓名</td>
+    <td class="td_l" style=" text-align:left;"><input class="text_ge" type="text" name="alias" id="alias" value="{$profile.alias}" /></td>
+  </tr>
+  <tr>
+    <td class="td_r" align="right" style=" text-align:right;">* 证件类型</td>
+    <td class="td_l" style=" text-align:left;"><label for="select"></label>
+      <select name="select" id="select">
+        <option>身份证</option>
+      </select></td>
+  </tr>
+  <tr>
+    <td class="td_r" align="right" style=" text-align:right;">* 证件号码</td>
+    <td class="td_l" style=" text-align:left;"><input class="text_ge" type="text" name="zj_number" id="zj_number" value="{$profile.zj_number}" /></td>
+  </tr>
+  <tr>
+    <td class="td_r" align="right" style=" text-align:right;">* 性别</td>
+    <td class="td_l" style=" text-align:left;"><input type="radio" name="sex" value="0" {if $profile.sex==0}checked="checked"{/if} />
+                    {$lang.secrecy}&nbsp;&nbsp;
+                    <input type="radio" name="sex" value="1" {if $profile.sex==1}checked="checked"{/if} />
+                    {$lang.male}&nbsp;&nbsp;
+                    <input type="radio" name="sex" value="2" {if $profile.sex==2}checked="checked"{/if} />
+                  {$lang.female}&nbsp;&nbsp; </td>
+  </tr>
+  <tr>
+    <td class="td_r" align="right" style=" text-align:right;">* 出生日期</td>
+    <td class="td_l" style=" text-align:left;">{html_select_date field_order=YMD prefix=birthday start_year=-60 end_year=+1 display_days=true month_format=%m day_value_format=%02d time=$profile.birthday}
+      以身份证上出生日期为准</td>
+  </tr>
+  <tr>
+            <td class="td_r" align="right" style=" text-align:right;">会员头像：</td>
+            <td class="td_l" style=" text-align:left;">
+            <div style="width:50%;float:left;">
+                <input id="avatar" type="file" size="40" value="" name="avatar">
+                <br/>
+                <span style="color:#FF0000"> 图片像素最佳为74px * 74px，<br/>大小不得超过1M</span>
+            </div>
+            <div style="width:50%;float:left;">
+                <img src="{if $profile.avatar}{$profile.avatar}{else}/images/change_avtar.png{/if}" alt="" width="55" height="55">
+            </div>
+            </td>
+        </tr>
+</table>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+  <tr class="bt_b">
+    <td colspan="2"><strong>联系方式</strong></td>
+  </tr>
+  <tr>
+    <td width="23%" class="td_r" align="right" style=" text-align:right;">* 手机</td>
+    <td class="td_l" style=" text-align:left;"><input class="text_ge" type="text" name="extend_field5" id="extend_field5" value="{$profile.mobile_phone}" /></td>
+  </tr>
+
+  <tr>
+    <td class="td_r" align="right" style=" text-align:right;">* 邮箱</td>
+    <td class="td_l" style=" text-align:left;"><input class="text_ge" type="text" name="email" id="email" value="{$profile.email}" /></td>
+  </tr>
+</table>
+ 
+ <table width="100%" border="0" cellpadding="0" cellspacing="0">
+  <tr class="bt_b">
+    <td colspan="2"><strong>联系方式</strong></td>
+  </tr>
+  <tr>
+    <td width="23%" class="td_r" align="right" style=" text-align:right;">* 我的推荐人</td>
+    <td class="td_l" style=" text-align:left;"><input class="text_ge" type="text" name="parent_id" id="parent_id" value="{$profile.tuijian}" /></td>
+  </tr>
+</table>  
+    <div class="tj_pc"> 
+      <a href="javascript:document.getElementById('formEdit').submit();" title="提  交" >提  交</a>
+    </div>
+    <input name="act" type="hidden" value="act_edit_profile" />
+    </form>   
+  </div>
+</div>
+     <!--{/if}-->
+     <!--#用户信息界面 end-->
+     <!-- {if $action eq 'bonus'} 用户的红包列表 start-->
+      <script type="text/javascript">
+        {foreach from=$lang.profile_js item=item key=key}
+          var {$key} = "{$item}";
+        {/foreach}
+      </script>
+      <h5><span>{$lang.label_bonus}</span></h5>
+      <div class="blank"></div>
+       <table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#dddddd">
+        <tr>
+          <th align="center" bgcolor="#FFFFFF">{$lang.bonus_sn}</th>
+          <th align="center" bgcolor="#FFFFFF">{$lang.bonus_name}</th>
+          <th align="center" bgcolor="#FFFFFF">{$lang.bonus_amount}</th>
+          <th align="center" bgcolor="#FFFFFF">{$lang.min_goods_amount}</th>
+          <th align="center" bgcolor="#FFFFFF">{$lang.bonus_end_date}</th>
+          <th align="center" bgcolor="#FFFFFF">{$lang.bonus_status}</th>
+        </tr>
+        <!-- {if $bonus} -->
+        <!--{foreach from=$bonus item=item}-->
+        <tr>
+          <td align="center" bgcolor="#FFFFFF">{$item.bonus_sn|default:N/A}</td>
+          <td align="center" bgcolor="#FFFFFF">{$item.type_name}</td>
+          <td align="center" bgcolor="#FFFFFF">{$item.type_money}</td>
+          <td align="center" bgcolor="#FFFFFF">{$item.min_goods_amount}</td>
+          <td align="center" bgcolor="#FFFFFF">{$item.use_enddate}</td>
+          <td align="center" bgcolor="#FFFFFF">{$item.status}</td>
+        </tr>
+        <!--{/foreach}-->
+        <!-- {else} -->
+        <tr>
+          <td colspan="6" bgcolor="#FFFFFF">{$lang.user_bonus_empty}</td>
+        </tr>
+        <!-- {/if} -->
+      </table>
+      <div class="blank5"></div>
+      <!-- #BeginLibraryItem "/library/pages.lbi" --><!-- #EndLibraryItem -->
+      <div class="blank5"></div>
+      <h5><span>{$lang.add_bonus}</span></h5>
+      <div class="blank"></div>
+      <form name="addBouns" action="user.php" method="post" onSubmit="return addBonus()">
+        <div style="padding: 15px;">
+        {$lang.bonus_number}
+          <input name="bonus_sn" type="text" size="30" class="inputBg" />
+          <input type="hidden" name="act" value="act_add_bonus" class="inputBg" />
+          <input type="submit" class="bnt_blue_1" style="border:none;" value="{$lang.add_bonus}" />
+        </div>
+      </form>
+    <!-- {/if} -->
+   <!--用户红包结束-->
+   
+   <!--#查看保单列表 start-->
+       <!-- {if $action eq 'bd_list'} -->
+<div class="right_pc">
+    <div class="r_bt_pc">
+       <span>保单管理</span><em>Insurance management</em>
+    </div>
+    <div class="bdgl_tab_pc">
+          <div id="tab">
+              <ul class="tab_menu">
+                  <li {if !$zt}class="selected"{/if}><a href="user.php?act=bd_list" title="全部">全部（{$qb}）</a></li>
+                  <li {if $zt == 'ycb'}class="selected"{/if}><a href="user.php?act=bd_list&zt=ycb" title="已承保">已承保（{$ycb}）</a></li>
+                  <li {if $zt == 'ygq'}class="selected"{/if}><a href="user.php?act=bd_list&zt=ygq" title="已过期">已过期（{$ygq}）</a></li>
+              </ul>
+              <div class="tab_box">
+                  <div class="hide" {if !$zt}style="display:block;"{/if}>什么是保单?<br />
+                    您的投保单被保险公司承保后签发的正式保险合同，即保单。<br />
+保单是PDF文件格式，需要用Adobe Acrobat软件阅读。如果您无法阅读，请<a href="" title="" style="color:#F30;">点击这里</a>下载并安装该软件。
+                  </div>
+                  <div class="hide" {if $zt == 'ycb'}style="display:block;"{/if}>dd1</div>
+                  <div class="hide" {if $zt == 'ygq'}style="display:block;"{/if}>dd2</div>
+              </div>
+          </div>
+    </div>
+    <div class="bdgl_xq">
+      <table width="100%" border="0" cellpadding="0" cellspacing="0" bordercolor="#ccc" >
+      <tr class="bt_b">
+        <td>保单号</td>
+        <td>保险产品名称</td>
+        <td>承保公司</td>
+        <td>投保日期</td>
+        <td>承保日期</td>
+        <td>状态</td>
+        <td>操作</td>
+      </tr>
+      <!--{foreach from=$orders item=item}-->
+      <tr>
+        <td>{$item.bd_number}</td>
+        <td>{$item.name}</td>
+        <td>{$item.company}</td>
+        <td>{$item.order_time}</td>
+        <td>{$item.start_time} 00时<br />
+          至<br />
+          {$item.last_time} 24时</td>
+        <td>{if $time > $item.last_time}已过期{elseif $time < $item.start_time}未开始{else}承保中{/if}</td>
+        <td><a href="" title="">订单详情</a></td>
+      </tr>
+      <!--{/foreach}-->
+    </table>
+    </div>
+</div>
+       <!-- #BeginLibraryItem "/library/pages.lbi" --><!-- #EndLibraryItem -->
+       <!--{/if}-->
+      <!--#查看保单列表 end-->
+   
+      <!--#订单列表界面 start-->
+       <!-- {if $action eq 'order_list'} -->
+<div class="right_pc">
+    <div class="r_bt_pc">
+       <span>订单管理</span><em>Order management</em>
+    </div>
+    <div class="bdgl_xq">
+    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr class="bt_b">
+        <td width="17%">产品</td>
+        <td width="21%">下单时间</td>
+        <td width="13%">投保份数</td>
+        <td width="13%">保费</td>
+        <td width="13%">实付款</td>
+        <td width="12%">状态</td>
+        <td width="11%">操作</td>
+      </tr>
+    </table>
+    <!--{foreach from=$orders item=item}-->
+    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr class="bt_b">
+        <td colspan="7"><span class="ddh_pc">订单号：{$item.order_sn}</span></td>
+        </tr>
+      <tr>
+         <td width="17%">{$item.name}</td>
+        <td width="21%">{$item.order_time}</td>
+        <td width="13%">1份</td>
+        <td width="13%">{$item.total_fee}</td>
+        <td width="13%">{$item.total_fee}</td>
+        <td width="12%">{$item.order_status}</td>
+        <td width="11%"><a href="user.php?act=order_detail&order_id={$item.order_id}" title="订单详情">订单详情</a><br />{$item.handler}</td>
+      </tr>
+    </table>
+    <!--{/foreach}-->
+    </div>
+</div>
+       <!-- #BeginLibraryItem "/library/pages.lbi" --><!-- #EndLibraryItem -->
+       
+       <!--{/if}-->
+      <!--#订单列表界面 end-->
+       
+     <!-- ==========订单详情页面,包括：订单状态，商品列表，费用总计，收货人信息，支付方式，其它信息========== -->
+      <!--{if $action eq order_detail} -->
+        <!--订单详情-->
+
+<div class="dyxq_pc_bb">
+<table width="1200" border="0" cellpadding="0" cellspacing="0">
+  <tr >
+      <td>
+         <div class="ddh_xq">订单号：{$order.order_sn}</div>
+         <ul class="ddxq_bb">
+            <li><strong>总计投保1份</strong></li>
+            <li>保费合计：<em>{$order.formated_order_amount}</em></li>
+         </ul>
+         <div style="float:left; width:200px; height:40px;margin-top:15px;">{if $order.order_amount gt 0}{$order.pay_online}{/if}</div>
+         <div class="ddsfk_a">实付款： <em>{$order.formated_order_amount}</em></div>
+      </td>
+  </tr>
+  
+  <tr>
+    <td>
+        <h3>{$goods.goods_name}</h3>
+        {if $order.bx_type ==1}
+        <h4>保单明细</h4>
+         
+         <table width="96%" border="0">
+          <tr>
+            <td width="14%" style=" text-align:right;">投保日期</td>
+            <td width="62%">{$order.formated_add_time}</td>
+            <td width="24%" rowspan="5" style=" text-align:center; font-size:18px;">
+            
+            共投保<em>1</em>份<br />
+            保费合计：<em>{$order.formated_order_amount}</em>
+            </td>
+          </tr>
+          <tr>
+            <td style=" text-align:right;">保障期限</td>
+            <td>2016-01-17 00时   ――  2017-01-16 24时</td>
+           </tr>
+          <tr>
+            <td style=" text-align:right;">投保计划</td>
+            <td>{$goods.goods_attr}</td>
+           </tr>
+          <tr>
+            <td style=" text-align:right;">保单形式</td>
+            <td>电子保单</td>
+           </tr>
+          <tr>
+            <td style=" text-align:right;">发票</td>
+            <td>{if $arr.invoice}有{else}无{/if}</td>
+           </tr>
+        </table>
+        <h4>投保人信息</h4>
+        <table width="96%" border="0">
+  <tr>
+    <td width="14%" style=" text-align:right;">姓名</td>
+    <td width="86%">{$arr.tb_name}</td>
+  </tr>
+  <tr>
+    <td style=" text-align:right;">邮箱</td>
+    <td>{$arr.email}</td>
+  </tr>
+  <tr>
+    <td style=" text-align:right;">证件类型</td>
+    <td>身份证</td>
+  </tr>
+  <tr>
+    <td style=" text-align:right;">证件号码</td>
+    <td>{$arr.tbzj_number}</td>
+  </tr>
+  <tr>
+    <td style=" text-align:right;">手机</td>
+    <td>{$arr.tb_mobile}</td>
+  </tr>
+  <tr>
+    <td style=" text-align:right;">所在城市</td>
+    <td>{$arr.address}</td>
+  </tr>
+</table>
+
+        <h4>被保人信息</h4>
+        <table width="96%" border="0">
+        <tr class="tr_ys">
+          <td colspan="2">&nbsp; <strong>被保人：李明明     保费：{$order.formated_order_amount}</strong></td>
+          </tr>
+        <tr >
+          <td width="14%" style=" text-align:right;" class="tr_ys">被保险人</td>
+          <td width="86%">
+          
+                   <table width="96%" border="0" style=" margin-top:10px;">
+                      <tr class="tr_ys">
+                        <td>TA是我</td>
+                        <td>姓名</td>
+                        <td>证件类型</td>
+                        <td>证件号码</td>
+                        <td>联系方式</td>
+                      </tr>
+                      <tr>
+                        <td>{$arr.relation}</td>
+                        <td>{$arr.bb_name}</td>
+                        <td>身份证</td>
+                        <td>{$arr.bbzj_number}</td>
+                        <td>{$arr.bb_mobile}</td>
+                      </tr>
+                    </table>
+          </td>
+        </tr>
+        <tr>
+          <td style=" text-align:right;" class="tr_ys">受益人</td>
+          <td>法定</td>
+        </tr>
+      </table>
+      {else}
+        <h4>行驶证车主信息</h4>
+        <table width="96%" border="0">
+  <tr>
+    <td width="14%" style=" text-align:right;">城市</td>
+    <td width="86%">{$arr.c_city}</td>
+  </tr>
+  <tr>
+    <td style=" text-align:right;">车牌号</td>
+    <td>{$arr.cp_number}</td>
+  </tr>
+  <tr>
+    <td style=" text-align:right;">登记日期</td>
+    <td>{$arr.dj_time}</td>
+  </tr>
+  <tr>
+    <td style=" text-align:right;">车主姓名</td>
+    <td>{$arr.cz_name}</td>
+  </tr>
+  <tr>
+    <td style=" text-align:right;">身份证号</td>
+    <td>{$arr.sfz_number}</td>
+  </tr>
+  <tr>
+    <td style=" text-align:right;">手机号</td>
+    <td>{$arr.mobile}</td>
+  </tr>
+  <tr>
+    <td style=" text-align:right;">车架号</td>
+    <td>{$arr.frame_number}</td>
+  </tr>
+  <tr>
+    <td style=" text-align:right;">发动机号</td>
+    <td>{$arr.engine_number}</td>
+  </tr>
+  <tr>
+    <td style=" text-align:right;">品牌型号</td>
+    <td>{$arr.brand}</td>
+  </tr>
+  <tr>
+    <td style=" text-align:right;">配置型号</td>
+    <td>{$arr.configure}</td>
+  </tr>
+  <tr>
+    <td style=" text-align:right;">过户车</td>
+    <td>{if $arr.is_transfer == 1}是{else}否{/if}</td>
+  </tr>
+</table>
+
+<h4>保单及发票信息</h4>
+<table width="96%" border="0">
+  <tr>
+    <td width="14%" style=" text-align:right;">姓名</td>
+    <td width="86%">{$order.consignee}</td>
+  </tr>
+  <tr>
+    <td style=" text-align:right;">手机</td>
+    <td>{$order.mobile}</td>
+  </tr>
+  <tr>
+    <td style=" text-align:right;">详细地址</td>
+    <td>{$order.address}</td>
+  </tr>
+  <tr>
+    <td style=" text-align:right;">配送时间</td>
+    <td>{$order.best_time}</td>
+  </tr>
+  <tr>
+    <td style=" text-align:right;">开具发票</td>
+    <td>{if $arr.is_invoice == 1}是{else}否{/if}</td>
+  </tr>
+  <tr>
+    <td style=" text-align:right;">发票抬头</td>
+    <td>{$arr.invoice_title}</td>
+  </tr>
+  
+</table>
+      {/if}
+      <div class="tbsm_pc">
+         <ul>
+            <li><strong>投保声明</strong></li>
+            <li>1、投保时，本投保人已就该产品的保障内容以及保险金额向被保险人进行了明确说明，并征得其同意。</li>
+            <li>2、本投保人兹声明上述各项内容填写属实，并知道如果投保信息不真实，保险公司将有权拒赔，一切后果由本人承担。</li>
+            <li>3、本投保人已阅读该产品详细条款，并特别就条款中有关责任免除和投保人、被保险人义务的内容进行阅读。本投保人特此同意接受条款全部内容。</li>
+            <li>4、根据&laquo;中华人民共和国合同法&raquo;第十一条规定，数据电文是合法的合同表现形式。本人接受保险公司在新一站提供的电子保单作为本投保书成立生效的合法</li>
+            <li>5、有效凭证，具有完全证据效力。</li>
+         </ul>
+      </div>
+
+<div class="tj_pc"> 
+  <a href="user.php?act=order_list" title="返回列表" >返回列表</a>
+</div>  
+<br />
+    </td>
+  </tr>
+  
+</table>
+</div>
+      <!--{/if} -->
+    <!--#订单详情页 end-->
+    <!--#会员余额 start-->
+      <!--{if $action eq "account_raply" || $action eq "account_log" || $action eq "account_deposit" || $action eq "account_detail"} -->
+        <script type="text/javascript">
+          {foreach from=$lang.account_js item=item key=key}
+            var {$key} = "{$item}";
+          {/foreach}
+        </script>
+        <h5><span>{$lang.user_balance}</span></h5>
+        <div class="blank"></div>
+         <table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#dddddd">
+          <tr>
+            <td align="right" bgcolor="#ffffff"><a href="user.php?act=account_deposit" class="f6">{$lang.surplus_type_0}</a> | <a href="user.php?act=account_raply" class="f6">{$lang.surplus_type_1}</a> | <a href="user.php?act=account_detail" class="f6">{$lang.add_surplus_log}</a> | <a href="user.php?act=account_log" class="f6">{$lang.view_application}</a> </td>
+          </tr>
+        </table>
+        <!-- {/if} -->
+        <!-- {if $action eq "account_raply"} -->
+        <form name="formSurplus" method="post" action="user.php" onSubmit="return submitSurplus()">
+        <table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#dddddd">
+          <tr>
+            <td width="15%" bgcolor="#ffffff">{$lang.repay_money}:</td>
+            <td bgcolor="#ffffff" align="left"><input type="text" name="amount" value="{$order.amount|escape}" class="inputBg" size="30" />
+            </td>
+          </tr>
+          <tr>
+            <td bgcolor="#ffffff">{$lang.process_notic}:</td>
+            <td bgcolor="#ffffff" align="left"><textarea name="user_note" cols="55" rows="6" style="border:1px solid #ccc;">{$order.user_note|escape}</textarea></td>
+          </tr>
+          <tr>
+            <td bgcolor="#ffffff" colspan="2" align="center">
+            <input type="hidden" name="surplus_type" value="1" />
+              <input type="hidden" name="act" value="act_account" />
+              <input type="submit" name="submit"  class="bnt_blue_1" value="{$lang.submit_request}" />
+              <input type="reset" name="reset" class="bnt_blue_1" value="{$lang.button_reset}" />
+            </td>
+          </tr>
+        </table>
+        </form>
+        <!-- {/if} -->
+        <!-- {if $action eq "account_deposit"} -->
+        <form name="formSurplus" method="post" action="user.php" onSubmit="return submitSurplus()">
+        <table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#dddddd">
+            <tr>
+              <td width="15%" bgcolor="#ffffff">{$lang.deposit_money}:</td>
+              <td align="left" bgcolor="#ffffff"><input type="text" name="amount"  class="inputBg" value="{$order.amount|escape}" size="30" /></td>
+            </tr>
+            <tr>
+              <td bgcolor="#ffffff">{$lang.process_notic}:</td>
+              <td align="left" bgcolor="#ffffff"><textarea name="user_note" cols="55" rows="6" style="border:1px solid #ccc;">{$order.user_note|escape}</textarea></td>
+            </tr>
+          </table>
+          <table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#dddddd">
+            <tr align="center">
+              <td bgcolor="#ffffff"  colspan="3" align="left">{$lang.payment}:</td>
+            </tr>
+            <tr align="center">
+              <td bgcolor="#ffffff">{$lang.pay_name}</td>
+              <td bgcolor="#ffffff" width="60%">{$lang.pay_desc}</td>
+              <td bgcolor="#ffffff" width="17%">{$lang.pay_fee}</td>
+            </tr>
+            <!-- {foreach from=$payment item=list} -->
+            <tr>
+              <td bgcolor="#ffffff" align="left">
+              <input type="radio" name="payment_id" value="{$list.pay_id}" />{$list.pay_name}</td>
+              <td bgcolor="#ffffff" align="left">{$list.pay_desc}</td>
+              <td bgcolor="#ffffff" align="center">{$list.pay_fee}</td>
+            </tr>
+            <!-- {/foreach} -->
+            <tr>
+        <td bgcolor="#ffffff" colspan="3"  align="center">
+        <input type="hidden" name="surplus_type" value="0" />
+          <input type="hidden" name="rec_id" value="{$order.id}" />
+          <input type="hidden" name="act" value="act_account" />
+          <input type="submit" class="bnt_blue_1" name="submit" value="{$lang.submit_request}" />
+          <input type="reset" class="bnt_blue_1" name="reset" value="{$lang.button_reset}" />
+        </td>
+      </tr>
+          </table>
+        </form>
+        <!-- {/if} -->
+        <!-- {if $action eq "act_account"} -->
+        <table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#dddddd">
+          <tr>
+            <td width="25%" align="right" bgcolor="#ffffff">{$lang.surplus_amount}</td>
+            <td width="80%" bgcolor="#ffffff">{$amount}</td>
+          </tr>
+          <tr>
+            <td align="right" bgcolor="#ffffff">{$lang.payment_name}</td>
+            <td bgcolor="#ffffff">{$payment.pay_name}</td>
+          </tr>
+          <tr>
+            <td align="right" bgcolor="#ffffff">{$lang.payment_fee}</td>
+            <td bgcolor="#ffffff">{$pay_fee}</td>
+          </tr>
+          <tr>
+            <td align="right" valign="middle" bgcolor="#ffffff">{$lang.payment_desc}</td>
+            <td bgcolor="#ffffff">{$payment.pay_desc}</td>
+          </tr>
+          <tr>
+            <td colspan="2" bgcolor="#ffffff">{$payment.pay_button}</td>
+          </tr>
+        </table>
+        <!-- {/if} -->
+       <!-- {if $action eq "account_detail"} -->
+        <table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#dddddd">
+          <tr align="center">
+            <td bgcolor="#ffffff">{$lang.process_time}</td>
+            <td bgcolor="#ffffff">{$lang.surplus_pro_type}</td>
+            <td bgcolor="#ffffff">{$lang.money}</td>
+            <td bgcolor="#ffffff">{$lang.change_desc}</td>
+          </tr>
+          <!--{foreach from=$account_log item=item}-->
+          <tr>
+            <td align="center" bgcolor="#ffffff">{$item.change_time}</td>
+            <td align="center" bgcolor="#ffffff">{$item.type}</td>
+            <td align="right" bgcolor="#ffffff">{$item.amount}</td>
+            <td bgcolor="#ffffff" title="{$item.change_desc}">&nbsp;&nbsp;{$item.short_change_desc}</td>
+          </tr>
+          <!--{/foreach}-->
+          <tr>
+            <td colspan="4" align="center" bgcolor="#ffffff"><div align="right">{$lang.current_surplus}{$surplus_amount}</div></td>
+          </tr>
+        </table>
+        <!-- #BeginLibraryItem "/library/pages.lbi" --><!-- #EndLibraryItem -->
+        <!-- {/if} -->
+        <!-- {if $action eq "account_log"} -->
+        <table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#dddddd">
+          <tr align="center">
+            <td bgcolor="#ffffff">{$lang.process_time}</td>
+            <td bgcolor="#ffffff">{$lang.surplus_pro_type}</td>
+            <td bgcolor="#ffffff">{$lang.money}</td>
+            <td bgcolor="#ffffff">{$lang.process_notic}</td>
+            <td bgcolor="#ffffff">{$lang.admin_notic}</td>
+            <td bgcolor="#ffffff">{$lang.is_paid}</td>
+            <td bgcolor="#ffffff">{$lang.handle}</td>
+          </tr>
+          <!--{foreach from=$account_log item=item}-->
+          <tr>
+            <td align="center" bgcolor="#ffffff">{$item.add_time}</td>
+            <td align="left" bgcolor="#ffffff">{$item.type}</td>
+            <td align="right" bgcolor="#ffffff">{$item.amount}</td>
+            <td align="left" bgcolor="#ffffff">{$item.short_user_note}</td>
+            <td align="left" bgcolor="#ffffff">{$item.short_admin_note}</td>
+            <td align="center" bgcolor="#ffffff">{$item.pay_status}</td>
+            <td align="right" bgcolor="#ffffff">{$item.handle}
+              <!-- {if ($item.is_paid eq 0 && $item.process_type eq 1) || $item.handle} -->
+              <a href="user.php?act=cancel&id={$item.id}" onclick="if (!confirm('{$lang.confirm_remove_account}')) return false;">{$lang.is_cancel}</a>
+              <!-- {/if} -->
+                            </td>
+          </tr>
+          <!--{/foreach}-->
+          <tr>
+            <td colspan="7" align="right" bgcolor="#ffffff">{$lang.current_surplus}{$surplus_amount}</td>
+          </tr>
+        </table>
+        <!-- #BeginLibraryItem "/library/pages.lbi" --><!-- #EndLibraryItem -->
+      <!-- {/if} -->
+      <!--#会员余额 end-->
+      <!--#收货地址页面 -->
+      <!--{if $action eq 'address_list'} -->
+         {* 包含脚本文件 *}
+<div class="right_pc">
+    <div class="r_bt_pc">
+       <span>寄送地址</span><em>Ship-to address</em>
+    </div>
+    <div class="bdgl_xq">
+   <div class="tjlxr_pc"><span><img src="/images/tjr.jpg" alt="新增寄送地址"/><a href="user.php?act=address_info" title="新增寄送地址" />新增寄送地址</a></span></div> 
+   <div style="clear:both;"></div> 
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+  <tr class="bt_b">
+    <td width="11%">收货人</td>
+    <td width="41%">地址</td>
+    <td width="13%">邮编</td>
+    <td width="15%">联系方式</td>
+    <td width="20%">操作</td>
+  </tr>
+  <!-- {foreach from=$consignee_list item=consignee} -->
+  <tr>
+    <td>{$consignee.consignee}</td>
+    <td>{$consignee.address}</td>
+    <td>{$consignee.zipcode}</td>
+    <td>{$consignee.mobile}</td>
+    <td><a href="user.php?act=drop_consignee&id={$consignee.address_id}">删除</a>  <a href="user.php?act=address_info&id={$consignee.address_id}">修改</a>
+     {if $consignee.address_id == $address}<font color="#FF0000">默认</font>{/if}</td>
+  </tr>
+  <!-- {/foreach} -->
+</table>
+    </div>
+</div>
+      <!--{/if} -->
+
+<!--#收货地址详情 -->
+<!--{if $action eq 'address_info'} --> 
+{insert_scripts files="transport.js,region.js"}
+<div class="right_pc">
+    <div class="r_bt_pc">
+       <span>寄送地址</span><em>Ship-to address</em>
+    </div>
+    <div class="bdgl_xq">
+<form id="formSurplus" method="post" action="user.php">
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+  <tr class="bt_b">
+    <td colspan="2"><strong>添加/修改寄送地址</strong></td>
+    </tr>
+  <tr>
+    <td width="23%" class="td_r" align="right" style=" text-align:right;">* 收货人</td>
+    <td width="77%" class="td_l" style=" text-align:left;">
+      <input class="text_ge" type="text" name="consignee" id="consignee" value="{$address_info.consignee}" />
+    </td>
+  </tr>
+  <tr>
+    <td class="td_r" align="right" style=" text-align:right;">* 地区</td>
+    <td class="td_l" style=" text-align:left;"><span class="td_l" style=" text-align:left;"><span class="td_l" style=" text-align:left;">
+      <select name="country" id="selCountries" onchange="region.changed(this, 1, 'selProvinces')" style="display:none">
+          <option value="1">中国</option>
+      </select>
+        <select name="province" id="selProvinces" onchange="region.changed(this, 2, 'selCities')">
+          <option value="0">请选择省</option>
+          <!-- {foreach from=$province_list item=province} -->
+                  <option value="{$province.region_id}" {if $address_info.province eq $province.region_id}selected{/if}>{$province.region_name}</option>
+          <!-- {/foreach} -->
+        </select>
+        <select name="city" id="selCities" onchange="region.changed(this, 3, 'selDistricts')">
+          <option value="0">请选择市</option>
+          <!-- {foreach from=$city_list item=province} -->
+                  <option value="{$province.region_id}" {if $address_info.city eq $province.region_id}selected{/if}>{$province.region_name}</option>
+          <!-- {/foreach} -->
+        </select>
+        <select name="district" id="selDistricts">
+          <option value="0">请选择区</option>
+          <!-- {foreach from=$district_list item=province} -->
+                  <option value="{$province.region_id}" {if $address_info.district eq $province.region_id}selected{/if}>{$province.region_name}</option>
+          <!-- {/foreach} -->
+        </select>
+      </span></span></td>
+  </tr>
+  <tr>
+    <td class="td_r" align="right" style=" text-align:right;">*街道地址</td>
+    <td class="td_l" style=" text-align:left;"><input class="text_ge" type="text" name="address" id="address" value="{$address_info.address}" /></td>
+  </tr>
+  <tr>
+    <td class="td_r" align="right" style=" text-align:right;">* 邮编</td>
+    <td class="td_l" style=" text-align:left;"><input class="text_ge" type="text" name="zipcode" id="zipcode" value="{$address_info.zipcode}" /></td>
+  </tr>
+  <tr>
+    <td class="td_r" align="right" style=" text-align:right;">* 手机</td>
+    <td class="td_l" style=" text-align:left;"><span class="td_l" style=" text-align:left;">
+      <input class="text_ge" type="text" name="mobile" id="mobile" value="{$address_info.mobile}" />
+      </span></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center">
+      默认地址<input type="checkbox" name="defalut" value="1" {if $address_info.address_id == $address}checked="checked"{/if} />
+    </td>
+  </tr>
+  <input type="hidden" name="act" value="act_edit_address" />
+  <input type="hidden" name="address_id" value="{$address_info.address_id}" />
+</table>
+</form>
+    <div class="tj_pc"> 
+      <a href="javascript:document.getElementById('formSurplus').submit();" title="提  交" >提  交</a>
+    </div>    
+    </div>
+</div>
+<script>
+region.isAdmin = true;
+if(!"{$address_info.address_id}"){
+	$("#selCountries").change();
+}
+</script>
+<!--{/if} -->
+
+
+    <!--#收货地址添加页面 -->
+      <!--* 积分兑换-->
+       <!--{if $action eq 'transform_points'} -->
+       <h5><span>{$lang.transform_points}</span></h5>
+             <div class="blank"></div>
+       <!--{if $exchange_type eq 'ucenter'}-->
+        <form action="user.php" method="post" name="transForm" onsubmit="return calcredit();">
+       <table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#dddddd">
+                <tr>
+                    <th width="120" bgcolor="#FFFFFF" align="right" valign="top">{$lang.cur_points}:</th>
+                    <td bgcolor="#FFFFFF">
+                    <label for="pay_points">{$lang.exchange_points.1}:</label><input type="text" size="15" id="pay_points" name="pay_points" value="{$shop_points.pay_points}" style="border:0;border-bottom:1px solid #DADADA;" readonly="readonly" /><br />
+                    <div class="blank"></div>
+                    <label for="rank_points">{$lang.exchange_points.0}:</label><input type="text" size="15" id="rank_points" name="rank_points" value="{$shop_points.rank_points}" style="border:0;border-bottom:1px solid #DADADA;" readonly="readonly" />
+                    </td>
+                    </tr>
+          <tr><td bgcolor="#FFFFFF">&nbsp;</td>
+          <td bgcolor="#FFFFFF">&nbsp;</td>
+          </tr>
+          <tr>
+            <th align="right" bgcolor="#FFFFFF"><label for="amount">{$lang.exchange_amount}:</label></th>
+            <td bgcolor="#FFFFFF"><input size="15" name="amount" id="amount" value="0" onkeyup="calcredit();" type="text" />
+                <select name="fromcredits" id="fromcredits" onchange="calcredit();">
+                  {html_options options=$lang.exchange_points selected=$selected_org}
+                </select>
+            </td>
+          </tr>
+          <tr>
+            <th align="right" bgcolor="#FFFFFF"><label for="desamount">{$lang.exchange_desamount}:</label></th>
+            <td bgcolor="#FFFFFF"><input type="text" name="desamount" id="desamount" disabled="disabled" value="0" size="15" />
+              <select name="tocredits" id="tocredits" onchange="calcredit();">
+                {html_options options=$to_credits_options selected=$selected_dst}
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <th align="right" bgcolor="#FFFFFF">{$lang.exchange_ratio}:</th>
+            <td bgcolor="#FFFFFF">1 <span id="orgcreditunit">{$orgcreditunit}</span> <span id="orgcredittitle">{$orgcredittitle}</span> {$lang.exchange_action} <span id="descreditamount">{$descreditamount}</span> <span id="descreditunit">{$descreditunit}</span> <span id="descredittitle">{$descredittitle}</span></td>
+          </tr>
+          <tr><td bgcolor="#FFFFFF">&nbsp;</td>
+          <td bgcolor="#FFFFFF"><input type="hidden" name="act" value="act_transform_ucenter_points" /><input type="submit" name="transfrom" value="{$lang.transform}" /></td></tr>
+  </table>
+        </form>
+       <script type="text/javascript">
+        {foreach from=$lang.exchange_js item=lang_js key=key}
+        var {$key} = '{$lang_js}';
+        {/foreach}
+
+        var out_exchange_allow = new Array();
+        {foreach from=$out_exchange_allow item=ratio key=key}
+        out_exchange_allow['{$key}'] = '{$ratio}';
+        {/foreach}
+
+        function calcredit()
+        {
+            var frm = document.forms['transForm'];
+            var src_credit = frm.fromcredits.value;
+            var dest_credit = frm.tocredits.value;
+            var in_credit = frm.amount.value;
+            var org_title = frm.fromcredits[frm.fromcredits.selectedIndex].innerHTML;
+            var dst_title = frm.tocredits[frm.tocredits.selectedIndex].innerHTML;
+            var radio = 0;
+            var shop_points = ['rank_points', 'pay_points'];
+            if (parseFloat(in_credit) > parseFloat(document.getElementById(shop_points[src_credit]).value))
+            {
+                alert(balance.replace('{%s}', org_title));
+                frm.amount.value = frm.desamount.value = 0;
+                return false;
+            }
+            if (typeof(out_exchange_allow[dest_credit+'|'+src_credit]) == 'string')
+            {
+                radio = (1 / parseFloat(out_exchange_allow[dest_credit+'|'+src_credit])).toFixed(2);
+            }
+            document.getElementById('orgcredittitle').innerHTML = org_title;
+            document.getElementById('descreditamount').innerHTML = radio;
+            document.getElementById('descredittitle').innerHTML = dst_title;
+            if (in_credit > 0)
+            {
+                if (typeof(out_exchange_allow[dest_credit+'|'+src_credit]) == 'string')
+                {
+                    frm.desamount.value = Math.floor(parseFloat(in_credit) / parseFloat(out_exchange_allow[dest_credit+'|'+src_credit]));
+                    frm.transfrom.disabled = false;
+                    return true;
+                }
+                else
+                {
+                    frm.desamount.value = deny;
+                    frm.transfrom.disabled = true;
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+       </script>
+       <!--{else}-->
+        <b>{$lang.cur_points}:</b>
+        <table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#dddddd">
+          <tr>
+            <td width="30%" valign="top" bgcolor="#FFFFFF"><table border="0">
+              <!--{foreach from=$bbs_points item=points}-->
+              <tr>
+                <th>{$points.title}:</th>
+                <td width="120" style="border-bottom:1px solid #DADADA;">{$points.value}</td>
+              </tr>
+              <!--{/foreach} -->
+            </table></td>
+            <td width="50%" valign="top" bgcolor="#FFFFFF"><table>
+                    <tr>
+                <th>{$lang.pay_points}:</th>
+                <td width="120" style="border-bottom:1px solid #DADADA;">{$shop_points.pay_points}</td>
+                    </tr>
+              <tr>
+                <th>{$lang.rank_points}:</th>
+                <td width="120" style="border-bottom:1px solid #DADADA;">{$shop_points.rank_points}</td>
+              </tr>
+            </table></td>
+          </tr>
+        </table>
+        <br />
+        <b>{$lang.rule_list}:</b>
+        <ul class="point clearfix">
+          <!-- {foreach from=$rule_list item=rule} -->
+          <li><font class="f1">·</font>"{$rule.from}" {$lang.transform} "{$rule.to}" {$lang.rate_is} {$rule.rate}
+          <!-- {/foreach} -->
+        </ul>
+
+        <form action="user.php" method="post" name="theForm">
+        <table width="100%" border="1" align="center" cellpadding="5" cellspacing="0" style="border-collapse:collapse;border:1px solid #DADADA;">
+          <tr style="background:#F1F1F1;">
+            <th>{$lang.rule}</th>
+            <th>{$lang.transform_num}</th>
+            <th>{$lang.transform_result}</th>
+          </tr>
+          <tr>
+            <td>
+              <select name="rule_index" onchange="changeRule()">
+                <!--{foreach from=$rule_list item=rule key=key}-->
+                <option value="{$key}">{$rule.from}->{$rule.to}</option>
+                <!--{/foreach}-->
+              </select>
+          </td>
+          <td>
+            <input type="text" name="num" value="0" onkeyup="calPoints()"/>
+          </td>
+          <td><span id="ECS_RESULT">0</span></td>
+          </tr>
+          <tr>
+            <td colspan="3" align="center"><input type="hidden" name="act" value="act_transform_points"  /><input type="submit" value="{$lang.transform}" /></td>
+          </tr>
+        </table>
+        </form>
+       <script type="text/javascript">
+          //<![CDATA[
+            var rule_list = new Object();
+            var invalid_input = '{$lang.invalid_input}';
+            {foreach from=$rule_list item=rule key=key}
+            rule_list['{$key}'] = '{$rule.rate}';
+            {/foreach}
+            function calPoints()
+            {
+              var frm = document.forms['theForm'];
+              var rule_index = frm.elements['rule_index'].value;
+              var num = parseInt(frm.elements['num'].value);
+              var rate = rule_list[rule_index];
+
+              if (isNaN(num) || num < 0 || num != frm.elements['num'].value)
+              {
+                document.getElementById('ECS_RESULT').innerHTML = invalid_input;
+                rerutn;
+              }
+              var arr = rate.split(':');
+              var from = parseInt(arr[0]);
+              var to = parseInt(arr[1]);
+
+              if (from <=0 || to <=0)
+              {
+                from = 1;
+                to = 0;
+              }
+              document.getElementById('ECS_RESULT').innerHTML = parseInt(num * to / from);
+            }
+
+            function changeRule()
+            {
+              document.forms['theForm'].elements['num'].value = 0;
+              document.getElementById('ECS_RESULT').innerHTML = 0;
+            }
+          //]]>
+       </script>
+       <!--{/if}-->
+        <!--{/if} -->
+        <!--#积分兑换 -->
+<!--{if $action neq 'order_detail'}-->
+  </div>
+  <!--right end-->
+</div>
+<!--{/if}-->
+<div class="blank"></div>
+<!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
+</body>
+<script type="text/javascript">
+{foreach from=$lang.clips_js item=item key=key}
+var {$key} = "{$item}";
+{/foreach}
+</script>
+</html>

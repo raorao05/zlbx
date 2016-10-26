@@ -1,0 +1,27 @@
+{include file='header.html'}
+<!--导航 -->
+<div class="container top-menu">
+	<a href="javascript:history.back(-1)"><span class="glyphicon glyphicon-chevron-left" style="font-size:2rem;"></span></a>
+	<div class="cf-title" id="fd-caidan">汽车服务</div>
+	<div data-toggle="dropdown" href="#3" style="display:none;"><span class="glyphicon glyphicon-align-justify"style="font-size:2rem;"></span></div>
+	<ul class="dropdown-menu izl-fmenu" role="menu" aria-labelledby="dLabel" style="right:0; width:30%; left:auto">
+		<li><A href="">我的订单</A></li>
+		<li><A href="">我的视频</A></li>
+		<li><A href="">我的视频</A></li>
+	</ul>
+</div>
+
+<div class="bg-hight"></div>
+<!--内容 -->
+<section class="gyzl-box">
+	<ul>
+		<li><a href="article_gyzl.php?id=49"><span class="icon-img"><img src="/images/icon-05.png"></span><span>汽车保险综合服务</span></a></li>
+		<li><a href="article_gyzl.php?id=18"><span class="icon-img"><img src="/images/icon-06.png"></span><span>新车代购综合服务</span></a></li>
+		<li><a href="article_gyzl.php?id=19"><span class="icon-img"><img src="/images/icon-07.png"></span><span>汽车融资租赁综合服务</span></a></li>
+		<li><a href="article_gyzl.php?id=20"><span class="icon-img"><img src="/images/icon-08.png"></span><span>增值服务</span></a></li>
+		<li><a href="article_gyzl.php?id=50"><span class="icon-img"><img src="/images/icon-09.png"></span><span>二手车综合服务</span></a></li>
+		<li><a href="article_cat.php?id=11"><span class="icon-img"><img src="/images/icon-10.png"></span><span>服务网点</span></a></li>
+	</ul>
+</section>
+
+{include file='footer.html'}

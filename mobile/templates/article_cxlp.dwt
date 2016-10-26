@@ -1,0 +1,27 @@
+{include file='header.html'}
+<style type="text/css">
+	img{width: 100%;}
+</style>
+<!--导航 -->
+<div class="container top-menu">
+	<a href="javascript:history.back(-1)"><span class="glyphicon glyphicon-chevron-left" style="font-size:2rem;"></span></a>
+	<div class="cf-title" id="fd-caidan">{$article.title}</div>
+	<div data-toggle="dropdown" href="#3" style="display:none;"><span class="glyphicon glyphicon-align-justify"style="font-size:2rem;"></span></div>
+	<ul class="dropdown-menu izl-fmenu" role="menu" aria-labelledby="dLabel" style="right:0; width:30%; left:auto">
+		<li><A href="">我的订单</A></li>
+		<li><A href="">我的视频</A></li>
+		<li><A href="">我的视频</A></li>
+	</ul>
+</div>
+
+<div class="bg-hight"></div>
+<!--内容 -->
+<article>
+	<div class="bxxyxq-box">
+		<div class="text">
+			{$article.content}
+		</div>
+
+	</div>
+</article>
+{include file='footer.html'}

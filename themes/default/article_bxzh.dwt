@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+
+<title>{$page_title}</title>
+
+<link href="/css/w_css.css" type="text/css" rel="stylesheet" />
+<script src="/js/jquery.min.js.js"></script>
+<script src="/js/w_index.js"></script>
+<script type="text/javascript" src="/js/tab.js"></script>
+{* 包含脚本文件 *}
+{insert_scripts files='common.js'}
+</head>
+<body>
+<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
+<div class="w_center"> 
+   <!--当前位置-->
+   <div class="w_dqwz">
+    <!-- #BeginLibraryItem "/library/ur_here.lbi" --><!-- #EndLibraryItem -->
+   </div>
+   <div class="w_bxxy_l">
+     <div class="w_bxxyl_1">
+	   <h2>{$catname}</h2>
+	   <ul class="w_bxxyl_1l">
+	    {foreach from=$cat_list item=cats}
+           <li {if $cats.article_id == $article.article_id}class="w_bxxyl_1l_1"{/if}><a href="article.php?id={$cats.article_id}" title="{$cats.title}">{$cats.title}<i></i></a></li>
+        {/foreach}
+        {foreach from=$cat_info item=cats}
+           <li {if $cats.cat_id == $article.cat_id}class="w_bxxyl_1l_1"{/if}><a href="article_cat.php?id={$cats.cat_id}" title="{$cats.cat_name}">{$cats.cat_name}<i></i></a></li>
+        {/foreach}
+	   </ul>
+	 </div>
+   </div>
+   <div class="w_qcfw_r">
+     <div class="w_bxzh_tit">
+	   <span class="w_bxzh_s" id="wx1" onmouseover="setTab('wx',1,3,'w_bxzh_s')"><i></i>了解车险</span>
+	   <span id="wx2" onmouseover="setTab('wx',2,3,'w_bxzh_s')"><i></i>理赔服务</span>
+	   <span id="wx3" onmouseover="setTab('wx',3,3,'w_bxzh_s')"><i></i>合作保险公司</span>                                          
+	 </div>
+     
+     <div class="w_bxzh_n"  id="con_wx_1" style="display: block;">{$article.content}</div>
+     <div class="w_bxzh_n"  id="con_wx_2" style="display:none;">{$article.lipei}</div>
+     <div class="w_bxzh_n"  id="con_wx_3" style="display:none;">{$article.hzbx}</div>
+   </div> 
+
+</div>
+
+<!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
+</body>
+</html>

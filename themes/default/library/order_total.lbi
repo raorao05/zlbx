@@ -1,0 +1,5 @@
+<meta http-equiv="Content-Type" content="text/html; charset=gbk">
+{insert_scripts files='transport.org.js,utils.js'}
+<i id="ECS_ORDERTOTAL">
+    {$total.amount_formated}
+</i>

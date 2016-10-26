@@ -1,0 +1,129 @@
+{include file='header.html'}
+<script type="text/javascript">
+    $(document).ready(function(){
+        $(".main_visual").hover(function(){
+            $("#btn_prev,#btn_next").fadeIn()
+        },function(){
+            $("#btn_prev,#btn_next").fadeOut()
+        });
+        $dragBln = false;
+        $(".main_image").touchSlider({
+            flexible : true,
+            speed : 200,
+            btn_prev : $("#btn_prev"),
+            btn_next : $("#btn_next"),
+            paging : $(".flicking_con a"),
+            counter : function (e){
+                $(".flicking_con a").removeClass("on").eq(e.current-1).addClass("on");
+            }
+        });
+
+        $(".main_image").bind("mousedown", function() {
+            $dragBln = false;
+        });
+
+        $(".main_image").bind("dragstart", function() {
+            $dragBln = true;
+        });
+
+        $(".main_image a").click(function(){
+            if($dragBln) {
+                return false;
+            }
+        });
+
+        timer = setInterval(function(){
+            $("#btn_next").click();
+        }, 5000);
+
+        $(".main_visual").hover(function(){
+            clearInterval(timer);
+        },function(){
+            timer = setInterval(function(){
+                $("#btn_next").click();
+            },5000);
+        });
+
+        $(".main_image").bind("touchstart",function(){
+            clearInterval(timer);
+        }).bind("touchend", function(){
+            timer = setInterval(function(){
+                $("#btn_next").click();
+            }, 5000);
+        });
+
+    });
+</script>
+<body>
+<!--/* 头部 * / -->
+<div class="container izl-head">
+    <div class="izl-logo izl-left"><h1><img src="/images/izl-logo.png"></h1></div>
+    <div class="izl-bar izl-right"><a href="tel:0731-82808053"><img src="/images/izl-icon-bh.png"></a></div>
+    <div class="clearfix"></div>
+</div>
+
+<div class="bg-color">
+
+    <!--/*焦点图片*/ -->
+    <div class="main_visual">
+        <div class="flicking_con">
+            {foreach from=$ad item=ads key=k}
+            <a href="#">{$k}</a>
+            {/foreach}
+        </div>
+        <div class="main_image">
+            <ul>
+                {foreach from=$ad item=ads key=k}
+                <li><a href="{$ads.ad_link}" target="_blank"><img id="lunbo_{$k}" src="/data/afficheimg/{$ads.ad_code}" /></a> </li>
+                {/foreach}
+            </ul>
+            <a href="javascript:;" id="btn_prev"></a>
+            <a href="javascript:;" id="btn_next"></a>
+        </div>
+    </div>
+
+
+    <!--导航 -->
+    <div class="izl-nav">
+        <ul class="row ">
+            <li class="col-xs-4"><a href="category.php?c_id=1"><span class="izl-icon1"></span><p>汽车保险</p></a></li>
+            <li class="col-xs-4"><a href="goods.php"><span class="izl-icon2"></span><p>保险产品</p></a></li>
+            <li class="col-xs-4"><a href="article.php?act2=gy"><span class="izl-icon3"></span><p>关于中联</p></a></li>
+            <li class="col-xs-4"><a href="article_cat.php?id=10"><span class="izl-icon4"></span><p>汽车服务</p></a></li>
+            <li class="col-xs-4"><a href="article_cat.php?id=29&act2=lp"><span class="izl-icon5"></span><p>理赔服务</p></a></li>
+            <li class="col-xs-4"><a href="article_cat.php?id=12"><span class="izl-icon6"></span><p>保险学院</p></a></li>
+        </ul>
+    </div>
+    <!--新闻中心 -->
+    <div class="izl-news">
+        <h2><p>新闻中心</p></h2>
+        <ul>
+            {foreach from=$new item=new}
+            <li>
+                <div class="izl-photo izl-left"><span><a href="article.php?id={$new.article_id}"><img src="/{$new.file_url}"></a></span></div>
+                <div class="izl-text izl-right">
+                    <a href="article.php?id={$new.article_id}">
+                        <h3><span class="izl-time izl-right">{$new.add_time}</span>{$new.title|truncate:8}</h3>
+                        <p>{$new.description|truncate:25} </p>
+                    </a>
+                </div>
+                <div class="clearfix"></div>
+            </li>
+            {/foreach}
+        </ul>
+    </div>
+    <!--合作伙伴 -->
+    <div class="izl-hzhb">
+        <h2><p>合作伙伴</p></h2>
+        <ul class="row">
+            {foreach from=$link_list item=link key=k name=link}
+            <li class="col-xs-4"><a href="#"><span><img src="{$link.link_logo}" alt="{$link.name}"></span></a></li>
+            {/foreach}
+        </ul>
+        <div class="clearfix"></div>
+    </div>
+    <!-- <div class="izl-place"></div> -->
+
+
+</div>
+{include file='footer.html'}

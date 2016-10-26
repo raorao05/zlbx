@@ -1,0 +1,69 @@
+{include file='header.html'}
+<script type="text/javascript" src="/js/transport.js"></script>
+<script type="text/javascript" src="/js/region.js"></script>
+<script type="text/javascript" src="/js/common.js"></script>
+<div class="container top-menu">
+    <a href="javascript:history.back(-1)"><span class="glyphicon glyphicon-chevron-left" style="font-size:2rem;"></span></a>
+    <div class="cf-title" id="fd-caidan">服务网点</div>
+    <div data-toggle="dropdown" href="#3"><span class="glyphicon glyphicon-align-justify"style="font-size:2rem;"></span></div>
+    <ul class="dropdown-menu izl-fmenu" role="menu" aria-labelledby="dLabel" style="right:0; width:30%; left:auto">
+        <li><A href="">我的订单</A></li>
+        <li><A href="">我的视频</A></li>
+        <li><A href="">我的视频</A></li>
+    </ul>
+</div>
+
+<div class="fwwd-xz">
+    <span>筛选：</span>
+    <select name="country" id="selCountries" onchange="region.changed(this, 1, 'selProvinces')" style="display:none;">
+        <option value="1">中国</option>
+    </select>
+    <select name="province" id="selProvinces" onchange="region.changed(this, 2, 'selCities')">
+        <option value="0">请选择省</option>
+    </select>
+    <select name="city" id="selCities" onchange="region.changed(this, 3, 'selDistricts')">
+        <option value="0">请选择市</option>
+    </select>
+    <select name="district" id="selDistricts">
+        <option value="0">请选择区</option>
+    </select>
+    <input type="button" value="搜索" onclick="sousuo();" />
+</div>
+<!--内容 -->
+<article>
+    <div class="fwwd-box">
+        <div class="tip">服务网点<span class="en">/Service outlets</span></div>
+        <div class="text fwwd">
+            <ul class="fwwd-list">
+                <!-- {foreach from=$artciles_list item=article} -->
+                <li>
+                    <p class="col-xs-3 photo"><a href="#3"><img src="/{$article.file_url}"></a></p>
+                    <article>
+                        <div class="col-xs-9 text">
+                            <a href="#3">
+                                <h3>{$article.title}</h3>
+                                <p>联系电话:{$article.tel}</p>
+                                <p>地址:{$article.address}</p>
+                                <p>服务项目:{$article.fwxm}</p>
+                            </a>
+                        </div>
+                    </article>
+                </li>
+                <!-- {/foreach} -->
+            </ul>
+        </div>
+        <div class="look-more"><a href="#3">查看更多</a></div>
+
+    </div>
+</article>
+
+{include file='footer.html'}
+<script>
+    region.isAdmin = true;
+    $("#selCountries").change();
+
+    function sousuo(){
+        var id=$("#selDistricts").val();
+        document.location.href='article_cat.php?id={$cat_id}&district_id='+id;
+    }
+</script>

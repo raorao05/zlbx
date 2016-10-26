@@ -1,0 +1,67 @@
+/* CSS Document */
+@charset "utf-8";
+* {margin: 0;padding: 0;}
+html,body{-webkit-text-size-adjust:none;}
+body, nav, dl, dt, dd, p, h1, h2, h3, h4, ul, ol, li, input, button, textarea, footer {margin: 0;padding: 0;}
+.dis{ display:none;}
+em,i{ font-style:normal;}
+body {
+font-family:'Microsoft YaHei','微软雅黑', "SimSun",Arial,sans-serif;	margin:0 auto;color: #333;font-size:100%;/*background:#f6f6f6;*/ -webkit-text-size-adjust: none;min-width: 320px;overflow-x:hidden;width:100%; height:auto; position:relative;}
+h1, h2, h3, h4, h5, h6 {font-size: 100%}
+form {display: inline;}
+ul, ol {list-style: none;}
+a {text-decoration: none;color: #333
+}
+a:hover, a:active, a:focus {color: #377cce;text-decoration: none;}
+a:active {color: #aaa;}
+.clear{ clear:both;}
+img {vertical-align: middle;border: 0;-ms-interpolation-mode: bicubic;}
+button, input, select, textarea {font-size: 100%;vertical-align: middle;outline: none;}
+textarea {resize: none;}
+button, input[type="button"], input[type="reset"], input[type="submit"] {cursor: pointer;-webkit-appearance: button;-moz-appearance: button;}
+
+button::-moz-focus-inner, input::-moz-focus-inner {padding:0;border:0;}
+table {border-collapse: collapse;border-spacing: 0;}
+/*reset部分结束*/
+img,object{max-width: 100%;}
+#nobg{ background:none;}
+#nobr{ border:none;}
+.no_left{ margin-top:0 !important;}
+.no_lef11{ margin-left:0 !important;}
+.no_back{ background:none !important;}
+input,label{ vertical-align:middle;}
+.block{ height:15px; width:100%; background:#f6f6f6; border-top:#eeeeee 1px  solid;}
+.w_wap{ max-width:640px; min-width:320px;
+margin:0 auto; font-size:1em;}
+.left{float:left;}
+.right{float:right;}
+.jt_top , .jt_middle , .jt_footer , .jt_footer2{width:100%;}
+.jt_t_con{height:60px;line-height:60px;}
+.fb_m_con , .fb_m_con1  {width:94%;margin:0 3% 0 3%;}
+.jt_t_con , .jt_m_con , .hw_m_con{text-align:center;width:94%;margin:0 3% 0 3%;}
+.jt_m_con{ text-align:left;}
+.jt_middle  .jt_m_con p .jt_sf{ width:25%; display:inline-block;}
+.jt_middle  .jt_m_con .jt_input{ width:73%;}
+.jt_top h3{display:inline-block; font-size:1.3em; font-weight:normal;}
+.jt_top h3 img{ margin-top:10px;}
+.jt_top span img{width:60%;margin-top:50%}
+
+
+/*抽奖大转盘*/
+/* 大转盘样式 */
+.page .banner{display:block;width:96%;margin-left:auto;margin-right:auto;margin-bottom: 20px;}
+.page .banner .turnplate{display:block;width:100%;position:relative; z-index:1;}
+.page .banner .turnplate canvas.item{ width:100%; z-index: -10000;}
+.page .banner .turnplate img.pointer{position:absolute;width:31.5%;height:42.5%;left:34.6%;top:23%; z-index:999999999;}
+
+.page{background:url(../images/activity/lottry.png) no-repeat #fbe081;background-size:100%;}
+.ytzt *{ font-size:0;}
+.rollbox{ /*background:#d5eaff;*/  width:96%; margin:0 2% 0 2%; }
+.roll_box{ padding:48% 0 0 0;}
+.roll_box p a{ display:block; text-align:center; color:#FFF; background:#ba0508; width:150px; height:34px; line-height:34px; margin:32px auto 0; border-radius:24px;}
+.myscroll { width:80%; height:260px; margin:0 auto; overflow: hidden; background:#353535;}
+.myscroll li { height:40px; line-height:40px; border-top:1px dashed #fff; text-align:center; font-size:1.4em; color: #fff;}
+.myscroll a { color: #fff; text-decoration: none;}
+.myscroll a:hover { color: #ED5565; text-decoration: underline;}
+.blank11{ width:100%; height:30px; clear:both;}
+.cj_book{ position:relative; line-height:180%; padding-bottom:10px;}

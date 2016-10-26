@@ -1,0 +1,44 @@
+<!--<meta http-equiv="Content-Type" content="text/html; charset=GBK">
+<div class="userMenu">
+<a href="user.php" {if $action eq 'default'}class="curs"{/if}><img src="../images/u1.gif"> {$lang.label_welcome}</a>
+<a href="user.php?act=profile"{if $action eq 'profile'}class="curs"{/if}><img src="../images/u2.gif"> {$lang.label_profile}</a>
+<a href="user.php?act=order_list"{if $action eq 'order_list'|| $action eq 'order_detail'}class="curs"{/if}><img src="../images/u3.gif"> {$lang.label_order}</a>
+<a href="user.php?act=address_list"{if $action eq 'address_list'}class="curs"{/if}><img src="../images/u4.gif"> {$lang.label_address}</a>
+<a href="user.php?act=collection_list"{if $action eq 'collection_list'}class="curs"{/if}><img src="../images/u5.gif"> {$lang.label_collection}</a>
+<a href="user.php?act=comment_list"{if $action eq 'comment_list'}class="curs"{/if}><img src="../images/u11.gif"> {$lang.label_comment}</a>
+
+<a href="user.php?act=logout" style="background:none; text-align:right; margin-right:10px;"><img src="../images/bnt_sign.gif"></a>
+</div>-->
+<div class="left_top">会员中心</div>
+  <div class="div2">投保管理</div>
+      <div class="div3" {if $action == 'order_list' || $action == 'bd_list'}style="display:block;"{/if}>
+          <ul>
+              <li><a href="user.php?act=order_list" title="订单管理" >订单管理</a></li>
+              <li><a href="user.php?act=bd_list" title="保单管理" >保单管理</a></li>
+          </ul>
+     </div>
+    <div class="div2">账户管理</div>
+      <div class="div3" {if $action == 'profile' || $action == 'address_list' || $action == 'account_security' || $action == 'contacts_list' || $action == 'collection_list'}style="display:block;"{/if}>
+      <ul>
+		<li><a href="user.php?act=profile" title="会员资料" >会员资料</a></li>
+		<li><a href="user.php?act=address_list" title="寄送地址" >寄送地址</a></li>
+        <li><a href="user.php?act=account_security" title="账户安全" >账户安全</a></li>
+		<li><a href="user.php?act=contacts_list" title="常用联系人" >常用联系人</a></li>
+        <li><a href="user.php?act=collection_list" title="我的收藏夹" >我的收藏夹</a></li>
+        </ul>
+  </div>
+    <div class="div2">理赔管理</div>
+      <div class="div3" {if $action == 'claim_list'}style="display:block;"{/if}>
+      <ul>
+		<li><a href="article_cat.php?id=29" title="我要理赔" >我要理赔</a></li>
+		<li><a href="user.php?act=claim_list" title="我的理赔申请" >我的理赔申请</a></li>
+      </ul>
+  </div>
+  <div class="div2">积分/优惠</div>
+      <div class="div3">
+      <ul>
+		<li><a href="" title="" >我的积分</a></li>
+		<li><a href="" title="" >我的优惠券</a></li>
+       </ul>
+     </div>
+  <div class="div2"><span onClick="document.location.href='user.php?act=logout'">安全退出</span></div>

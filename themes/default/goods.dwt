@@ -1,0 +1,264 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=GBK" />
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+
+<title>{$page_title}</title>
+
+<link href="/css/w_css.css" type="text/css" rel="stylesheet" />
+<script src="/js/jquery.min.js.js"></script>
+<script src="/js/w_index.js"></script>
+<script type="text/javascript" src="/js/tab.js"></script>
+<script src="/js/jquery.json-2.4.min.js"></script>
+{insert_scripts files='transport.js,common.js,utils.js'}
+
+{* 包含脚本文件 *}
+{insert_scripts files='common.js'}
+<script type="text/javascript">
+function $id(element) {
+  return document.getElementById(element);
+}
+//切屏--是按钮，_v是内容平台，_h是内容库
+function reg(str){
+  var bt=$id(str+"_b").getElementsByTagName("h2");
+  for(var i=0;i<bt.length;i++){
+    bt[i].subj=str;
+    bt[i].pai=i;
+    bt[i].style.cursor="pointer";
+    bt[i].onclick=function(){
+      $id(this.subj+"_v").innerHTML=$id(this.subj+"_h").getElementsByTagName("blockquote")[this.pai].innerHTML;
+      for(var j=0;j<$id(this.subj+"_b").getElementsByTagName("h2").length;j++){
+        var _bt=$id(this.subj+"_b").getElementsByTagName("h2")[j];
+        var ison=j==this.pai;
+        _bt.className=(ison?"":"h2bg");
+      }
+    }
+  }
+  $id(str+"_h").className="none";
+  $id(str+"_v").innerHTML=$id(str+"_h").getElementsByTagName("blockquote")[0].innerHTML;
+}
+$(document).ready(function () { 
+   var w1 = $(".w_an_l2").height();
+   var txt = w1 + "px" ;
+   $(".w_an_l1").css({ "height": txt, "line-height": txt });
+});
+
+function type_css(id,sid){
+	$("#"+id).click(function(){
+		$("#"+id).find("span").removeClass("w_al_s1");
+		$("#"+sid).find("span").addClass('w_al_s1');
+	});
+}
+</script>
+<style>
+.commentsList{border:1px solid #ccc; background:#f7f7f7; padding:10px; font-size:13px;}
+.commentsList .inputBorder{border:1px solid #ccc; background:#fff;}
+.captcha{margin-left:0px; position:relative; top:-1px; *margin-left:8px; *position:relative; top:3px; cursor:pointer;}
+</style>
+</head>
+<body>
+<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
+<div class="w_center"> 
+   <div class="w_dqwz"><!-- #BeginLibraryItem "/library/ur_here.lbi" --><!-- #EndLibraryItem --></div>
+   <div class="w_alfx">
+     <div class="w_alfx_1">
+	     <h2>{$goods.goods_name}</h2>
+		 <h3>{$goods.goods_brief}</h3>
+	     <div class="w_alfx_1l">
+		   <div class="w_alfx_1l_img"><img src="{$goods.goods_img}" alt="{$goods.goods_name}" /></div>
+		   <div class="w_alfx_1l_1">
+      <div class="bdsharebuttonbox bdshare-button-style0-16" data-bd-bind="1457407242957"><em>分享:</em><a class="bds_more" href="#" data-cmd="more"></a><a class="bds_qzone" title="分享到QQ空间" href="#" data-cmd="qzone"></a><a class="bds_tsina" title="分享到新浪微博" href="#" data-cmd="tsina"></a><a class="bds_tqq" title="分享到腾讯微博" href="#" data-cmd="tqq"></a><a class="bds_renren" title="分享到人人网" href="#" data-cmd="renren"></a><a class="bds_weixin" title="分享到微信" href="#" data-cmd="weixin"></a></div>
+<script>    window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "2", "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {}, "selectShare": { "bdContainerClass": null, "bdSelectMiniList": ["qzone", "tsina", "tqq", "renren", "weixin"]} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];
+</script>
+		   </div>
+		   <div class="w_alfx_1l_2">
+		     <em onclick="javascript:collect({$goods.goods_id});"><i></i>收藏 </em><span>共有（{$collect_num}）人收藏</span>
+		   </div>
+		 </div>
+		 <div class="w_alfx_1r">
+		   <ul>
+		     <li><span>适用人群:</span>{$goods.goods_syrq}</li>
+			 <li><span>承保年龄:</span>{$goods.goods_cbnl}</li>
+			 <li><span>保障期限:</span><label id="bzqx"></label></li>
+			 <li><span>保单形式:</span>{$goods.goods_bdxs}</li>
+			 <li><span>限购份数:</span>{$goods.goods_xgfs}</li>
+			 <li><span>保费:</span><i id="ECS_GOODS_AMOUNT">
+             <!--{if $goods.is_promote and $goods.gmt_end_time } 促销-->{$goods.promote_price}{else}{$goods.shop_price}<!-- {/if} --></i>
+             <em>{$goods.market_price}</em>省：{$goods.js_price}
+             </li>
+		   </ul>
+		   <div class="w_alfx_1r_a">
+		    <a href="javascript:addToCart({$goods.goods_id})" title="立即投保" class="w_alfx_1r_a1"></a>
+			<a href="javascript:addToCart({$goods.goods_id})" title="加入购物车" class="w_alfx_1r_a2"></a>
+		   </div>
+		 </div>
+	 </div>
+	  <div class="clear"></div>
+	 <div class="w_alfx_2">
+	  <div class="w_bxzh_tit">
+	   <span class="w_bxzh_s" id="xj1" onmouseover="setTab('xj',1,4,'w_bxzh_s')"><i></i>产品介绍</span>
+	   <span id="xj2" onmouseover="setTab('xj',2,4,'w_bxzh_s')"><i></i>投保须知</span>
+	   <span id="xj3" onmouseover="setTab('xj',3,4,'w_bxzh_s')"><i></i>案例分享</span> 
+	   <span id="xj4" onmouseover="setTab('xj',4,4,'w_bxzh_s')"><i></i>客户评价（<em>{$comment_num}</em>）</span>                                                                                                    
+	 </div>
+     
+	  <div class="w_anfx_n">
+	    <div id="con_xj_1" style="display:block;">
+	   <div class="w_anfx_n1">
+       <form action="javascript:addToCart({$goods.goods_id})" method="post" name="ECS_FORMBUY" id="ECS_FORMBUY" >
+       <input name="number" type="text" id="number" value="1" style="display:none; "/>
+		  <!-- {* 开始循环所有可选属性 *} -->
+      <!-- {foreach from=$specification item=spec key=spec_key} -->
+      <div class="w_anfx_n1_l1">
+      
+      <div class="w_anfx_n1_l11">{$spec.name}</div>
+        <!-- {* 判断属性是复选还是单选 *} -->
+                    <!-- {if $spec.attr_type eq 1} -->
+                      <!-- {if $cfg.goodsattr_style eq 1} -->
+                        <div class="w_anfx_n1_l12" id="fanhui_{$spec_key}">
+                        <!-- {foreach from=$spec.values item=value key=key name=specification} -->
+                        <label for="spec_value_{$value.id}" id="ccc_{$value.id}" onclick="type_css('fanhui_{$spec_key}','ccc_{$value.id}');">
+                        <input type="radio" name="spec_{$spec_key}" value="{$value.id}" id="spec_value_{$value.id}" {if $key eq 0}checked{/if} onclick="changePrice();" style="display:none;" />
+                        <span {if $smarty.foreach.specification.first}class="w_al_s1"{/if}><i></i>{$value.label}</span></label>
+                        <!-- {/foreach} -->
+                        </div>
+                        <input type="hidden" name="spec_list" value="{$key}" />
+                        <!-- {else} -->
+                        <select name="spec_{$spec_key}" onchange="changePrice()">
+                          <!-- {foreach from=$spec.values item=value key=key} -->
+                          <option label="{$value.label}" value="{$value.id}">{$value.label} {if $value.price gt 0}{$lang.plus}{elseif $value.price lt 0}{$lang.minus}{/if}{if $value.price neq 0}{$value.format_price}{/if}</option>
+                          <!-- {/foreach} -->
+                        </select>
+                        <input type="hidden" name="spec_list" value="{$key}" />
+                      <!-- {/if} -->
+                    <!-- {else} -->
+                      <!-- {foreach from=$spec.values item=value key=key} -->
+                      <label for="spec_value_{$value.id}">
+                      <input type="checkbox" name="spec_{$spec_key}" value="{$value.id}" id="spec_value_{$value.id}" onclick="changePrice()" />
+                      {$value.label} [{if $value.price gt 0}{$lang.plus}{elseif $value.price lt 0}{$lang.minus}{/if} {$value.format_price|abs}] </label><br />
+                      <!-- {/foreach} -->
+                      <input type="hidden" name="spec_list" value="{$key}" />
+                    <!-- {/if} -->
+      </div>
+      <!-- {/foreach} -->
+      <!-- {* 结束循环可选属性 *} -->
+          </form>
+		   <div class="w_anfx_n1_l2">
+		     <div class="w_an_l1">保障内容</div>
+			 <div class="w_an_l2">
+                 {$goods.goods_desc}
+             </div>
+		   </div> 
+		   <div class="w_anfx_n1_l3">
+		   <i id="price_1"><!--{if $goods.is_promote and $goods.gmt_end_time } 促销-->{$goods.promote_price}{else}{$goods.shop_price}<!-- {/if} --></i>
+           <em>{$goods.market_price}</em>省：{$goods.js_price}
+		  </div>
+		 </div> 
+		 <div class="w_alxq_1">
+		   <b>产品解读</b>
+		   {$goods.goods_jd}
+		 </div>
+		 <div class="w_alxq_2">
+		  <b>投保前请仔细阅读</b><a href="" title="保险条款">保险条款</a><a href="" title="不承保地区">不承保地区</a>
+		 </div>
+	  </div>
+	    <div class="w_anfx_n3"   id="con_xj_2" style="display:none;">
+		 <p>{$goods.goods_tbxz}</p>
+		</div>
+	    <div class="w_anfx_n3"   id="con_xj_3" style="display:none;">
+		 <p>{$goods.goods_alfx}</p>
+		</div>
+		<div class="w_anfx_n3" id="con_xj_4" style="display:none;">
+		  {insert_scripts files='transport.js,utils.js'}
+<div id="ECS_COMMENT"> {* ECSHOP 提醒您：动态载入comments_list.lbi，显示评论列表和评论表单 *}{insert name='comments' type=$type id=$id}</div>
+          
+		</div>
+	  </div> 
+	 </div>
+   </div>
+   <div class="w_cplb_r">
+    <div class="w_bxxyl_1">
+	   <h2>热销产品</h2>
+	   <ul class="w_bxxyl_3l">
+        <!--{foreach from=$hot_goods item=r key=k}-->
+        <!-- {if $k < 4} -->
+        <li>
+		  <a href="{$r.url}" title="{$r.name}">
+		   <img src="/{$r.goods_img}" title="{$r.name}" alt="{$r.name}"/>
+		   <p>{$r.short_name}</p>
+		   <span><i>{if $r.promote_price}{$r.promote_price}{else}{$r.shop_price}{/if}</i></span>
+		  </a>
+		</li>
+        <!-- {/if} -->
+        <!--{/foreach}-->
+	   </ul>
+	 </div>
+	 <div class="clear"></div>
+	<div class="w_bxxyl_1">
+	   <h2>相关资讯</h2>
+	   <ul class="w_bxxyl_2l">
+	    <!--{foreach from=$xg_list item=r}-->
+        <li><a href="article.php?id={$r.article_id}" title="{$r.title}">{$r.title}</a></li>
+		<!--{/foreach}-->
+	   </ul>
+	 </div>
+   </div>
+ </div>  
+
+</body>
+<script type="text/javascript">
+var goods_id = {$goods_id};
+var goodsattr_style = {$cfg.goodsattr_style|default:1};
+var gmt_end_time = {$promote_end_time|default:0};
+{foreach from=$lang.goods_js item=item key=key}
+var {$key} = "{$item}";
+{/foreach}
+var goodsId = {$goods_id};
+var now_time = {$now_time};
+
+<!-- {literal} -->
+onload = function(){
+  changePrice();
+  fixpng();
+  try { onload_leftTime(); }
+  catch (e) {}
+}
+
+/**
+ * 点选可选属性或改变数量时修改商品价格的函数
+ */
+function changePrice()
+{
+  var attr = getSelectedAttributes(document.forms['ECS_FORMBUY']);
+  var qty = document.forms['ECS_FORMBUY'].elements['number'].value;
+
+  Ajax.call('goods.php', 'act=price&id=' + goodsId + '&attr=' + attr + '&number=' + qty, changePriceResponse, 'GET', 'JSON');
+}
+
+/**
+ * 接收返回的信息
+ */
+function changePriceResponse(res)
+{
+  if (res.err_msg.length > 0)
+  {
+    alert(res.err_msg);
+  }
+  else
+  {
+    document.forms['ECS_FORMBUY'].elements['number'].value = res.qty;
+    document.getElementById('bzqx').innerHTML = res.bzqx;
+    document.getElementById('price_1').innerHTML = res.result;
+
+    if (document.getElementById('ECS_GOODS_AMOUNT'))
+      document.getElementById('ECS_GOODS_AMOUNT').innerHTML = res.result;
+
+
+  }
+}
+<!-- {/literal} -->
+
+</script>
+</html>

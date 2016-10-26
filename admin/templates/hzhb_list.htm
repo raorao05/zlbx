@@ -1,0 +1,60 @@
+<!-- $Id: link_list.htm 14216 2008-03-10 02:27:21Z testyang $ -->
+{if $full_page}
+{include file="pageheader.htm"}
+{insert_scripts files="../js/utils.js,listtable.js"}
+
+<form method="post" action="" name="listForm">
+<!-- start ads list -->
+<div class="list-div" id="listDiv">
+{/if}
+
+<table cellpadding="3" cellspacing="1">
+  <tr>
+    <th><a href="javascript:listTable.sort('link_name'); ">Ãû³Æ</a>Ãû³Æ</th>
+    <th><a href="javascript:listTable.sort('link_url'); ">Í¼Æ¬</a>Í¼Æ¬</th>
+    <th><a href="javascript:listTable.sort('order'); ">ÅÅÐò</a></th>
+  
+    <th>{$lang.handler}</th>
+  </tr>
+  <tr>
+  {foreach from=$links_list item=link}
+  <tr>
+    <td class="first-cell"><span onclick="listTable.edit(this, 'edit_link_name', {$link.link_id})">{$link.link_name|escape:html}</span></td>
+   
+    <td align="center"><span>{$link.link_logo}</span></td>
+
+  <td class="first-cell"><span onclick="listTable.edit(this, 'edit_order', {$link.link_id})">{$link.link_order|escape:html}</span></td>
+    <td align="center"><span>
+    <a href="hzhb.php?act=edit&id={$link.link_id}" title="{$lang.edit}"><img src="images/icon_edit.gif" border="0" height="16" width="16" /></a>&nbsp;
+    <a href="javascript:;" onclick="if (confirm('{$lang.drop_confirm}')) location.href='hzhb.php?act=remove&id={$link.link_id}';" title="{$lang.remove}"><img src="images/icon_drop.gif" border="0" height="16" width="16" /></a></span></td>
+  </tr>
+  {foreachelse}
+    <tr><td class="no-records" colspan="10">{$lang.no_links}</td></tr>
+  {/foreach}
+  <tr>
+    <td align="right" nowrap="true" colspan="10">{include file="page.htm"}</td>
+  </tr>
+</table>
+
+{if $full_page}
+</div>
+<!-- end ad_position list -->
+</form>
+
+<script type="text/javascript" language="JavaScript">
+  listTable.recordCount = {$record_count};
+  listTable.pageCount = {$page_count};
+
+  {foreach from=$filter item=item key=key}
+  listTable.filter.{$key} = '{$item}';
+  {/foreach}
+  {literal}
+  onload = function()
+  {
+    // ¿ªÊ¼¼ì²é¶©µ¥
+    startCheckOrder();
+  }
+  {/literal}
+</script>
+{include file="pagefooter.htm"}
+{/if}

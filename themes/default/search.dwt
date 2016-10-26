@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=GBK" />
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+
+<title>{$page_title}</title>
+
+<link href="/css/w_css.css" type="text/css" rel="stylesheet" />
+
+<script src="/js/jquery.min.js.js"></script>
+<script src="/js/w_index.js"></script>
+<script type="text/javascript" src="/js/tab.js"></script>
+{* 包含脚本文件 *}
+{insert_scripts files='jquery.js,jquery.json-2.4.min.js'}
+{insert_scripts files='common.js,global.js,compare.js'}
+</head>
+<body>
+<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
+<div class="w_center"> 
+   <div class="w_dqwz"><!-- #BeginLibraryItem "/library/ur_here.lbi" --><!-- #EndLibraryItem --></div>
+   <div class="w_cplb_l">
+	 <div class="w_cplb_l2">
+	   <span class="w_cplb_s1">共{$pager.record_count}个产品</span>
+	   <div class="w_cplb_l2_1">
+	     <b>排序：</b>
+		 <a href="search.php?intro={$intro}&display={$pager.display}&brand={$pager.search.brand}&min_price={$min_price}&max_price={$max_price}&page={$pager.page}&sort=salesnum&order={if $pager.search.sort == 'salesnum' && $pager.search.order == 'DESC'}ASC{else}DESC{/if}#goods_list&keywords={$keywords}" title="销量"><span><i class="w_cplb_is1"></i><i class="w_cplb_ix1"></i>销量</span></a>
+		 <a href="search.php?intro={$intro}&display={$pager.display}&brand={$pager.search.brand}&min_price={$min_price}&max_price={$max_price}&page={$pager.page}&sort=shop_price&order={if $pager.search.sort == 'shop_price' && $pager.search.order == 'ASC'}DESC{else}ASC{/if}#goods_list&keywords={$keywords}" title="价格"><span><i class="w_cplb_is1"></i><i class="w_cplb_ix1"></i>价格</span></a>
+		 <a href="search.php?intro={$intro}&display={$pager.display}&brand={$pager.search.brand}&min_price={$min_price}&max_price={$max_price}&page={$pager.page}&sort=click_count&order={if $pager.search.sort == 'click_count' && $pager.search.order == 'DESC'}ASC{else}DESC{/if}#goods_list&keywords={$keywords}" title="人气"><span><i class="w_cplb_is1"></i><i class="w_cplb_ix1"></i>人气</span></a>
+	   </div>
+	   <div class="w_cplb_l2_2">
+	     <b>价格：</b><input type="text" id="min_price" value="{$pager.search.min_price}" /><i>~</i><input type="text" id="max_price" value="{$pager.search.max_price}" /><i>元</i>
+         <input type="button" value="GO" class="w_jgqy2" onclick="window.location='search.php?intro={$intro}&display={$pager.display}&brand={$pager.search.brand}&min_price='+$('#min_price').val()+'&max_price='+$('#max_price').val()+'&page={$pager.page}&sort={$pager.search.sort}&order={$pager.search.order}#goods_list&keywords={$keywords}'"/>
+	   </div>
+	 </div>
+	 <div class="w_cplb_l3">
+	  <ul>
+	    {foreach from=$goods_list item=goods key=key}
+        <li>
+		  <div class="w_cplb_l3_d">
+		  <a href="{$goods.url}" title="{$goods.goods_name}"><img src="/{$goods.goods_img}" title="{$goods.goods_name}" alt="{$goods.goods_name}"/></a>
+		  <h2><a href="{$goods.url}" title="{$goods.goods_name}">{$goods.goods_name}</a></h2>
+		  <div class="w_cplb_l3_d1">
+		    <span>编号：{$goods.goods_sn}</span>|
+			<span>销量：{$goods.salesnum}份</span>|
+			<span>评价:<i class="w_xx5"></i>5.0分 （<em>7人评价</em>）</span>
+		  </div>
+		  <div class="w_cplb_l3_d2">
+		    {$goods.list_desc}
+		  </div>
+		  </div>
+		  <div class="w_cplb_l3_t">
+		   <a href="{$goods.url}" title="了解详情>>">了解详情>></a>
+		   <i>{$goods.market_price}</i>
+		   <span><em>{$goods.shop_price}</em></span>
+		  </div>
+		</li>
+		{/foreach}
+	  </ul>
+	  <div class="clear"></div>
+	  <div class="w_peag">
+	    <!-- #BeginLibraryItem "/library/pages.lbi" --><!-- #EndLibraryItem -->
+	  </div>
+	 </div>
+   </div>
+   <div class="w_cplb_r">
+    <div class="w_bxxyl_1">
+	   <h2>热销产品</h2>
+	   <ul class="w_bxxyl_3l">
+        <!--{foreach from=$hot_goods item=r key=k}-->
+        <!-- {if $k < 4} -->
+        <li>
+		  <a href="{$r.url}" title="{$r.name}">
+		   <img src="/{$r.goods_img}" title="{$r.name}" alt="{$r.name}"/>
+		   <p>{$r.short_name}</p>
+		   <span><i>{if $r.promote_price}{$r.promote_price}{else}{$r.shop_price}{/if}</i></span>
+		  </a>
+		</li>
+        <!-- {/if} -->
+        <!--{/foreach}-->
+	   </ul>
+	 </div>
+	 <div class="clear"></div>
+	<div class="w_bxxyl_1">
+	   <h2>相关资讯</h2>
+	   <ul class="w_bxxyl_2l">
+	    <!--{foreach from=$xg_list item=r}-->
+        <li><a href="article.php?id={$r.article_id}" title="{$r.title}">{$r.title}</a></li>
+		<!--{/foreach}-->
+	   </ul>
+	 </div>
+   </div>
+ </div> 
+
+
+<!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
+</body>
+</html>

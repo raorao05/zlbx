@@ -1,0 +1,358 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="format-detection" content="telephone=no">
+<meta http-equiv="Expires" CONTENT="-1">
+<meta http-equiv="Cache-Control" CONTENT="no-cache">
+<meta http-equiv="Pragma" CONTENT="no-cache">
+<title>{$page_title}</title>
+
+<link href="/css/w_css.css" type="text/css" rel="stylesheet" />
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+<link href="/css/izl-css.css" rel="stylesheet">
+<script src="/js/jquery-1.9.1.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+
+<script src="/js/jquery.min.js.js"></script>
+<script src="/js/w_index.js"></script>
+<script type="text/javascript" src="/js/tab.js"></script>
+{* 包含脚本文件 *}
+<script src="/js/common.js"></script>
+<script src="/js/user.js"></script>
+<script src="/js/transport.js"></script>
+<script type="text/javascript" src="/js/jquery.json-2.4.min.js"></script>
+</head>
+<!--导航 -->
+<body>
+<div class="container top-menu">
+
+	<div class="cf-title" id="fd-caidan"></div>
+	<div><span class="glyphicon glyphicon-remove"style="font-size:2rem;"></span></div>
+
+</div>
+<!--#登录界面 start-->
+<!-- {if $action eq 'login'} -->
+<div class="bg-hight"></div>
+<div class="izl-login">
+
+
+	<ul id="myTab" class="nav nav-tabs" style="border-bottom:0px;">
+
+		<div class="izl-login-head">
+			<ul>
+				<li class="active"> <a href="user.php?act=login">登录</a>
+				<li><a href="user.php?act=register">注册</a></li>
+			</ul>
+		</div>
+
+		<div id="myTabContent" class="tab-content">
+		<div class="tab-pane fade in active" id="home">
+			<div class="izl-login-box">
+				  <ul>
+				  <form name="formLogin" action="user.php" method="post" onSubmit="return userLogin()">
+					<li>
+					 <span>用户名:</span><input type="text" name="username" />
+					</li>
+					<li>
+					 <span>密码:</span><input type="password" name="password"/>
+					</li>
+					  <div class="izl-textr"><a href="user.php?act=get_password" title="忘记密码">忘记密码？</a></div>
+					  <div class="izl-but"></div>
+					  <span class="izl-but">
+						  <input class="btn btn-warning"  type="submit" value="登录" >
+						</span>
+					<input type="hidden" name="act" value="act_login" />
+					<input type="hidden" name="back_act" value="{$back_act}" />
+				  </form>
+				  </ul>
+			</div>
+		</div>
+<!--{/if}-->
+<!--#登录界面 end-->
+
+<!--*会员注册界面 start-->
+    <!--{if $action eq 'register'}-->
+    <!-- {if $shop_reg_closed eq 1} -->
+    <div class="usBox">
+      <div class="usBox_2 clearfix">
+        <div class="f1 f5" align="center">{$lang.shop_register_closed}</div>
+      </div>
+    </div>
+    <!-- {else} -->
+<script type="text/javascript">
+function g(element){return document.getElementById(element);}
+function ksmssend(){
+	if(!g('mobile').value){
+		alert('手机号码不能为空！');
+		return false;
+	}
+	Ajax.call('user.php?act=sendsms_zc', 'mobile='+g('mobile').value, getksms, 'POST', 'JSON');
+}
+function getksms(data){
+	alert(data.content);
+	if(data.error == 1){
+		countdesc(120);
+	}
+}
+function countdesc(num){
+	if(num<=0){
+		g("sendsms").onclick= function(){
+			ksmssend();
+		};
+		g("sendsms").innerHTML='重新发送信息';
+	}else{
+		num=num-1;
+		g("sendsms").onclick=null;
+		g("sendsms").innerHTML="("+num+")秒后重发";
+		setTimeout('countdesc('+num+')',1000);
+	}
+}
+function yz_username(){
+	var usename=g("username").value;
+	if(usename.length < 6 ){
+		$('#yz_username').html("用户名不能少于6位数！");
+	}else{
+		Ajax.call('user.php?act=yz_username', 'username='+g('username').value, yz_return, 'POST');
+	}
+}
+function yz_return(msg){
+	$('#yz_username').html(msg);
+}
+function lx_type(){
+	var lx=g('lx').value;
+	if(lx == '1'){
+		g('lx_sfz').style.display='';
+	}else{
+		g('lx_sfz').style.display='none';
+	}
+}
+</script>
+<script src="/js/utils.js"></script>
+<div class="bg-hight"></div>
+<div class="izl-login">
+	<ul id="myTab" class="nav nav-tabs" style="border-bottom:0px;">
+		<div class="izl-login-head">
+			<ul>
+				<li> <a href="user.php?act=login">登录</a>
+				<li class="active"><a href="user.php?act=register">注册</a></li>
+			</ul>
+		</div>
+		<div class="tab-pane fade in active" id="home">
+			<div class="izl-login-box">
+				<ul>
+           <form action="user.php" method="post" name="formUser" enctype="multipart/form-data" onsubmit="return register();">
+			   <li><span>注册类型:</span>
+              <select id="lx" class="w_dl_in1" onchange="lx_type();">
+                <option value="0">普通用户</option>
+                <option value="1">代理人</option>
+             </select>
+			 </li>
+             <div id="lx_sfz" style="display:none;">
+             <li>
+			  <span>上传身份证照片</span><input type="file" name="sfz_pic" id="sfz_pic" class="w_dl_in1" />
+			 </li>
+             </div>
+			   <li>
+				   <span>用户名:</span><input type="text" name="username" id="username"  onblur="yz_username();" />
+			  <p id="yz_username"></p>
+			 </li>
+			  <li>
+			  <span>手机</span><input type="text" name="mobile" id="mobile"/>
+			 </li>
+		   <li class="hqyzm">
+			   <a onclick="ksmssend();" title="获取验证码" id="sendsms">获取验证码</a>
+		   </li>
+			   <div class="clearfix"></div>
+			 <li>
+			  <span>验证码</span><input type="text" name="yzm"/>
+			 </li>
+			 <li>
+			  <span>密码</span><input type="text" name="password"/>
+			 </li>
+
+			 <li>
+			  <span>确认密码</span><input type="text" name="confirm_password"/>
+			 </li>
+			   <div class="izl-textr"><a href="article.php?cat_id=-1">查看中联用户协议>></a></div>
+			   <div class="izl-but"><input class="btn btn-warning"  type="Submit" value="同意协议并注册" ></div>
+             <input name="act" type="hidden" value="act_register" >
+             <input type="hidden" name="back_act" value="{$back_act}" />
+           </form>
+				</ul>
+			</div>
+		</div>
+	</ul>
+</div>
+<!--{/if}-->
+<!--{/if}-->
+<!--#会员注册界面 end-->
+
+<!--*找回密码界面 -->
+    <!--{if $action eq 'get_password'} -->
+    {insert_scripts files='utils.js'}
+    <script type="text/javascript">
+    {foreach from=$lang.password_js item=item key=key}
+      var {$key} = "{$item}";
+    {/foreach}
+    </script>
+    <div class="w_dl_c">
+	  <h2>找回密码</h2>
+	  <div class="w_dl_1">
+		  <img src="/images/w-dl_t.jpg" title="登录" alt="登录" />
+		  <ul>
+          <form action="user.php" method="post" name="getPassword" onsubmit="return submitPwdInfo();">
+		    <li>
+			 <label>用户名</label><input type="text" name="user_name" class="w_dl_in1"/>
+			</li>
+			<li>
+			 <label>邮箱地址</label><input type="text" name="email" class="w_dl_in1"/>
+			</li>
+			<li>
+			 <label>&nbsp;</label><input type="submit" value="确定" class="w_dl_in2"/>
+			</li>
+            <input type="hidden" name="act" value="send_pwd_email" />
+		  </form>
+          </ul>
+        </div>
+    </div>
+<!--{/if}-->
+
+<!--*通过问题找回密码的确认找回账号界面 -->
+    <!--{if $action eq 'qpassword_name'} -->
+<div class="usBox">
+  <div class="usBox_2 clearfix">
+    <form action="user.php" method="post">
+        <br />
+        <table width="70%" border="0" align="center">
+          <tr>
+            <td colspan="2" align="center"><strong>{$lang.get_question_username}</strong></td>
+          </tr>
+          <tr>
+            <td width="29%" align="right">{$lang.username}</td>
+            <td width="61%"><input name="user_name" type="text" size="30" class="inputBg" /></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><input type="hidden" name="act" value="get_passwd_question" />
+              <input type="submit" name="submit" value="{$lang.submit}" class="bnt_blue" style="border:none;" />
+              <input name="button" type="button" onclick="history.back()" value="{$lang.back_page_up}" style="border:none;" class="bnt_blue_1" />
+	    </td>
+          </tr>
+        </table>
+        <br />
+      </form>
+  </div>
+</div>
+<!--{/if}-->
+
+<!--*根据输入账号显示密码问题界面 -->
+    <!--{if $action eq 'get_passwd_question'} -->
+<div class="usBox">
+  <div class="usBox_2 clearfix">
+    <form action="user.php" method="post">
+        <br />
+        <table width="70%" border="0" align="center">
+          <tr>
+            <td colspan="2" align="center"><strong>{$lang.input_answer}</strong></td>
+          </tr>
+          <tr>
+            <td width="29%" align="right">{$lang.passwd_question}：</td>
+            <td width="61%">{$passwd_question}</td>
+          </tr>
+          <tr>
+            <td align="right">{$lang.passwd_answer}：</td>
+            <td><input name="passwd_answer" type="text" size="20" class="inputBg" /></td>
+          </tr>
+          <!-- 判断是否启用验证码{if $enabled_captcha} -->
+          <tr>
+            <td align="right">{$lang.comment_captcha}</td>
+            <td><input type="text" size="8" name="captcha" class="inputBg" />
+            <img src="captcha.php?is_login=1&{$rand}" alt="captcha" style="vertical-align: middle;cursor: pointer;" onClick="this.src='captcha.php?is_login=1&'+Math.random()" /> </td>
+          </tr>
+          <!--{/if}-->
+          <tr>
+            <td></td>
+            <td><input type="hidden" name="act" value="check_answer" />
+              <input type="submit" name="submit" value="{$lang.submit}" class="bnt_blue" style="border:none;" />
+              <input name="button" type="button" onclick="history.back()" value="{$lang.back_page_up}" style="border:none;" class="bnt_blue_1" />
+	    </td>
+          </tr>
+        </table>
+        <br />
+      </form>
+  </div>
+</div>
+<!--{/if}-->
+
+<!-- {if $action eq 'reset_password'} -->
+    <script type="text/javascript">
+    {foreach from=$lang.password_js item=item key=key}
+      var {$key} = "{$item}";
+    {/foreach}
+    </script>
+    <div class="w_dl_c">
+	  <h2>找回密码</h2>
+	  <div class="w_dl_1">
+		  <img src="/images/w-dl_t.jpg" title="找回密码" alt="找回密码" />
+		  <ul>
+          <form action="user.php" method="post" name="getPassword2" onSubmit="return submitPwd()">
+		    <li>
+			 <label>新密码</label><input type="password" name="new_password" class="w_dl_in1"/>
+			</li>
+			<li>
+			 <label>确认新密码</label><input type="password" name="confirm_password" class="w_dl_in1"/>
+			</li>
+			<li>
+			 <label>&nbsp;</label><input type="submit" value="确定" class="w_dl_in2"/>
+			</li>
+            <input type="hidden" name="act" value="act_edit_password" />
+            <input type="hidden" name="uid" value="{$uid}" />
+            <input type="hidden" name="code" value="{$code}" />
+		  </form>
+          </ul>
+        </div>
+    </div>
+<!--<div class="usBox">
+  <div class="usBox_2 clearfix">
+    <form action="user.php" method="post" name="getPassword2" onSubmit="return submitPwd()">
+      <br />
+      <table width="80%" border="0" align="center">
+        <tr>
+          <td>{$lang.new_password}</td>
+          <td><input name="new_password" type="password" size="25" class="inputBg" /></td>
+        </tr>
+        <tr>
+          <td>{$lang.confirm_password}:</td>
+          <td><input name="confirm_password" type="password" size="25"  class="inputBg"/></td>
+        </tr>
+        <tr>
+          <td colspan="2" align="center">
+            <input type="hidden" name="act" value="act_edit_password" />
+            <input type="hidden" name="uid" value="{$uid}" />
+            <input type="hidden" name="code" value="{$code}" />
+            <input type="submit" name="submit" value="{$lang.confirm_submit}" />
+          </td>
+        </tr>
+      </table>
+      <br />
+    </form>
+  </div>
+</div>-->
+<!--{/if}-->
+<!--#找回密码界面 end-->
+</div>
+
+<script type="text/javascript">
+var process_request = "{$lang.process_request}";
+{foreach from=$lang.passport_js item=item key=key}
+var {$key} = "{$item}";
+{/foreach}
+var username_exist = "{$lang.username_exist}";
+</script>
+{include file='footer.html'}

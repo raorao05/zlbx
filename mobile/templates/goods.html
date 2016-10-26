@@ -1,0 +1,98 @@
+{include file='header.html'}
+
+<!--导航 -->
+<div class="container top-menu">
+  <a href="javascript:history.back(-1)"><span class="glyphicon glyphicon-chevron-left" style="font-size:2rem;"></span></a>
+  <div class="cf-title" id="fd-caidan">保险产品</div>
+  <div data-toggle="dropdown" href="#3" style="display:none;"><span class="glyphicon glyphicon-align-justify"style="font-size:2rem;"></span></div>
+  <ul class="dropdown-menu izl-fmenu" role="menu" aria-labelledby="dLabel" style="right:0; width:30%; left:auto">
+    <li><A href="">我的订单</A></li>
+    <li><A href="">我的视频</A></li>
+    <li><A href="">我的视频</A></li>
+  </ul>
+</div>
+
+<div class="bg-hight"></div>
+<!--内容 -->
+<style>
+<!--
+.collapse{ display:block !important;}
+-->
+</style>
+<div class="bxcp-box" id="accordion">
+<div class="bxcp-ser">
+        <form action="goods_list.php?id={$goods.0.cat_id}" method="post" enctype="multipart/form-data">
+        <p>
+            <input class="ser-inp" name="like" type="text" placeholder="请输入保险关键字搜索">
+            <input class="ser-but" name=" " type="submit" value=" ">
+        </p>
+        </form>
+    </div>
+  <ul class="bxcp-list">
+    {foreach from=$categories item=categories}
+    {if $categories.id neq 1}
+    <li class="r-list"><!--data-toggle="collapse" --><a data-parent="#accordion"  href="#collapse{$categories.id}">{$categories.name}</a></li>
+    <div id="collapse{$categories.id}" class="panel-collapse collapse ">
+      {foreach from=$categories['cat_id'] item=cat_id}
+      <a href="/mobile/goods_list.php?id={$cat_id.id}"><span class="n">{$cat_id.name} </span></a>
+      {/foreach}
+      <div class="clearfix"></div>
+    </div>
+    {/if}
+    {/foreach}
+
+  </ul>
+</div>
+{include file='footer.html'}
+<!--<p align='left'>
+{$goods_info.goods_name}<br/>
+&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;<br/>
+{if $goods_info.brand_id}
+    商品品牌:<a href='brands.php?b_id={$goods_info.brand_id}'>{$brand_name}</a><br/>
+{/if}
+商品编号:{$goods_info.goods_sn}<br/>
+商品分类:
+{foreach from=$cat_array item=cat_data}
+    <a href='category.php?c_id={$cat_data.cat_id}'>{$cat_data.cat_name}</a>-&gt;
+{/foreach}
+{$goods_info.goods_name}<br/>
+{if $goods_info.goods_number neq ""}商品库存：
+{if $goods_info.goods_number eq 0}
+已售完
+{else}
+{$goods_info.goods_number}
+{/if}<br />
+{/if}
+市场价格:{$goods_info.market_price}<br/>
+商品价格:{if $promote_price_org}{$goods_info.promote_price}{else}{$goods_info.shop_price_formated}{/if}<br/>
+ &lt;!&ndash; {foreach from=$rank_prices item=rank_price key=key} 会员等级对应的价格&ndash;&gt;
+       <strong>{$rank_price.rank_name}：</strong><font class="shop" id="ECS_RANKPRICE_{$key}">{$rank_price.price}</font><br />
+       &lt;!&ndash;{/foreach}&ndash;&gt;
+{if $goods_info.promote_price and $goods_info.gmt_end_time}促销价格:{$goods_info.promote_price}{/if}<br/>
+{foreach from=$specification item=spec key=spec_key}
+{$spec.name}:<br />
+  {if $spec.attr_type eq 1}
+    {foreach from=$spec.values item=value key=key}
+    <input type="radio" name="spec_{$spec_key}" value="{$value.id}" id="spec_value_{$value.id}" {if $key eq 0}checked{/if}/>
+    {$value.label} [{if $value.price gt 0}{$lang.plus}{elseif $value.price lt 0}{$lang.minus}{/if} {$value.format_price|abs}]<br />
+    {/foreach}
+    <input type="hidden" name="spec_list" value="{$key}" />
+  {else}
+    {foreach from=$spec.values item=value key=key}
+    <input type="checkbox" name="spec_{$spec_key}" value="{$value.id}" id="spec_value_{$value.id}"/>
+    {$value.label} [{if $value.price gt 0}{$lang.plus}{elseif $value.price lt 0}{$lang.minus}{/if} {$value.format_price|abs}]<br />
+    {/foreach}
+    <input type="hidden" name="spec_list" value="{$key}" />
+  {/if}
+{/foreach}
+浏览次数:{$goods_info.click_count}<br/>
+商品说明:{$goods_info.goods_brief}<br/><br/>
+<a href='buy.php?id={$goods_id}'>购买此商品</a><br/>
+<a href='goods.php?act=view_img&amp;id={$goods_id}'>点击查看商品图片</a><br/>
+<a href='comment.php?g_id={$goods_id}'>商品评论({$comment.pager.record_count})</a><br/>
+
+&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;<br/>
+<a href="javascript:history.back(-1)">回上一页</a><br/>
+<a href='index.php'>返回首页</a>
+{$footer}
+</p>-->

@@ -1,0 +1,72 @@
+html,
+body
+{
+  height: 100%;
+  padding:0;
+  margin:0;
+}
+.clear{ clear:both; width:100%; height:0; overflow:hidden;}
+body
+{
+  background:#016aa9;
+  min-height:480px;
+  text-align:center;
+  min-width:1004px;
+}
+
+.box
+{
+  margin-top: -240px; /* SecondDIV高度的一半  */
+  float: left;
+  width: 100%;
+  height: 50%;
+}
+
+.login
+{
+clear: both;
+background:url(../images/adonbg1.gif) no-repeat;
+margin-left: auto;
+overflow: auto;
+width: 1000px;
+margin-right: auto;
+height: 480px;
+text-align: left;
+}
+
+ul,li,p,form{margin:0; padding:0;}
+li,ul{ list-style:none;}
+
+.loginbox{ 
+background:url(../images/bg.jpg) no-repeat; width:488px; height:293px; margin:49px auto 0 auto;
+position:relative;
+}
+.loginbox ul{ display:block; width:225px; padding:110px 0 0 195px;}
+.loginbox li{ padding:3px 0 3px 70px; position:relative; color:#fff;}
+.loginbox li b{ 
+display:block; width:70px;
+position:absolute;
+right:162px;
+top:4px;
+font-weight:normal;
+text-align:right;
+}
+.btn_login,.btn_set{ width:73px; height:25px; border:0; cursor:pointer; margin-top:30px;}
+.btn_login{ background:url(../images/dl.jpg) no-repeat;}
+.btn_set{ background:url(../images/zc.jpg) no-repeat; }
+.ipt_login{ width:150px;}
+.loginbox h6{ text-align:right; display:block; position:absolute; right:5px; top:-7px; margin:0; padding:0;}
+
+div{font-family:Verdana,"宋体";font-size:12px;color:#fff;}
+ul,li{padding:0px;margin:0px;list-style:none;}
+.b_w{width:388px;margin:auto;margin-top:180px;}
+.left{float:left;}
+.right{float:right;}
+.l_t{background:url(../images/l_t.gif);line-height:32px;padding:1px 8px;height:32px;overflow:hidden;}
+.l_title{font-size:14px;font-weight:bold;text-indent:12px;}
+.l_bg{background:url(../images/l_bg.gif);line-height:30px;height:178px;overflow:hidden;}
+.l_user{margin:25px 10px 0 210px;}
+.l_user li{padding:0px!important;padding:4px;}
+.l_f{margin-top:1px;}
+.l_input{border:1px solid #055d74;background:#fff;height:16px;}
+.l_bnt{background:url(../images/login_bg.gif);width:53px;height:23px;line-height:23px;border:0px;color:#fff;font-size:12px;padding-bottom:3px;}

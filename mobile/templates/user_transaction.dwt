@@ -1,0 +1,349 @@
+{include file='header.html'}
+<!--#订单列表界面 start-->
+<!-- {if $action eq 'order_list'} -->
+<!--导航 -->
+<div class="container top-menu">
+    <a href="javascript:history.back(-1)"><span class="glyphicon glyphicon-chevron-left" style="font-size:2rem;"></span></a>
+    <div class="cf-title" id="fd-caidan">订单管理</div>
+    <div data-toggle="dropdown" href="#3"><span class="glyphicon glyphicon-align-justify"style="font-size:2rem;"></span></div>
+    <ul class="dropdown-menu izl-fmenu" role="menu" aria-labelledby="dLabel" style="right:0; width:30%; left:auto">
+        <li><A href="">我的订单</A></li>
+        <li><A href="">我的视频</A></li>
+        <li><A href="">我的视频</A></li>
+    </ul>
+</div>
+<div class="bg-hight"></div>
+<!--内容 -->
+<div class="">
+    <!--保单管理 -->
+    <div class="per-list3">
+        <ul id="mores">
+            <!--{foreach from=$orders item=item}-->
+            <li>
+                <div class="time"><span class="xdtime">下单时间：{$item.order_time}</span>金额：<span class="red">{$item.total_fee}</span></div>
+                <div class="infoxx">
+                    <div class="photo"><a href="user.php?act=order_detail&order_id={$item.order_id}"><img src="/images/upimg6.jpg"></a></div>
+                    <div class="text mar-ai">
+                        <a href="user.php?act=order_detail&order_id={$item.order_id}">
+                        <p>订单号：{$item.name}</p>
+                        <p>订单号：{$item.order_sn}</p>
+                        <p>订单状态：<span class="corhs">{$item.order_status}</span></p>
+                        </a>
+                    </div>
+                    <div class="art"></div>
+                </div>
+                <div class="czsc">
+                    <div class="but off">{$item.handler}</div>
+                    <div class="but on"><a href="user.php?act=order_detail&order_id={$item.order_id}" title="订单详情">订单详情</a></div>
+                </div>
+            </li>
+            <!--{/foreach}-->
+            <input type="hidden" value="{$user_id}" id="userid"/>
+        </ul>
+    </div>
+    <div class="look-more" id="more"><a href="#3">查看更多</a></div>
+</div>
+<div class="clear"></div>
+<script>
+    $(document).ready(function(){
+        var more_id=1;
+        $("#more").click(function(){
+            more_id=more_id+1;
+            var user=$('#userid').val();
+            $("#more").html('<a href="#3">加载中...</a>');
+            $.ajax({
+                type:"GET",
+                url: "/mobile/user.php"+window.location.search+"&c=more"+"&user="+user,
+                data: "p="+more_id,
+                success: function(msg){
+                    if(msg){
+                        $("#mores").append(msg);
+                        $("#more").html('<a href="#3">查看更多</a>');
+                    }else{
+                        $("#more").html('<a href="#3">没有更多了</a>');
+                    }
+                }
+            });
+        })
+    });
+</script>
+<!--{/if}-->
+<!--#订单列表界面 end-->
+<!-- ==========订单详情页面,包括：订单状态，商品列表，费用总计，收货人信息，支付方式，其它信息========== -->
+<!--{if $action eq order_detail} -->
+<style>
+    .tbqr-tj .but {
+        background: #f67f00;
+        border: 0px;
+        border-radius: 5px;
+        width: 94%;
+        text-align: center;
+        color: #fff;
+        font-size: 1.5rem;
+        padding: 5px 0;
+        margin: 10px 3%;
+        display:block;
+    }
+</style>
+<!--订单详情-->
+<!--导航 -->
+<div class="container top-menu">
+    <a href="javascript:history.back(-1)"><span class="glyphicon glyphicon-chevron-left" style="font-size:2rem;"></span></a>
+    <div class="cf-title" id="fd-caidan">订单详情</div>
+    <div data-toggle="dropdown" href="#3"><span class="glyphicon glyphicon-align-justify"style="font-size:2rem;"></span></div>
+    <ul class="dropdown-menu izl-fmenu" role="menu" aria-labelledby="dLabel" style="right:0; width:30%; left:auto">
+        <li><A href="">我的订单</A></li>
+        <li><A href="">我的视频</A></li>
+        <li><A href="">我的视频</A></li>
+    </ul>
+</div>
+<div class="bg-hight"></div>
+<!--内容 -->
+<div class="">
+    <div class="ddxq-box">
+
+        <p><span>订 单 号：</span>{$order.order_sn}</p>
+        <p><span>投保份数：</span>1份</p>
+        {if $order.bx_type ==1}
+        <b>保单明细</b>
+        <p><span>投保日期：</span>{$order.formated_add_time}</p>
+        <p><span>保障期限：</span>2016-01-17 00时   ――  2017-01-16 24时</p>
+        <p><span>投保计划：</span>{$goods.goods_attr}</p>
+        <p><span>保单形式：</span>电子保单</p>
+        <p><span>发票：</span>{if $arr.invoice}有{else}无{/if}</p>
+        <b>投保人信息</b>
+        <p><span>性   名：</span>{$arr.tb_name}</p>
+        <p><span>邮   箱：</span>{$arr.email}</p>
+        <p><span>证件类型：</span>身份证</p>
+        <p><span>证件号码：</span>{$arr.tbzj_number}</p>
+        <p><span>手   机：</span>{$arr.tb_mobile}</p>
+        <p><span>所在城市：</span>{$arr.address}</p>
+        <b>被保险人</b>
+        <p><span>性   名：</span>{$arr.bb_name}</p>
+        <p><span>TA是我：</span>{$arr.relation}</p>
+        <p><span>证件类型：</span>身份证</p>
+        <p><span>证件号码：</span>{$arr.bbzj_number}</p>
+        <p><span>联系方式：</span>{$arr.bb_mobile}</p>
+        <p><span>受益人：</span>法定</p>
+        {else}
+        <b>行驶证车主信息</b>
+        <p><span>城市：</span>{$arr.c_city}</p>
+        <p><span>车牌号：</span>{$arr.cp_number}</p>
+        <p><span>登记日期：</span>{$arr.dj_time}</p>
+        <p><span>车主姓名：</span>{$arr.cz_name}</p>
+        <p><span>身份证号：</span>{$arr.sfz_number}</p>
+        <p><span>手机号：</span>{$arr.mobile}</p>
+        <p><span>车架号：</span>{$arr.frame_number}</p>
+        <p><span>发动机号：</span>{$arr.engine_number}</p>
+        <p><span>品牌型号：</span>{$arr.brand}</p>
+        <p><span>配置型号：</span>{$arr.configure}</p>
+        <p><span>过户车：</span>{if $arr.is_transfer == 1}是{else}否{/if}</p>
+
+        <b>保单及发票信息</b>
+        <p><span>姓名：</span>{$order.consignee}</p>
+        <p><span>手机：</span>{$order.mobile}</p>
+        <p><span>详细地址：</span>{$order.address}</p>
+        <p><span>配送时间：</span>{$order.best_time}</p>
+        <p><span>开具发票：</span>{if $arr.is_invoice == 1}是{else}否{/if}</p>
+        <p><span>发票抬头：</span>{$arr.invoice_title}</p>
+        {/if}
+        <b>投保声明</b>
+        <p>1、投保时，本投保人已就该产品的保障内容以及保险金额向被保险人进行了明确说明，并征得其同意。</p>
+        <p>2、本投保人兹声明上述各项内容填写属实，并知道如果投保信息不真实，保险公司将有权拒赔，一切后果由本人承担。</p>
+        <p>3、本投保人已阅读该产品详细条款，并特别就条款中有关责任免除和投保人、被保险人义务的内容进行阅读。本投保人特此同意接受条款全部内容。</p>
+        <p>4、根据&laquo;中华人民共和国合同法&raquo;第十一条规定，数据电文是合法的合同表现形式。本人接受保险公司在新一站提供的电子保单作为本投保书成立生效的合法</p>
+        <p>5、有效凭证，具有完全证据效力。</p>
+
+        <p><span>实付款：</span>{$order.formated_order_amount}</p>
+        <p><span>支付：</span>{if $order.order_amount gt 0}{$order.pay_online}{/if}</p>
+        <div class="tbqr-tj">
+            <a href="user.php?act=order_list" title="返回列表" class="but">返回列表</a>
+        </div>
+    </div>
+{/if}
+<!--#查看保单列表 start-->
+<!-- {if $action eq 'bd_list'} -->
+<!--导航 -->
+<div class="container top-menu">
+    <a href="javascript:history.back(-1)"><span class="glyphicon glyphicon-chevron-left" style="font-size:2rem;"></span></a>
+    <div class="cf-title" id="fd-caidan">保单管理</div>
+    <div data-toggle="dropdown" href="#3"><span class="glyphicon glyphicon-align-justify"style="font-size:2rem;"></span></div>
+    <ul class="dropdown-menu izl-fmenu" role="menu" aria-labelledby="dLabel" style="right:0; width:30%; left:auto">
+        <li><A href="">我的订单</A></li>
+        <li><A href="">我的视频</A></li>
+        <li><A href="">我的视频</A></li>
+    </ul>
+</div>
+<div class="bg-hight"></div>
+<!--内容 -->
+<div class="">
+    <!--保单管理 -->
+
+
+    <div class="per-list3">
+        <div class="banner">
+            <div {if !$zt}class="tit on"{else}class="tit"{/if}><a href="user.php?act=bd_list">全部（{$qb}）</a></div>
+            <div {if $zt == 'ycb'}class="tit on"{else}class="tit"{/if}><a href="user.php?act=bd_list&zt=ycb">已承保（{$ycb}）</a></div>
+        </div>
+        <ul>
+            <!--{foreach from=$orders item=item}-->
+            <li>
+                <div class="time"><span class="xdtime">投保日期：{$item.order_time}</span>状态：<span class="red"?>{if $time > $item.last_time}已过期{elseif $time < $item.start_time}未开始{else}承保中{/if}</span></div>
+                <div class="infoxx">
+                    <div class="photo"><a href="#3"><img src="/images/upimg6.jpg"></a></div>
+                    <div class="text">
+                        <p>保单号：{$item.bd_number}</p>
+                        <p>承保日期：{$item.start_time} 00时 至 {$item.last_time} 24时</p>
+                        <p>承保公司：{$item.company}</p>
+                    </div>
+                    <div class="art"></div>
+                </div>
+                <div class="czsc">
+                    <div class="but off">删除保单</div>
+                    <div class="but on">再次购买</div>
+                </div>
+            </li>
+            <!--{/foreach}-->
+        </ul>
+    </div>
+</div>
+<!--{/if}-->
+<!-- 用户信息界面 start-->
+<!--{if $action eq 'profile'}-->
+<script src="/js/utils.js"></script>
+<!--导航 -->
+<div class="container top-menu">
+    <a href="javascript:history.back(-1)"><span class="glyphicon glyphicon-chevron-left" style="font-size:2rem;"></span></a>
+    <div class="cf-title" id="fd-caidan">会员资料</div>
+    <div data-toggle="dropdown" href="#3" style="display:none;"><span class="glyphicon glyphicon-align-justify"style="font-size:2rem;"></span></div>
+    <ul class="dropdown-menu izl-fmenu" role="menu" aria-labelledby="dLabel" style="right:0; width:30%; left:auto">
+        <li><A href="">我的订单</A></li>
+        <li><A href="">我的视频</A></li>
+        <li><A href="">我的视频</A></li>
+    </ul>
+</div>
+
+<div class="bg-hight"></div>
+<!--内容 -->
+<div class="ddxq-box">
+    <form name="formEdit" action="user.php?act=act_edit_profile" method="post" id="formEdit" enctype="multipart/form-data">
+    <ul class="xgdlmm">
+        <!--<li><span>会员名：</span><input name="" type="text" value="李丽丽"></li>
+        <div class="izl-textl">用户名仅可修改一次，设置成功后不能再次更改</div>-->
+        <li><span>会员类型：</span><input name="" type="text" value="个人会员" readonly></li>
+        <li><span>姓名：</span><input name="alias" type="text" id="alias" value="{$profile.alias}" ></li>
+        <li><span>证件类型：</span><input name="" type="text" value="身份证" readonly></li>
+        <li><span>证件号码：</span><input  type="text"  name="zj_number" id="zj_number" value="{$profile.zj_number}"></li>
+        <li><span>性别：</span><input type="radio" name="sex" value="0" {if $profile.sex==0}checked="checked"{/if} />
+            {$lang.secrecy}&nbsp;&nbsp;
+            <input type="radio" name="sex" value="1" {if $profile.sex==1}checked="checked"{/if} />
+            {$lang.male}&nbsp;&nbsp;
+            <input type="radio" name="sex" value="2" {if $profile.sex==2}checked="checked"{/if} />
+            {$lang.female}&nbsp;&nbsp;</li>
+        <li><span>手机：</span><input type="text" name="extend_field5" id="extend_field5" value="{$profile.mobile_phone}" /></li>
+        <li><span>邮箱：</span><input type="text" name="email" id="email" value="{$profile.email}" /></li>
+        <li><span>我的推荐人：</span><input type="text" name="parent_id" id="parent_id" value="{$profile.tuijian}" /></li>
+        <input name="act" type="hidden" value="act_edit_profile" />
+        <div class=""><input type="submit" value="保存" class="but"></div>
+    </ul>
+    </form>
+</div>
+<!--{/if}-->
+<!--#收货地址页面 -->
+<!--{if $action eq 'address_list'} -->
+<!--导航 -->
+<div class="container top-menu">
+    <a href="javascript:history.back(-1)"><span class="glyphicon glyphicon-chevron-left" style="font-size:2rem;"></span></a>
+    <div class="cf-title" id="fd-caidan">地址管理</div>
+    <div data-toggle="dropdown" href="#3"><span class="glyphicon glyphicon-align-justify"style="font-size:2rem;"></span></div>
+    <ul class="dropdown-menu izl-fmenu" role="menu" aria-labelledby="dLabel" style="right:0; width:30%; left:auto">
+        <li><A href="">我的订单</A></li>
+        <li><A href="">我的视频</A></li>
+        <li><A href="">我的视频</A></li>
+    </ul>
+</div>
+<div class="bg-hight"></div>
+<!--内容 -->
+<div class="">
+    <div class="izl-gwc">
+        <p  class="del-but"><span><a href="user.php?act=address_info">新增收货地址</a></span></p>
+        <ul class="lxr-listR">
+            <!-- {foreach from=$consignee_list item=consignee} -->
+            <li>
+                <!--选中的调用样式 “active” -->
+                <div class="col-xs-2 lxr-but"><span class="xz {if $consignee.address_id == $address}active{/if}"><input name="" type="radio" value="" class="radios"></span></div>
+                <div class="col-xs-7 lxr-name"><p>{$consignee.consignee} {$consignee.mobile}<br>{$consignee.address}</p></div>
+                <div class="col-xs-3 lxr-icon">
+                    <a href="user.php?act=address_info&id={$consignee.address_id}"><span><img src="/images/izl-icon-del_18.png"></span></a>
+                    <a href="user.php?act=drop_consignee&id={$consignee.address_id}"><span><img src="/images/izl-icon-del_19.png"></span></a>
+                </div>
+            </li>
+            <!-- {/foreach} -->
+        </ul>
+        <div class="clearfix"></div>
+
+    </div>
+    <div class="look-more"><a href="#3">查看更多</a></div>
+</div>
+<!--{/if}-->
+
+<!--#收货地址详情 -->
+<!--{if $action eq 'address_info'} -->
+<script src="/js/transport.js"></script>
+<script src="/js/region.js"></script>
+<!--导航 -->
+<div class="container top-menu">
+    <a href="javascript:history.back(-1)"><span class="glyphicon glyphicon-chevron-left" style="font-size:2rem;"></span></a>
+    <div class="cf-title" id="fd-caidan">新增/修改收货地址</div>
+    <div data-toggle="dropdown" href="#3" style="display:none;"><span class="glyphicon glyphicon-align-justify"style="font-size:2rem;"></span></div>
+    <ul class="dropdown-menu izl-fmenu" role="menu" aria-labelledby="dLabel" style="right:0; width:30%; left:auto">
+        <li><A href="">我的订单</A></li>
+        <li><A href="">我的视频</A></li>
+        <li><A href="">我的视频</A></li>
+    </ul>
+</div>
+
+<div class="bg-hight"></div>
+<!--内容 -->
+<div class="ddxq-box">
+    <form id="formSurplus" method="post" action="user.php">
+    <ul class="xgdlmm">
+        <li><span>姓名：</span><input type="text" name="consignee" id="consignee" value="{$address_info.consignee}" /></li>
+        <li><span>手机：</span><input type="text" name="mobile" id="mobile" value="{$address_info.mobile}" /></li>
+        <li><span>省份：</span><select name="province" id="selProvinces" onchange="region.changed(this, 2, 'selCities')">
+            <option value="0">请选择省</option>
+            <!-- {foreach from=$province_list item=province} -->
+            <option value="{$province.region_id}" {if $address_info.province eq $province.region_id}selected{/if}>{$province.region_name}</option>
+            <!-- {/foreach} -->
+        </select></li>
+        <li><span>城市：</span><select name="city" id="selCities" onchange="region.changed(this, 3, 'selDistricts')">
+            <option value="0">请选择市</option>
+            <!-- {foreach from=$city_list item=province} -->
+            <option value="{$province.region_id}" {if $address_info.city eq $province.region_id}selected{/if}>{$province.region_name}</option>
+            <!-- {/foreach} -->
+        </select></li>
+        <li><span>区县：</span><select name="district" id="selDistricts">
+            <option value="0">请选择区</option>
+            <!-- {foreach from=$district_list item=province} -->
+            <option value="{$province.region_id}" {if $address_info.district eq $province.region_id}selected{/if}>{$province.region_name}</option>
+            <!-- {/foreach} -->
+        </select></li>
+        <li><span>邮编：</span><input type="text" name="zipcode" id="zipcode" value="{$address_info.zipcode}" /></li>
+        <li><span>详细地址：</span>
+            <textarea cols="26" rows="2" name="address" id="address">{$address_info.address} </textarea>
+        </li>
+        <li><span>设为默认地址：</span><input type="checkbox" name="defalut" value="1" {if $address_info.address_id == $address}checked="checked"{/if} /></li>
+        <input type="hidden" name="act" value="act_edit_address" />
+        <input type="hidden" name="address_id" value="{$address_info.address_id}" />
+        <div class=""><input type="submit" value="保存" class="but"></div>
+    </ul>
+    </form>
+</div>
+<script>
+    region.isAdmin = true;
+    if(!"{$address_info.address_id}"){
+        $("#selCountries").change();
+    }
+</script>
+<!--{/if}-->
+{include file='footer.html'}

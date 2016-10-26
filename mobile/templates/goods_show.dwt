@@ -1,0 +1,272 @@
+{include file='header.html'}
+<script src="/js/common.js"></script>
+<script src="/js/transport.js"></script>
+<script src="/js/utils.js"></script>
+<style>
+    .bxxq-list3 .but-shopping a {
+        background: url(/images/izl-icon-del_17.png) 5px center no-repeat #ccc;
+        background-size: 22%;
+        color: #f67f00;
+        padding-left: 20px;
+    }
+    .bxxq-list3 p a {
+        border-radius: 5px;
+        display: block;
+        float: left;
+        width: 92%;
+        text-align: center;
+        background: #cccccc;
+        color: #fff;
+        border: 0;
+        line-height: 250%;
+        border: 0;
+        padding: 0px;
+        margin: 0px;
+        display: block;
+    }
+    .bxxq-list3 .but-ljtb a {
+        background: url(/images/grzx-icon_40.png) 5px center no-repeat #f67f00;
+        background-size: 22%;
+        color: #fff;
+        padding-left: 10px;
+    }
+    .bxxq-list3 p a {
+        border-radius: 5px;
+        display: block;
+        float: left;
+        width: 92%;
+        text-align: center;
+        background: #cccccc;
+        color: #fff;
+        border: 0;
+        line-height: 250%;
+        border: 0;
+        padding: 0px;
+        margin: 0px;
+        display: block;
+    }
+    .NewAddBenefit{
+        padding: 0 10px 10px 10px;
+        overflow: hidden;
+        
+    }
+    .NewAddBenefit .left{
+        color: #888;
+        float: left;
+        padding: 0 10px;
+        line-height: 2rem;
+    }
+    .benefitList{
+        float: left;
+        padding-left: 10px;
+        line-height: 2rem;
+        font-size: 1.2rem;
+		width: 60%;
+    }
+    .benefitList li{
+        overflow: hidden;
+        margin-bottom: 2%;
+    }
+    .benefitList li .p1{
+        width: 18%;
+        height: 2rem;
+        text-align: center;
+        color: #fff;
+        background-color: #f67f00;
+        float: left;
+        margin-right: 2%;
+    }
+    .benefitList li .p2{
+        float: left;
+        color: #f00;
+    }
+</style>
+<!--导航 -->
+<div class="container top-menu">
+    <a href="javascript:history.back(-1)"><span class="glyphicon glyphicon-chevron-left" style="font-size:2rem;"></span></a>
+    <div class="cf-title" id="fd-caidan">产品详情</div>
+    <div data-toggle="dropdown" href="#3" style="display:none;"><span class="glyphicon glyphicon-align-justify"style="font-size:2rem;"></span></div>
+    <ul class="dropdown-menu izl-fmenu" role="menu" aria-labelledby="dLabel" style="right:0; width:30%; left:auto">
+        <li><A href="">我的订单</A></li>
+        <li><A href="">我的视频</A></li>
+        <li><A href="">我的视频</A></li>
+    </ul>
+</div>
+<div class="bg-hight"></div>
+<!--内容 -->
+<div class="bxxq-box">
+    <div class="bxxq-list1">
+        <div class="photo col-xs-5"><span><img src="/{$goods.goods_img}"></span></div>
+        <div class="text col-xs-7">
+            <h3>{$goods.goods_name}</h3>
+            <p class="price">价格：<span class="red" id="ECS_GOODS_AMOUNT">￥{$goods.shop_price}</span></p>
+        </div>
+    </div>
+    <div class="bxxq-list2">
+        <ul>
+            <li><span>适用人群：</span>{$goods.goods_syrq}</li>
+            <li><span>承保年龄：</span>{$goods.goods_cbnl}</li>
+            <li><span>保障期限：</span><label id="bzqx"></label></li>
+        </ul>
+    </div>
+    <!-- 新增优惠信息开始 -->
+    {if $promotion}
+    <div class="NewAddBenefit">
+        <p class="left">促销信息：</p>
+        <ul class="benefitList">
+            {foreach from=$promotion item=item key=key name=name}
+            {if $item.type eq "favourable"}
+            <li>
+                <p class="p1">{$item.act_type}</p>
+                <p class="p2">{$item.act_name}</p>
+            </li>
+            {/if}
+            {/foreach}
+        </ul>
+    </div>
+    {/if}
+    <!-- 新增优惠信息结束 -->
+
+    <div class="bxxq-list3">
+        <p class="col-xs-2 star"><img src="/images/grzx-icon_39.png"></p>
+        <p class="col-xs-5 but-shopping"><a href="javascript:addToCart({$goods.goods_id})" title="加入购物车">加入购物车</a></p>
+        <p class="col-xs-5 but-ljtb"><a href="javascript:addToCart({$goods.goods_id})" title="立即投保">立即投保</a></p>
+    </div>
+    <div class="bxxq-list4">
+        <ul class="bxxq-list4-nav" id="myTab">
+            <li class="col-xs-3 active"><a href="#xq" data-toggle="tab">详情</a></li>
+            <li class="col-xs-3"><a href="#xz" data-toggle="tab">须知</a></li>
+            <li class="col-xs-3"><a href="#al" data-toggle="tab">案列</a></li>
+            <li class="col-xs-3"><a href="#pj" data-toggle="tab">评价</a></li>
+        </ul>
+
+        <div id="myTabContent" class="bxxq-list4-box">
+            <div class="tab-pane fade in active" id="xq">
+                <div>
+                    <form action="javascript:addToCart({$goods.goods_id})" method="post" name="ECS_FORMBUY" id="ECS_FORMBUY" >
+                        <input name="number" type="text" id="number" value="1" style="display:none; "/>
+                        <!-- {* 开始循环所有可选属性 *} -->
+                        <!-- {foreach from=$specification item=spec key=spec_key} -->
+                        <div>
+
+                            <div>{$spec.name}</div>
+                            <!-- {* 判断属性是复选还是单选 *} -->
+                            <!-- {if $spec.attr_type eq 1} -->
+                            <!-- {if $cfg.goodsattr_style eq 1} -->
+                            <div id="fanhui_{$spec_key}">
+                                <!-- {foreach from=$spec.values item=value key=key name=specification} -->
+                                <label for="spec_value_{$value.id}" id="ccc_{$value.id}" >
+                                    <input type="radio" name="spec_{$spec_key}" value="{$value.id}" id="spec_value_{$value.id}" {if $key eq 0}checked{/if} onclick="changePrice();" style="display:none;" />
+                                    <span {if $smarty.foreach.specification.first}class="w_al_s1"{/if}><i></i>{$value.label}</span></label>
+                                <!-- {/foreach} -->
+                            </div>
+                            <input type="hidden" name="spec_list" value="{$key}" />
+                            <!-- {else} -->
+                            <select name="spec_{$spec_key}" onchange="changePrice()">
+                                <!-- {foreach from=$spec.values item=value key=key} -->
+                                <option label="{$value.label}" value="{$value.id}">{$value.label} {if $value.price gt 0}{$lang.plus}{elseif $value.price lt 0}{$lang.minus}{/if}{if $value.price neq 0}{$value.format_price}{/if}</option>
+                                <!-- {/foreach} -->
+                            </select>
+                            <input type="hidden" name="spec_list" value="{$key}" />
+                            <!-- {/if} -->
+                            <!-- {else} -->
+                            <!-- {foreach from=$spec.values item=value key=key} -->
+                            <label for="spec_value_{$value.id}">
+                                <input type="checkbox" name="spec_{$spec_key}" value="{$value.id}" id="spec_value_{$value.id}" onclick="changePrice()" />
+                                {$value.label} [{if $value.price gt 0}{$lang.plus}{elseif $value.price lt 0}{$lang.minus}{/if} {$value.format_price|abs}] </label><br />
+                            <!-- {/foreach} -->
+                            <input type="hidden" name="spec_list" value="{$key}" />
+                            <!-- {/if} -->
+                        </div>
+                        <!-- {/foreach} -->
+                        <!-- {* 结束循环可选属性 *} -->
+                    </form>
+                    <div>
+                        <div>保障内容</div>
+                        <div>
+                            {$goods.goods_desc}
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <b>产品解读</b>
+                    {$goods.goods_jd}
+                </div>
+                <div>
+                    <b>投保前请仔细阅读</b><a href="" title="保险条款">保险条款</a><a href="" title="不承保地区">不承保地区</a>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="xz">{$goods.goods_tbxz}</div>
+            <div  class="tab-pane fade" id="al">{$goods.goods_alfx}</div>
+            <div  class="tab-pane fade" id="pj">{insert_scripts files='../js/transport.js,../js/utils.js'}
+                <div id="ECS_COMMENT"> {* ECSHOP 提醒您：动态载入comments_list.lbi，显示评论列表和评论表单 *}{insert name='comments' type=$type id=$id}</div>
+            </div>
+        </div>
+    </div>
+{include file='footer.html'}
+<script>
+    $(function(){
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+            // Get the name of active tab
+            var activeTab = $(e.target).text();
+            // Get the name of previous tab
+            var previousTab = $(e.relatedTarget).text();
+            $(".active-tab span").html(activeTab);
+            $(".previous-tab span").html(previousTab);
+        });
+    });
+</script>
+<a href="#" onclick="gotoTop();return false;" class="totop"></a>
+<script type="text/javascript">
+    var goods_id = {$goods_id};
+    var goodsattr_style = {$cfg.goodsattr_style|default:1};
+    var gmt_end_time = {$promote_end_time|default:0};
+    {foreach from=$lang.goods_js item=item key=key}
+    var {$key} = "{$item}";
+    {/foreach}
+    var goodsId = {$goods_id};
+    var now_time = {$now_time};
+
+    <!-- {literal} -->
+    onload = function(){
+        changePrice();
+        fixpng();
+        try { onload_leftTime(); }
+        catch (e) {}
+    }
+
+    /**
+     * 点选可选属性或改变数量时修改商品价格的函数
+     */
+    function changePrice()
+    {
+        var attr = getSelectedAttributes(document.forms['ECS_FORMBUY']);
+        var qty = document.forms['ECS_FORMBUY'].elements['number'].value;
+
+        Ajax.call('goods_show.php', 'act=price&id=' + goodsId + '&attr=' + attr + '&number=' + qty, changePriceResponse, 'GET', 'JSON');
+    }
+
+    /**
+     * 接收返回的信息
+     */
+    function changePriceResponse(res)
+    {
+        if (res.err_msg.length > 0)
+        {
+            alert(res.err_msg);
+        }
+        else
+        {
+            document.forms['ECS_FORMBUY'].elements['number'].value = res.qty;
+            document.getElementById('bzqx').innerHTML = res.bzqx;
+
+            if (document.getElementById('ECS_GOODS_AMOUNT'))
+                document.getElementById('ECS_GOODS_AMOUNT').innerHTML = res.result;
+
+
+        }
+    }
+    <!-- {/literal} -->
+
+</script>
+

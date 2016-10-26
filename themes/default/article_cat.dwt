@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=GBK" />
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+
+<title>{$page_title}</title>
+<link href="/css/w_css.css" type="text/css" rel="stylesheet" />
+<script src="/js/jquery.min.js.js"></script>
+<script src="/js/w_index.js"></script>
+<script type="text/javascript" src="/js/tab.js"></script>	
+{* 包含脚本文件 *}
+{insert_scripts files='common.js'}
+</head>
+<body>
+<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
+<div class="w_center"> 
+   <!--当前位置-->
+   <div class="w_dqwz">
+    <!-- #BeginLibraryItem "/library/ur_here.lbi" --><!-- #EndLibraryItem -->
+   </div>
+   <div class="w_bxxy_l">
+     <div class="w_bxxyl_1">
+	   <h2>{$catname}</h2>
+	   <ul class="w_bxxyl_1l">
+       {if $parent_id == 23 || $parent_id == 24}
+       <li  class="w_bxxyl_1l_1" >
+	    	<a href="javascript:;" title="车险理赔" onclick="$('.w_bxxyl_12').slideToggle(500)">车险理赔<i class="w_lpxl"></i></a>
+	        <ul class="w_bxxyl_12" {if $parent_id == 24}style="display:none"{/if}>
+			   {foreach from=$cxlp item=r}
+			   <li><a href="article.php?id={$r.article_id}" title="{$r.title}">{$r.title}</a></li>
+               {/foreach}
+               {foreach from=$cx_cat item=r}
+			   <li {if $r.cat_id == $cat_id}class="w_bxxyl_12_a"{/if}><a href="article_cat.php?id={$r.cat_id}" title="{$r.cat_name}">{$r.cat_name}</a></li>
+               {/foreach}
+			</ul>
+		</li>
+		<li  class="w_bxxyl_1l_1" >
+		<a href="javascript:;" title="非车险理赔"  onclick="$('.w_bxxyl_12').slideToggle(500)">非车险理赔<i class="w_lpxl"></i></a>
+		  <ul class="w_bxxyl_12" {if $parent_id == 23}style="display:none"{/if}>
+			   {foreach from=$fcxlp item=r}
+			   <li><a href="article.php?id={$r.article_id}" title="{$r.title}">{$r.title}</a></li>
+               {/foreach}
+               {foreach from=$fcx_cat item=r}
+			   <li {if $r.cat_id == $cat_id}class="w_bxxyl_12_a"{/if}><a href="article_cat.php?id={$r.cat_id}" title="{$r.cat_name}">{$r.cat_name}</a></li>
+               {/foreach}
+			</ul>
+		</li>
+       {else}
+	    {foreach from=$cat_list item=cats}
+           <li {if $cats.cat_id == $cat_id}class="w_bxxyl_1l_1"{/if}><a href="article_cat.php?id={$cats.cat_id}" title="{$cats.cat_name}">{$cats.cat_name}<i></i></a></li>
+        {/foreach}
+	   {/if}
+       </ul>
+	 </div>
+	 <div class="w_bxxyl_1">
+	   <h2>相关资讯</h2>
+	   <ul class="w_bxxyl_2l">
+	    {foreach from=$xg_list item=xg}
+        <li><a href="article.php?id={$xg.article_id}" title="{$xg.title}">{$xg.title}</a></li>
+		{/foreach}
+	   </ul>
+	 </div>
+   </div>
+   <div class="w_bxxy_r">
+     <div class="w_bxxy_r_t1"><i></i><b>{$name}</b></div>
+	 
+     {if $cat_id == 25}
+     <div class="w_lp_fx">
+	   <ul>
+	     <!-- {foreach from=$artciles_list item=r} -->
+         <li>
+		   <h2>{$r.title}</h2>
+		   <div class="w_lp_fx_w"><i></i>{$r.description}</div>
+		 </li>
+         <!-- {/foreach} -->
+	   </ul>
+       <div class="clear"></div>
+	   <div class="w_peag">
+       <!-- #BeginLibraryItem "/library/pages.lbi" --><!-- #EndLibraryItem -->
+	 </div>
+     {elseif $cat_id == 26 || $cat_id == 28}
+     <div class="w_xzzq">
+	   <ul>
+	    <!-- {foreach from=$artciles_list item=r} -->
+        <li><a href="{$r.file_url}" title="{$r.title}"><i></i>{$r.title}</a></li>
+		<!-- {/foreach} -->
+	   </ul>
+	 </div>
+     {elseif $cat_id == 27}
+     <div class="w_fcxal">
+	   <p>注：以下案例仅供参考</p>
+	   <table cellpadding="0" cellspacing="0" class="w_fcxal_tb">
+	     <tr class="w_fcxal_tr">
+		   <td>报案时间</td>
+		   <td>赔付时间</td>
+		   <td>险 种</td>
+		   <td>案件类型</td>
+		   <td>保单号</td>
+		   <td>承保公司</td>
+		   <td>保险产品</td>
+		   <td>赔付金额</td>
+		 </tr>
+		 <!-- {foreach from=$artciles_list item=r} -->
+         <tr>
+		   <td>{$r.basj}</td>
+		   <td>{$r.pfsj}</td>
+		   <td>{$r.xz}</td>
+		   <td>{$r.ajlx}</td>
+		   <td>{$r.bdh}</td>
+		   <td>{$r.cbgs}</td>
+		   <td>{$r.bxcp}</td>
+		   <td>{$r.pfje}</td>
+		 </tr>
+         <!-- {/foreach} -->
+	   </table>
+	 </div>
+     {else}
+     <div class="w_bxxy_r_n">
+	  <ul>
+	    <!-- {foreach from=$artciles_list item=article} -->
+        <li>
+		  <h2><a href="article.php?id={$article.id}" title="{$article.title}"><i></i>{$article.title}</a></h2>
+		  <p>{$article.description}</p>
+		  <div class="w_bxxy_r_n1">
+		    <span><b>标签：</b><a href="javascript:;" title="{$article.keywords}">{$article.keywords}</a></span>
+			<span><b>创建者：</b>{$article.author}</span>
+			<span><b>创建时间：</b>{$article.add_time}</span>
+		  </div>
+		</li>
+        <!-- {/foreach} -->
+	  </ul>
+	  <div class="clear"></div>
+	  <div class="w_peag">
+      <!-- #BeginLibraryItem "/library/pages.lbi" --><!-- #EndLibraryItem -->
+	  </div>
+      {/if}
+      
+	 </div>
+	</div> 
+   </div>
+<!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
+</body>
+</html>

@@ -1,0 +1,5 @@
+{include file='header.html'}
+<!--µ¼º½ -->
+{$article.content}
+
+{include file='footer.html'}

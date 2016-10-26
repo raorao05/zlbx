@@ -1,0 +1,94 @@
+{include file='header.html'}
+  <script type="text/javascript" src="/js/jquery.more.js"></script>
+<link rel="stylesheet" href="/css/newAdds.css">
+<script src="/js/newAdds.js"></script>
+<script >
+var Tday = new Array();
+var daysms = 24 * 60 * 60 * 1000
+var hoursms = 60 * 60 * 1000
+var Secondms = 60 * 1000
+var microsecond = 1000
+var DifferHour = -1
+var DifferMinute = -1
+var DifferSecond = -1
+</script>
+<style>
+  /*设置字体大小*/
+  html{ font-size:62.5%;}
+  @media only screen and (min-width:481px){ html{ font-size:98%!important;} }
+  @media only screen and (min-width:561px){ html{ font-size:109%!important;} }
+  @media only screen and (min-width:641px){ html{ font-size:125%!important;}}
+  .backTitle{
+    font-size: 2.5rem;
+  }
+</style>
+
+<div class="backTitle">
+  <a href="javascript :history.back(-1)" title=""><img src="/images/goBack.png" alt=""></a>
+  今日团购
+</div>
+<ul class="secKillList secKillList6">
+  <!-- {foreach from=$goods_list item=goods} -->
+  <li>
+    <a href="#" title="">
+      <div class="img1">
+        <img src="/images/secKill1.png" alt="">
+      </div>
+      <div class="right">
+        <p class="p1">境外旅行综合及紧急救援保险…</p>
+        <p class="p2">编号：JTXHTCX2030</p>
+        <p class="p3">团购价：<span class="span1">￥200</span>
+          <span class="span2">原价</span>
+          <del>￥300</del>
+        </p>
+        <p class="p5 clearfix">
+          <span class="span3">已有30人团购<br /><i>结束：1天25小时60分</i></span>
+          <span class="span2">马上团购</span>
+        </p>
+      </div>
+    </a>
+  </li>
+  <li>
+    <a href="#" title="">
+      <div class="img1">
+        <img src="/images/secKill2.png" alt="">
+        <div class="end">已秒<br />杀完</div>
+      </div>
+      <div class="right">
+        <p class="p1">境外旅行综合及紧急救援保险…</p>
+        <p class="p2">编号：JTXHTCX2030</p>
+        <p class="p3">团购价：<span class="span1">￥200</span>
+          <span class="span2">原价</span>
+          <del>￥300</del>
+        </p>
+        <p class="p5 clearfix">
+          <span class="span3">团购结束</span>
+          <span class="span2">去看看</span>
+        </p>
+      </div>
+    </a>
+  </li>
+  <li>
+    <a href="#" title="">
+      <div class="img1">
+        <img src="/images/secKill3.png" alt="">
+      </div>
+      <div class="right">
+        <p class="p1">境外旅行综合及紧急救援保险…</p>
+        <p class="p2">编号：JTXHTCX2030</p>
+        <p class="p3">团购价：<span class="span1">￥200</span>
+          <span class="span2">原价</span>
+          <del>￥300</del>
+        </p>
+        <p class="p5 clearfix">
+          <span class="span3">已有30人团购<br /><i>结束：1天25小时60分</i></span>
+          <span class="span2">马上团购</span>
+        </p>
+      </div>
+    </a>
+  </li>
+  {/foreach}
+</ul>
+{include file='footer.html'}
+</body>
+</html>

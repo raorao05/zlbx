@@ -1,0 +1,73 @@
+{include file='header.html'}
+{* 包含脚本文件 *}
+<script src="/js/MyDate/common.js"></script>
+<script src="/js/MyDate/WdatePicker.js"></script>
+<script>
+function g(element){return document.getElementById(element);}
+function tijiao(){
+	if(!document.message.ba_name.value){ alert("报案人姓名不能为空！");return false;}
+	if(!document.message.ba_tel.value){ alert("报案人手机不能为空！");return false;}
+	if(!document.message.email.value){ alert("报案人邮箱不能为空！");return false;}
+	if(!document.message.cx_name.value){ alert("出险人姓名不能为空！");return false;}
+	if(!document.message.zj_number.value){ alert("出险人证件号码不能为空！");return false;}
+	if(!document.message.cx_tel.value){ alert("出险人手机不能为空！");return false;}
+	if(!document.message.bdh.value){ alert("出险保单号不能为空！");return false;}
+	if(!document.message.lp_type.value){ alert("理赔类型不能为空！");return false;}
+	if(!document.message.fs_time.value){ alert("发生时间不能为空！");return false;}
+	if(!document.message.reason.value){ alert("延误原因不能为空！");return false;}
+	
+	return true;
+}
+</script>
+   <!--当前位置-->
+	<!--导航 -->
+	<div class="container top-menu">
+		<a href="javascript:history.back(-1)"><span class="glyphicon glyphicon-chevron-left" style="font-size:2rem;"></span></a>
+		<div class="cf-title" id="fd-caidan">我要理赔</div>
+		<div data-toggle="dropdown" href="#3" style="display:none;"><span class="glyphicon glyphicon-align-justify"style="font-size:2rem;"></span></div>
+		<ul class="dropdown-menu izl-fmenu" role="menu" aria-labelledby="dLabel" style="right:0; width:30%; left:auto">
+			<li><A href="">我的订单</A></li>
+			<li><A href="">我的视频</A></li>
+			<li><A href="">我的视频</A></li>
+		</ul>
+	</div>
+
+	<div class="bg-hight"></div>
+	<!--内容 -->
+	<div class="ddxq-box">
+		<form action="message.php" method="post" onsubmit="return tijiao();" name="message">
+			<ul class="xgdlmm">
+				<li><b>报案人信息:</b></li>
+				<li><span>报案人姓名</span><input type="text" name="ba_name" value=""/></li>
+				<li><span>手机</span><input type="text" name="ba_tel" value=""/></li>
+				<li><span>邮箱</span><input type="text" name="email" value=""/></li>
+			</ul>
+			<ul class="xgdlmm">
+				<li><b>出险人信息:</b></li>
+				<li><span>出险人姓名</span><input type="text" name="cx_name" value=""/></li>
+				<li><span>证件号码</span><input type="text" name="zj_number"  placeholder="请填写购买产品时填写的证件号"  value=""/></li>
+				<li><span>手机</span><input type="text" name="cx_tel" value=""/></li>
+				<li><span>保单号</span><input type="text" name="bdh" value=""/></li>
+			</ul>
+			<ul class="xgdlmm">
+				<li><b>理赔申请信息:</b></li>
+				<li><span>理赔类型：</span><select name="lp_type" class="input-lgr">
+					<option value="航班延误">航班延误</option>
+				</select></li>
+				<li><span>发生时间</span><input type="text" name="fs_time" value="" validate=" required:true" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})" /></li>
+				<li><span>航班号</span><input type="text" name="hbh" value=""/></li>
+				<li><span>延误原因</span><textarea name="reason"></textarea></li>
+			</ul>
+			<ul class="xgdlmm">
+				<li><b>理赔款打款银行:</b>请填写购买产品时填写的证件号</li>
+				<li><span>开户人</span><input type="text" name="account_name" value=""/></li>
+				<li><span>开户银行</span><em class="w_em_2"></em><input type="text" name="bank" value=""/></li>
+				<li><span>银行账户</span><input type="text" name="bank_account" value=""/></li>
+				<input type="hidden" name="act" value="act_add_message" />
+				<div class=""><input type="submit" value="提交申请" class="but"></div>
+			</ul>
+
+		</ul>
+		</form>
+	</div>
+{include file='footer.html'}

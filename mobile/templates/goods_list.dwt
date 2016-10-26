@@ -1,0 +1,72 @@
+{include file='header.html'}
+<!--导航 -->
+<div class="container top-menu">
+    <a href="javascript:history.back(-1)"><span class="glyphicon glyphicon-chevron-left" style="font-size:2rem;"></span></a>
+    <div class="cf-title" id="fd-caidan">保险产品</div>
+    <div data-toggle="dropdown" href="#3"><span class="glyphicon glyphicon-align-justify"style="font-size:2rem;"></span></div>
+    <ul class="dropdown-menu izl-fmenu" role="menu" aria-labelledby="dLabel" style="right:0; width:30%; left:auto">
+        <li><A href="">我的订单</A></li>
+        <li><A href="">我的视频</A></li>
+        <li><A href="">我的视频</A></li>
+    </ul>
+</div>
+<!--内容 -->
+<div class="bxcp-box">
+    <div class="bxcp-ser">
+        <form action="goods_list.php?id={$goods.0.cat_id}" method="post" enctype="multipart/form-data">
+        <p>
+            <input class="ser-inp" name="like" type="text" placeholder="请输入b保险关键字搜索">
+            <input class="ser-but" name=" " type="submit" value=" ">
+        </p>
+        </form>
+    </div>
+    <div class="bxcp-list">
+        <ul class="bxcp-list-nav">
+            <li {if $sort eq 'goods_id'}class="on"{/if}><a href="/mobile/goods_list.php?id={$goods.0.cat_id}&sort=goods_id&order={$order}">综合</a></li>
+            <li {if $sort eq 'salesnum'}class="on"{/if}><a href="/mobile/goods_list.php?id={$goods.0.cat_id}&sort=salesnum&order={$order}">销量</a></li>
+            <li {if $sort eq 'shop_price'}class="on"{/if}><a href="/mobile/goods_list.php?id={$goods.0.cat_id}&sort=shop_price&order={$order}">价格</a></li>
+        </ul>
+        <ul class="bxcp-list-text" id="mores">
+            {foreach from=$goods item=goods}
+            <li>
+                <a href="goods_show.php?id={$goods.goods_id}">
+                <p class="col-xs-3 photo"><a href="goods_show.php?id={$goods.goods_id}"><span><img src='/{$goods.goods_thumb}'/></span></a></p>
+                <div class="col-xs-8 text">
+                    <a href="goods_show.php?id={$goods.goods_id}">
+                    <h3><a href="goods_show.php?id={$goods.goods_id}">{$goods.goods_name}</a></h3>
+                    <p>编号：{$goods.goods_sn}  | 销量：{$goods.salesnum}份 </p>
+                    <p>￥<span class="cor-red">{$goods.shop_price}</span> </p>
+                    </a>
+                </div>
+                <div class="col-xs-1 art"><img src="/images/izl-icon_48.png" ></div>
+                <input type="hidden" class="last_id" value="{$goods.goods_id}">
+            </li>
+            {/foreach}
+        </ul>
+        <div class="clearfix"></div>
+        <div class="look-more" id="more"><a href="#3">查看更多</a></div>
+    </div>
+</div>
+{include file='footer.html'}
+<script>
+    $(document).ready(function(){
+        var more_id=1;
+        $("#more").click(function(){
+            more_id=more_id+1;
+            $("#more").html('<a href="#3">加载中...</a>');
+            $.ajax({
+                type:"GET",
+                url: "/mobile/goods_list.php"+window.location.search+"&c=more",
+                data: "p="+more_id,
+                success: function(msg){
+                    if(msg){
+                        $("#mores").append(msg);
+                        $("#more").html('<a href="#3">查看更多</a>');
+                    }else{
+                        $("#more").html('<a href="#3">没有更多了</a>');
+                    }
+                }
+            });
+        })
+    });
+</script>

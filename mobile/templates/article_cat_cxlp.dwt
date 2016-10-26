@@ -1,0 +1,55 @@
+{include file='header.html'}
+<!--导航 -->
+<div class="container top-menu">
+	<a href="javascript:history.back(-1)"><span class="glyphicon glyphicon-chevron-left" style="font-size:2rem;"></span></a>
+	<div class="cf-title" id="fd-caidan">{$catname}</div>
+	<div data-toggle="dropdown" href="#3" style="display:none;"><span class="glyphicon glyphicon-align-justify"style="font-size:2rem;"></span></div>
+	<ul class="dropdown-menu izl-fmenu" role="menu" aria-labelledby="dLabel" style="right:0; width:30%; left:auto">
+		<li><A href="">我的订单</A></li>
+		<li><A href="">我的视频</A></li>
+		<li><A href="">我的视频</A></li>
+	</ul>
+</div>
+
+<div class="bg-hight"></div>
+<!--内容 -->
+<!--内容 -->
+<div class="bxcp-box" >
+	<ul class="bxcp-box-lpfw">
+		{foreach from=$cat_list item=cats}
+		<li {if $cats.cat_id == $cat_id}class="on"{/if}><a href="article_cat_lpfw.php?id={$cats.cat_id}">{$cats.cat_name}</a></li>
+		{/foreach}
+	</ul>
+	<div class="clearfix"></div>
+	<div>
+		<ul class="bxcp-list" id="bxcp-list1">
+			<!-- {foreach from=$artciles_list item=article} -->
+			<li class="r-list"><a class="collapsed" href="article_lpfw.php?id={$article.article_id}" title="{$article.title}">{$article.title}</a></li>
+			<!-- {/foreach} -->
+		</ul>
+	</div>
+</div>
+
+{include file='footer.html'}
+<script>
+	$(document).ready(function(){
+		var more_id=1;
+		$("#more").click(function(){
+			more_id=more_id+1;
+			$("#more").html('<a href="#3">加载中...</a>');
+			$.ajax({
+				type:"GET",
+				url: "/mobile/article_cat.php"+window.location.search+"&c=more",
+				data: "p="+more_id,
+				success: function(msg){
+					if(msg){
+						$("#mores").append(msg);
+						$("#more").html('<a href="#3">查看更多</a>');
+					}else{
+						$("#more").html('<a href="#3">没有更多了</a>');
+					}
+				}
+			});
+		})
+	});
+</script>

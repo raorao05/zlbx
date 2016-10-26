@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<meta name="Keywords" content="网站地图" />
+<meta name="Description" content="网站地图" />
+<link href="/css/w_css.css" type="text/css" rel="stylesheet" />
+
+<script src="/js/jquery.min.js.js"></script>
+<script src="/js/w_index.js"></script>
+<script type="text/javascript" src="/js/tab.js"></script>
+<title>网站地图</title>
+{* 包含脚本文件 *}
+{insert_scripts files='common.js,global.js,compare.js'}
+</head>
+
+<body>
+<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
+<div class="w_center"> 
+   <div class="w_dqwz">当前位置：网站地图</div>
+   <div class="w_cplb_l">
+     <div class="w_cplb_l1">
+	   <h2>商品分类</h2>
+	   <ul>
+	      <!--{foreach from=$goods_cat1 item=cat}-->
+          <li>
+			<b>{$cat.name|escape:html} </b>
+			<!--{foreach from=$cat.cat_id item=cat1}-->
+				<em><a href="{$cat1.url}"><i class=""></i>{$cat1.name|escape:html}</a></em>
+			<!--{/foreach}-->
+	      </li>
+          <!--{/foreach}-->
+         
+	   </ul>
+	 </div>
+   </div>
+   
+   <div class="w_cplb_l">
+     <div class="w_cplb_l1">
+	   <h2>文章分类</h2>
+	   <ul>
+          <li>
+			<b> </b>
+			<!--{foreach from=$article_cat item=cat}-->
+				{if $cat.cat_id != 4 && $cat.cat_id != 22 && $cat.cat_id != 23 && $cat.cat_id != 24}
+                <em><a href="article_cat.php?id={$cat.cat_id}"><i class=""></i>{$cat.cat_name}</a></em>
+                {/if}
+			<!--{/foreach}-->
+	      </li>
+	   </ul>
+	 </div>
+   </div>
+</div> 
+
+
+<!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
+</body>
+</html>

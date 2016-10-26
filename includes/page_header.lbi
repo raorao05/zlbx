@@ -1,0 +1,97 @@
+{insert_scripts files='jquery.json-2.4.min.js'}
+<div class="w_top1_bd">
+    <div class="w_top1_center">
+	  <div class="w_top1_l">
+	    <span>你好！欢迎来到中联保险！</span>
+        {* ECSHOP 提醒您：根据用户id来调用member_info.lbi显示不同的界面  *}{insert name='member_info'}
+        
+	  </div>
+	  <div class="w_top1_r">
+	    <ul>
+		  <li class="w_topr_1"><a href="flow.php" title="购物车"><i></i>购物车（<span>{insert name='cart_info'}</span>）</a></li><em>|</em>
+		  <li class="w_topr_2">
+		  <a href="user.php?act=collection_list" title="收藏夹">收藏夹</a>
+		  </li><em>|</em>
+		  <li class="w_topr_2">
+		   <a href="user.php" title="会员中心">会员中心<i></i></a>
+		   <div class="w_scj_1">
+		   <a href="user.php?act=profile" title="用户信息">用户信息</a>
+		   <a href="user.php?act=order_list" title="我的订单">我的订单</a>
+		   <a href="user.php?act=comment_list" title="我的评论">我的评论</a>
+		  </div>
+		  </li><em>|</em>
+		  <li class="w_topr_2">
+		   <a href="" title="网站导航">网站导航<i></i></a>
+		   <div class="w_scj_1">
+		   <a href="" title="收藏夹">收藏夹</a>
+		   <a href="" title="收藏夹">收藏夹</a>
+		   <a href="" title="收藏夹">收藏夹</a>
+		   <a href="" title="收藏夹">收藏夹</a>
+		  </div>
+		  </li>
+		  <li class="w_topr_3"><i></i><b>400-667-5526</b></li>
+		</ul>
+	  </div>
+	</div>
+  </div>
+  <div class="w_top2_bd"> 
+    <div class="w_top2_center">
+	  <div class="w_logo1"><a href="index.php" title="中联保险"><img src="/images/w_logo1.png" title="中联保险" alt="中联保险"/></a></div>
+	  <div class="w_logo2"><img src="/images/w_logo2.png" title="中联保险" alt="中联保险"/></div>
+	  <div class="w_sosou">
+	   <div class="w_sosou1">
+	    <i></i>
+		<form id="searchForm" name="searchForm" method="get" action="search.php" onSubmit="return checkSearchForm()">
+        <input type="text" name="keywords" placeholder="请输入关键字" class="w_ss_in1" />
+		<input type="submit" value="搜索" class="w_ss_in2" />
+        </form>
+	   </div>
+	   
+	   {if $searchkeywords}
+           <div class="w_sosou2">
+	        热词：
+			{foreach from=$searchkeywords item=val name=searchkeywords}
+			   <a href="search.php?keywords={$val|escape:url}" target="_blank">{$val}</a>{if !$smarty.foreach.searchkeywords.last}|{/if}
+			{/foreach}
+			</div>
+		{/if}
+	   
+	  </div>
+    </div>
+  </div>	
+  <div class="w_top3_bd"> 
+    <div class="w_top3_center">
+	  <div class="w_top3_l">
+	    <span style=" cursor:pointer" onclick="$('.w_top3_2').slideToggle(500)">保险分类</span>
+		<div class="w_top3_2" style="display:none;">
+		  {foreach from=$categories item=cat key=k}
+         <dl>
+		    <dt class="w_top3_dt{$k}">{$cat.name}</dt>
+			<dd>
+				{if $cat.name eq '汽车保险'}
+				<a href="http://www.4008000000.com/zhuanxiang/dimian/cheshanghz.shtml?urltype=yb&provinceCode=430000&cityCode=430100&depCode=22019&partnerCode=1000098336&realCityname=" title="平安车险">平安车险</a>
+				<a href="http://www.epicc.com.cn/ecar/proposal/branchProposal?ID=4301385087" title="人保车险">人保车险</a>
+				<a href="http://www.chinalife.com.cn/publish/zhuzhan/883/index.html#pageSize=2&pageNo=1&parentAttrID=netSaleProduct&attrID=nsp_CarInsurance" title="国寿财车险">国寿财车险</a>
+				{else}
+			  {foreach from=$cat.cat_id item=cats}
+              <a href="category.php?id={$cats.id}" title="{$cats.name}">{$cats.name}</a>
+			  {/foreach}
+				{/if}
+			</dd>
+		  </dl>
+         {/foreach}
+		</div>
+	  </div>
+	  <ul class="w_top3_u">
+	    <li><a href="index.php" title="首页">首页</a></li>
+		<li {if $article.cat_id == 4 && $article.article_id != 33}class="w_dq_a"{/if}><a href="article.php?id=5" title="关于中联">关于中联</a></li>
+		<li {if $catid == 5}class="w_dq_a"{/if}><a href="article_cat.php?id=6" title="新闻中心">新闻中心</a></li>
+		<li {if $catid == 10}class="w_dq_a"{/if}><a href="article_cat.php?id=10" title="汽车服务">汽车服务</a></li>
+		<li {if $intro == 'best'}class="w_dq_a"{/if}><a href="search.php?intro=best" title="推荐产品">推荐产品</a></li>
+		<li {if $catid == 12}class="w_dq_a"{/if}><a href="article_cat.php?id=12" title="保险学院">保险学院</a></li>
+		<li {if $parent_id == 22}class="w_dq_a"{/if}><a href="article.php?id=34" title="理赔服务">理赔服务</a></li>
+		<li {if $article.article_id == 33}class="w_dq_a"{/if}><a href="article.php?id=33" title="人员招聘">人员招聘</a></li>                                                                                         
+	  </ul>
+	</div>
+ </div>	
+ <div class="clear"></div>

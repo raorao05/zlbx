@@ -1,0 +1,25 @@
+{include file='header.html'}
+<!--导航 -->
+<div class="container top-menu">
+    <a href="javascript:history.back(-1)"><span class="glyphicon glyphicon-chevron-left" style="font-size:2rem;"></span></a>
+    <div class="cf-title" id="fd-caidan">关于中联</div>
+    <div data-toggle="dropdown" href="#3" style="display:none;"><span class="glyphicon glyphicon-align-justify"style="font-size:2rem;"></span></div>
+    <ul class="dropdown-menu izl-fmenu" role="menu" aria-labelledby="dLabel" style="right:0; width:30%; left:auto">
+        <li><A href="">我的订单</A></li>
+        <li><A href="">我的视频</A></li>
+        <li><A href="">我的视频</A></li>
+    </ul>
+</div>
+
+<div class="bg-hight"></div>
+<!--内容 -->
+<section class="gyzl-box">
+    <ul>
+        <li><a href="article_gyzl.php?id=47"><span class="icon-img"><img src="/images/icon-03.png"></span><span>公司介绍</span></a></li>
+        <li><a href="article_gyzl.php?id=48"><span class="icon-img"><img src="/images/icon-04.png"></span><span>业务范围</span></a></li>
+        <li><a href="article_gyzl.php?id=15"><span class="icon-img"><img src="/images/icon-02.png"></span><span>发展历程</span></a></li>
+        <li><a href="article_gyzl.php?id=16"><span class="icon-img"><img src="/images/icon-01.png"></span><span>企业文化</span></a></li>
+    </ul>
+</section>
+
+{include file='footer.html'}

@@ -1,0 +1,342 @@
+{include file='header.html'}
+<script src="/js/utils.js"></script>
+<script src="/js/transport.js"></script>
+<script src="/js/common.js"></script>
+<!-- *用户中心默认显示页面 start-->
+<!-- {if $action eq 'default'} -->
+<!--导航 -->
+<div class="container top-menu">
+    <a href="javascript:history.back(-1)"><span class="glyphicon glyphicon-chevron-left" style="font-size:2rem;"></span></a>
+    <div class="cf-title" id="fd-caidan">个人中心</div>
+    <div data-toggle="dropdown" href="#3"><span class="glyphicon glyphicon-align-justify"style="font-size:2rem;"></span></div>
+    <ul class="dropdown-menu izl-fmenu" role="menu" aria-labelledby="dLabel" style="right:0; width:30%; left:auto">
+        <li><A href="">我的订单</A></li>
+        <li><A href="">我的视频</A></li>
+        <li><A href="">我的视频</A></li>
+    </ul>
+</div>
+
+<!--内容 -->
+<div class="">
+    <!--个人中心 -->
+    <div class="izl-grzx">
+        <div class="izl-grzx-head">
+            <div class="photo"><img src="{if $info.avatar}{if substr($info['avatar'],0,4) neq 'http'}/{/if}{$info.avatar}{else}/images/change_avtar.png{/if}" ></div>
+            <p class="name"><span class="hy">{$info.username}</span><span class="jb">普通会员</span></p>
+        </div>
+        <div class="izl-grzx-list">
+            <ul>
+                <li class="ttr"><a href="user.php?act=order_list"><span class="art">&nbsp;</span><span class="tit icon1">订单管理</span></a></li>
+                <li class="ttr"><a href="user.php?act=bd_list"><span class="art">&nbsp;</span><span class="tit icon2">保单管理</span></a></li>
+                <li class="ttr"><a href="user.php?act=profile"><span class="art">&nbsp;</span><span class="tit icon3">会员资料</span></a></li>
+                <li class="ttr"><a href="user.php?act=address_list"><span class="art">&nbsp;</span><span class="tit icon4">地址管理</span></a></li>
+                <li class="ttr"><a href="user.php?act=account_security"><span class="art">&nbsp;</span><span class="tit icon5">账户安全</span></a></li>
+                <li class="ttr"><a href="#3"><span class="art">&nbsp;</span><span class="tit icon6">车辆信息</span></a></li>
+                <li class="ttr"><a href="user.php?act=contacts_list"><span class="art">&nbsp;</span><span class="tit icon7">常用联系人</span></a></li>
+                <li class="ttr"><a href="user.php?act=collection_list"><span class="art">&nbsp;</span><span class="tit icon8">我的收藏</span></a></li>
+                <li class="ttr"><a href="article_cat.php?id=29"><span class="art">&nbsp;</span><span class="tit icon9">我要理赔</span></a></li>
+                <li class="ttr"><a href="user.php?act=claim_list"><span class="art">&nbsp;</span><span class="tit icon10">我的理赔申请</span></a></li>
+                <li class="ttr"><a href="#3"><span class="art">&nbsp;</span><span class="tit icon11">我的积分</span></a></li>
+                <li class="ttr"><a href="#3"><span class="art">&nbsp;</span><span class="tit icon12">我的优惠券</span></a></li>
+                <li class="ttr"><a href="#3"><span class="art">&nbsp;</span><span class="tit icon13">客户管理</span></a></li>
+                <li class="ttr"><a href="#3"><span class="art">&nbsp;</span><span class="tit icon14">业务统计</span></a></li>
+                <li class="ttr"><a href="#3"><span class="art">&nbsp;</span><span class="tit icon15">收入明细</span></a></li>
+                <li class="ttr"><span class="art">&nbsp;<span class="xx">2</span></span><span class="tit icon16">消息中心</span></li>
+            </ul>
+        </div>
+        <div class="grzx-out"><span onClick="document.location.href='user.php?act=logout'">退 出</span></div>
+    </div>
+</div>
+<!-- {/if} -->
+<!-- #用户中心默认显示页面 end-->
+
+<!--*账户安全-->
+<!--{if $action eq 'account_security'} -->
+<script>
+    function yz_email(){
+        Ajax.call('user.php?act=send_hash_mail', 'yz=1', get_back, 'POST', 'JSON');
+    }
+    function get_back(msg){
+        alert(msg.message);
+    }
+</script>
+<!--导航 -->
+<div class="container top-menu">
+    <a href="javascript:history.back(-1)"><span class="glyphicon glyphicon-chevron-left" style="font-size:2rem;"></span></a>
+    <div class="cf-title" id="fd-caidan">账户安全</div>
+    <div data-toggle="dropdown" href="#3" style="display:none;"><span class="glyphicon glyphicon-align-justify"style="font-size:2rem;"></span></div>
+    <ul class="dropdown-menu izl-fmenu" role="menu" aria-labelledby="dLabel" style="right:0; width:30%; left:auto">
+        <li><A href="">我的订单</A></li>
+        <li><A href="">我的视频</A></li>
+        <li><A href="">我的视频</A></li>
+    </ul>
+</div>
+<div class="bg-hight"></div>
+<!--内容 -->
+<div class="">
+    <div class="ddxq-box">
+
+        <ul class="xgmmsj">
+            <li><a href="user.php?act=edit_password_info">修改登录密码</a></li>
+            <li><a href="user.php?act=profile">修改个人资料</a></li>
+            {if $is_validated != 1}<li><a href="javascript:yz_email();" title="验证">验证邮箱</a></li>{/if}
+        </ul>
+
+    </div>
+</div>
+<!-- {/if} -->
+
+<!--*修改会员密码界面 -->
+<!--{if $action eq 'edit_password_info'} -->
+    <!--导航 -->
+    <script type="text/javascript">
+        {foreach from=$lang.profile_js item=item key=key}
+        var {$key} = "{$item}";
+        {/foreach}
+    </script>
+    <div class="container top-menu">
+        <a href="javascript:history.back(-1)"><span class="glyphicon glyphicon-chevron-left" style="font-size:2rem;"></span></a>
+        <div class="cf-title" id="fd-caidan">修改登录密码</div>
+        <div data-toggle="dropdown" href="#3" style="display:none;"><span class="glyphicon glyphicon-align-justify"style="font-size:2rem;"></span></div>
+        <ul class="dropdown-menu izl-fmenu" role="menu" aria-labelledby="dLabel" style="right:0; width:30%; left:auto">
+            <li><A href="">我的订单</A></li>
+            <li><A href="">我的视频</A></li>
+            <li><A href="">我的视频</A></li>
+        </ul>
+    </div>
+    <div class="bg-hight"></div>
+    <!--内容 -->
+    <div class="box-bgcolor">
+        <div class="ddxq-box">
+            <form name="formPassword" id="formPassword" action="user.php" method="post" onSubmit="return editPassword()" >
+            <ul class="xgdlmm">
+                <!--<li><span>手  机：</span><input name="" type="text" value="请输入手机号码"></li>-->
+                <li><span>旧密码：</span><input type="password" name="old_password" /></li>
+                <li><span>新密码：</span><input  type="password" name="new_password" /></li>
+                <li><span>确认密码：</span><input  type="password" name="comfirm_password" /></li>
+                <input name="act" type="hidden" value="act_edit_password" />
+                <div class=""><input name="" type="submit" value="提交" class="but"></div>
+            </ul>
+            </form>
+        </div>
+<!-- {/if} -->
+
+<!--#常用联系人列表 -->
+<!--{if $action eq 'contacts_list'} -->
+        <!--导航 -->
+        <div class="container top-menu">
+            <a href="javascript:history.back(-1)"><span class="glyphicon glyphicon-chevron-left" style="font-size:2rem;"></span></a>
+            <div class="cf-title" id="fd-caidan">常用联系人</div>
+            <div data-toggle="dropdown" href="#3"><span class="glyphicon glyphicon-align-justify"style="font-size:2rem;"></span></div>
+            <ul class="dropdown-menu izl-fmenu" role="menu" aria-labelledby="dLabel" style="right:0; width:30%; left:auto">
+                <li><A href="">我的订单</A></li>
+                <li><A href="">我的视频</A></li>
+                <li><A href="">我的视频</A></li>
+            </ul>
+        </div>
+        <div class="bg-hight"></div>
+        <!--内容 -->
+        <div class="">
+            <div class="izl-gwc">
+                <p  class="del-but"><span><a href="user.php?act=contacts_info">新增联系人</a></span></p>
+                <ul class="lxr-listR">
+                    <!--{foreach from=$contacts_list item=contacts}-->
+                    <li>
+                        <!--选中的调用样式 “active” -->
+                        <div class="col-xs-2 lxr-but"><span class="xz active"><input name="" type="radio" value="" class="radios"></span></div>
+                        <div class="col-xs-7 lxr-name"><p>{$contacts.name}</p></div>
+                        <div class="col-xs-3 lxr-icon">
+                            <a href="user.php?act=contacts_info&id={$contacts.contacts_id}"><span><img src="/images/izl-icon-del_18.png"></span></a>
+                            <a href="user.php?act=drop_contacts&id={$contacts.contacts_id}"><span><img src="/images/izl-icon-del_19.png"></span></a>
+                        </div>
+                    </li>
+                    <!--{/foreach} -->
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="look-more"><a href="#3">查看更多</a></div>
+        </div>
+<!-- {/if} -->
+
+<!--#常用联系人列表 -->
+<!--{if $action eq 'contacts_info'} -->
+<script>
+    function g(element){return document.getElementById(element);}
+    function tijiao(){
+        if(!g('name').value){
+            alert('请填写姓名')
+        }else if(!g('zj_number').value){
+            alert('请填写证件号码')
+        }else if(!g('email').value){
+            alert('请填写邮箱')
+        }else if(!g('mobile').value){
+            alert('请填写手机号码')
+        }else if(!g('address').value){
+            alert('请填写居住地址')
+        }else{
+            g("formcontacts").submit();
+        }
+    }
+</script>
+<!--导航 -->
+<div class="container top-menu">
+    <a href="javascript:history.back(-1)"><span class="glyphicon glyphicon-chevron-left" style="font-size:2rem;"></span></a>
+    <div class="cf-title" id="fd-caidan">新增联系人</div>
+    <div data-toggle="dropdown" href="#3" style="display:none;"><span class="glyphicon glyphicon-align-justify"style="font-size:2rem;"></span></div>
+    <ul class="dropdown-menu izl-fmenu" role="menu" aria-labelledby="dLabel" style="right:0; width:30%; left:auto">
+        <li><A href="">我的订单</A></li>
+        <li><A href="">我的视频</A></li>
+        <li><A href="">我的视频</A></li>
+    </ul>
+</div>
+<div class="bg-hight"></div>
+<!--内容 -->
+<div class="box-bgcolor">
+    <div class="ddxq-box">
+        <form id="formcontacts" method="post" action="user.php">
+        <ul class="xgdlmm">
+            <li><span>姓名：</span><input type="text" name="name" id="name" value="{$contacts_info.name}" /></li>
+            <li><span>手机：</span><input type="text" name="mobile" id="mobile" value="{$contacts_info.mobile}" /></li>
+            <li><span>证件号：</span><select  name="select" id="select" class="input-lgr">
+                <option>身份证</option>
+            </select></li>
+            <li><span>证件号码：</span><input type="text" name="zj_number" id="zj_number" value="{$contacts_info.zj_number}" /></li>
+            <li><span>邮箱：</span><input type="text" name="email" id="email" value="{$contacts_info.email}" /></li>
+            <li><span>居住地址：</span><input type="text" name="address" id="address" value="{$contacts_info.address}" /></li>
+            <input type="hidden" name="contacts_id" value="{$contacts_info.contacts_id}" />
+            <input type="hidden" name="act" value="act_edit_contacts" />
+            <div class=""><input name="" type="button" value="提交" class="but" onclick="tijiao()"></div>
+        </ul>
+        </form>
+    </div>
+</div>
+<!-- {/if} -->
+<!--*收藏商品列表页面 start-->
+<!--{if $action eq 'collection_list'} -->
+<script src="/js/transport.js"></script>
+<script src="/js/utils.js"></script>
+<script>
+var checkflag = "false";
+function check_1(fieldName) {
+    var field=document.getElementsByName(fieldName);
+    if (checkflag == "false") {
+        for (i = 0; i < field.length; i++) {
+            field[i].checked = true;}
+        checkflag = "true";
+        return "Uncheck All"; }
+    else {
+        for (i = 0; i < field.length; i++) {
+            field[i].checked = false; }
+        checkflag = "false";
+        return "Check All"; }
+}
+</script>
+<!--导航 -->
+<div class="container top-menu">
+    <a href="javascript:history.back(-1)"><span class="glyphicon glyphicon-chevron-left" style="font-size:2rem;"></span></a>
+    <div class="cf-title" id="fd-caidan">我的收藏</div>
+    <div data-toggle="dropdown" href="#3"><span class="glyphicon glyphicon-align-justify"style="font-size:2rem;"></span></div>
+    <ul class="dropdown-menu izl-fmenu" role="menu" aria-labelledby="dLabel" style="right:0; width:30%; left:auto">
+        <li><A href="">我的订单</A></li>
+        <li><A href="">我的视频</A></li>
+        <li><A href="">我的视频</A></li>
+    </ul>
+</div>
+<div class="bg-hight"></div>
+<!--内容 -->
+<div class="">
+    <div class="izl-gwc">
+        <p  class="del-but2"><span><a href="#3">共收藏<span>{$pager.record_count}</span>件商品 </a></span></p>
+        <form id="formcollection" method="post" action="user.php">
+        <ul class="izl-gwc-list">
+             <!--{foreach from=$goods_list item=goods}-->
+            <li>
+                <div class="xz on" style="display:block;"><input type="checkbox" name="rec_id[]" value="{$goods.rec_id}" class="radios"></div>
+                <div class="izl-photo"><span><a href="goods.php?id={$goods.goods_id}"><img src="/{$goods.goods_img}"></a></span></div>
+                <div class="izl-text">
+                    <h3><a href="#3">{$goods.goods_name|escape:html}</a></h3>
+                    <p class="num">收藏时间：{$goods.add_time}   |   人气：{$goods.popularity} </p>
+                    <p class="price"><span class="cor-red">{$goods.shop_price}</span> </p>
+                    <div class="izl-del2">
+                        <a href="javascript:if (confirm('{$lang.remove_collection_confirm}')) location.href='user.php?act=delete_collection&collection_id={$goods.rec_id}'"><span><img src="/images/izl-icon-del_16.png"></span></a>
+                        <a href="goods_show.php?id={$goods.goods_id}" title="购买"><span class="gwc"><img src="/images/izl-icon-del_17.png"></span></a>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </li>
+            <!--{/foreach} -->
+        </ul>
+        </form>
+        <div class="clearfix"></div>
+
+    </div>
+    <div class="look-more"><a href="#3">查看更多</a></div>
+</div>
+<!-- {/if} -->
+
+<!--*理赔申请列表-->
+<!--{if $action eq 'claim_list'} -->
+<!--导航 -->
+<div class="container top-menu">
+    <a href="javascript:history.back(-1)"><span class="glyphicon glyphicon-chevron-left" style="font-size:2rem;"></span></a>
+    <div class="cf-title" id="fd-caidan">我的理赔申请</div>
+    <div data-toggle="dropdown" href="#3" style="display:none"><span class="glyphicon glyphicon-align-justify"style="font-size:2rem;"></span></div>
+    <ul class="dropdown-menu izl-fmenu" role="menu" aria-labelledby="dLabel" style="right:0; width:30%; left:auto">
+        <li><A href="">我的订单</A></li>
+        <li><A href="">我的视频</A></li>
+        <li><A href="">我的视频</A></li>
+    </ul>
+</div>
+<div class="bg-hight"></div>
+<!--内容 -->
+<div class="">
+    <div class="izl-ywtj">
+        <div class="banner">
+            <div class="tit {if !$on}on{/if}"><a href="user.php?act=claim_list">正在进行（{$jxz}）</a></div>
+            <div class="tit {if $on}on{/if}"><a href="user.php?act=claim_list&yjs=yjs">已结束（{$yjs}）</a></div>
+        </div>
+
+        <ul>
+            <!--{foreach from=$info item=r}-->
+            <li>
+                <a href="user.php?act=claim_list_show&id={$r.msg_id}">
+                    <p><span class="l">申请时间：<span class="hs">{$r.msg_time}</span></span></p>
+                    <p><span class="l">申  请  人:<span class="hs">{$r.ba_name} </span></span><span class="r">理赔类型：<span class="hs">{$r.lp_type}</span></span></p>
+                </a>
+            </li>
+            <!--{/foreach}-->
+        </ul>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<!-- {/if} -->
+
+<!--*理赔申请列表详情-->
+<!--{if $action eq 'claim_list_show'} -->
+<!--导航 -->
+<div class="container top-menu">
+    <a href="javascript:history.back(-1)"><span class="glyphicon glyphicon-chevron-left" style="font-size:2rem;"></span></a>
+    <div class="cf-title" id="fd-caidan">我的理赔申请</div>
+    <div data-toggle="dropdown" href="#3"><span class="glyphicon glyphicon-align-justify"style="font-size:2rem;"></span></div>
+    <ul class="dropdown-menu izl-fmenu" role="menu" aria-labelledby="dLabel" style="right:0; width:30%; left:auto">
+        <li><A href="">我的订单</A></li>
+        <li><A href="">我的视频</A></li>
+        <li><A href="">我的视频</A></li>
+    </ul>
+</div>
+<div class="bg-hight"></div>
+<!--内容 -->
+<div class="">
+    <div class="ddxq-box">
+        <!--{foreach from=$info item=r}-->
+        <p><span>姓名：</span>{$r.cx_name}</p>
+        <p><span>手机：</span>{$r.cx_tel}</p>
+        <p><span>邮箱：</span>{$r.user_email}</p>
+        <p><span>理赔类型：</span>{$r.lp_type}</p>
+        <p><span>发生时间：</span>{$r.fs_time}</p>
+        <p><span>保单：</span>{$r.zj_number}</p>
+        <p><span>事情经过：</span>{$r.reason}</p>
+        <!--{/foreach}-->
+    </div>
+<!-- {/if} -->
+{include file='footer.html'}

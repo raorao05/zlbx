@@ -1,0 +1,544 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+
+<title>{$page_title}</title>
+
+<link href="/css/w_css.css" type="text/css" rel="stylesheet" />
+<script src="/js/jquery.min.js.js"></script>
+<script src="/js/w_index.js"></script>
+<script type="text/javascript" src="/js/tab.js"></script>	
+<script type="text/javascript" src="/js/jquery.js"></script>
+<script type="text/javascript" src="/js/jquery.json-2.4.min.js"></script>
+
+{* 包含脚本文件 *}
+{insert_scripts files="transport.js,region.js"}
+{insert_scripts files='common.js,index.js'}
+<script>
+$(function(){
+	$(".w_sy_bfd_2 span").click(function(){
+		$(".w_sy_bfd_2").find("span").removeClass("w_span_dq");
+		$(this).addClass('w_span_dq');
+	});
+});
+function fuzhi(id,zhi){
+	document.getElementById(id).value=zhi;
+}
+function quote(){
+	var cat_id=document.getElementById('cat_id').value;
+	var reg_id=document.getElementById('selCities').value;
+	
+	window.location.href='category.php?id='+cat_id+'&reg_id='+reg_id;
+}
+</script>
+</head>
+<body>
+<div class="w_top1_bd">
+    <div class="w_top1_center">
+	  <div class="w_top1_l">
+	    <span>你好！欢迎来到中联保险！</span>{* ECSHOP 提醒您：根据用户id来调用member_info.lbi显示不同的界面  *}{insert name='member_info'}
+	  </div>
+	  <div class="w_top1_r">
+	    <ul>
+		  <li class="w_topr_1"><a href="flow.php" title="购物车"><i></i>购物车（<span>{insert name='cart_info'}</span>）</a></li><em>|</em>
+		  <li class="w_topr_2">
+		  <a href="user.php?act=collection_list" title="收藏夹">收藏夹</a>
+		  </li><em>|</em>
+		  <li class="w_topr_2">
+		   <a href="user.php" title="会员中心">会员中心<i></i></a>
+		   <div class="w_scj_1">
+		   <a href="user.php?act=profile" title="用户信息">用户信息</a>
+		   <a href="user.php?act=order_list" title="我的订单">我的订单</a>
+		   <a href="user.php?act=comment_list" title="我的评论">我的评论</a>
+		  </div>
+		  </li>
+		  <li class="w_topr_3"><i></i><b>0731-82808053 </b></li>
+		</ul>
+	  </div>
+	</div>
+  </div>
+  <div class="w_top2_bd"> 
+    <div class="w_top2_center">
+	  <div class="w_logo1"><a href="index.php" title="中联保险"><img src="/images/w_logo1.png" title="中联保险" alt="中联保险"/></a></div>
+	  <div class="w_logo2"><img src="/images/w_logo2.png" title="中联保险" alt="中联保险"/></div>
+	  <div class="w_sosou">
+	   <div class="w_sosou1">
+	    <i></i>
+        <form id="searchForm" name="searchForm" method="get" action="search.php" onSubmit="return checkSearchForm()">
+		<input type="text" name="keywords" placeholder="请输入关键字" class="w_ss_in1" />
+		<input type="submit" value="搜索" class="w_ss_in2" />
+        </form>
+	   </div>
+	   {if $searchkeywords}
+           <div class="w_sosou2">
+	        热词：
+			{foreach from=$searchkeywords item=val name=searchkeywords}
+			   <a href="search.php?keywords={$val|escape:url}" target="_blank">{$val}</a>{if !$smarty.foreach.searchkeywords.last}|{/if}
+			{/foreach}
+			</div>
+		{/if}
+	   </div>
+	  </div>
+    </div>
+  </div>	
+  <div class="w_top3_bd"> 
+    <div class="w_top3_center">
+	  <div class="w_top3_l">
+	    <span>保险分类</span>
+		<div class="w_top3_2">
+		 {foreach from=$categories item=cat key=k}
+         <dl>
+		    <dt class="w_top3_dt{$k}">
+				<a href="category.php?id={$cat.id}">{$cat.name}</a>
+				<em>
+				{foreach from=$cat.cat_id item=catss name=sb}
+				
+				{if $smarty.foreach.sb.iteration<4}
+				<a href="category.php?id={$catss.id}" title="{$catss.name}">{$catss.name}</a>
+				{/if}
+				{/foreach}
+				</em>
+			
+			</dt>
+			<dd>
+                <i></i>
+				{if $cat['id'] eq 1}
+				<a href="http://www.4008000000.com/zhuanxiang/dimian/cheshanghz.shtml?urltype=yb&provinceCode=430000&cityCode=430100&depCode=22019&partnerCode=1000098336&realCityname=" title="平安车险">平安车险</a>
+				<a href="http://www.epicc.com.cn/ecar/proposal/branchProposal?ID=4301385087" title="人保车险">人保车险</a>
+				<a href="http://www.chinalife.com.cn/publish/zhuzhan/883/index.html#pageSize=2&pageNo=1&parentAttrID=netSaleProduct&attrID=nsp_CarInsurance" title="国寿财车险">国寿财车险</a>
+                 <a href="http://e.cic.cn/web/portal.do?url=HC6iFLQ3Q3KwTZ95K8XewQ==" title="中华联合车险">中华联合车险</a>
+				{else}
+				{foreach from=$cat.cat_id item=cats name=ssb}
+				{if $smarty.foreach.ssb.iteration>=4}
+				<a href="category.php?id={$cats.id}" title="{$cats.name}">{$cats.name}</a>
+				{/if}
+				{/foreach}
+				{/if}
+			</dd>
+		  </dl>
+         {/foreach}
+		</div>
+	  </div>
+	  <ul class="w_top3_u">
+	    <li class="w_dq_a"><a href="index.php" title="首页">首页</a></li>
+		<li><a href="article.php?id=5" title="关于中联">关于中联</a></li>
+		<li><a href="article_cat.php?id=6" title="新闻中心">新闻中心</a></li>
+		<li><a href="article_cat.php?id=10" title="汽车服务">汽车服务</a></li>
+		<li><a href="search.php?intro=best" title="推荐产品">推荐产品</a></li>
+		<li><a href="article_cat.php?id=12" title="保险学院">保险学院</a></li>
+		<li><a href="article.php?id=34" title="理赔服务">理赔服务</a></li>
+		<li><a href="article.php?id=33" title="人员招聘">人员招聘</a></li>                                                                                         
+	  </ul>
+	</div>
+ </div>	
+ <div class="clear"></div>
+<div class="w_sy_b1">
+  <div class="indexSlide">
+      <div class="slide_show" id="slide_show">
+        <div class="slide_wrap" id="index_slide">
+          <ol class="clearfix">
+            {foreach from=$ad item=ads key=k}
+            <li> <a class="big_pic" href="{$ads.ad_link}" target="_blank"><img id="lunbo_{$k}" src="/data/afficheimg/{$ads.ad_code}" /></a> </li>
+            {/foreach}
+          </ol>
+        </div>
+        <ul class="none" id="lunboNum">
+          {foreach from=$ad item=ads key=k}
+          <li  {if $k == 1}class="cur"{/if}></li>
+          {/foreach}
+        </ul>
+        <!--<a style="display: none;" href="javascript:void(0);" class="show_next"><s></s></a> <a style="display: none;" href="javascript:void(0);" class="show_pre"><s></s></a> --></div>
+    </div>
+  <div class="w_sy_bfd">
+    <h2>车险快速投保</h2>
+	<div class="w_sy_bfd_1">
+	  <span>用车城市</span>
+	  <div class="w_sy_bfd_1x">
+      <select name="country" id="selCountries" onchange="region.changed(this, 1, 'selProvinces')" style="display:none;">
+          <option value="1">中国</option>
+      </select>
+      <select name="province" id="selProvinces" onchange="region.changed(this, 2, 'selCities')" style="border:none; width:80px; margin:0 20px;">
+          <option value="0">请选择省</option>
+      </select>
+      <select name="city" id="selCities" onchange="region.changed(this, 3, 'selDistricts')" style="border:none; width:80px;">
+          <option value="0">请选择市</option>
+      </select>
+      <div style="display:none;">
+      <select name="district" id="selDistricts" >
+          <option value="0">请选择区</option>
+      </select>
+      </div>
+      <!--<i></i><span>长沙</span>
+	  <ul>
+	    <li><a href="" title="">长沙</a></li>
+		<li><a href="" title="">长沙</a></li>
+		<li><a href="" title="">长沙</a></li>
+		<li><a href="" title="">长沙</a></li>
+	  </ul>-->
+	  </div>
+	</div>
+	<div class="w_sy_bfd_2">
+	   {foreach from=$cx item=r key=k}
+       {if $k < 7}
+       <span {if $k ==1 || $k ==4}class="no_le"{/if} onclick="fuzhi('cat_id','{$r.cat_id}');"><i></i>{$r.cat_name}</span>
+       {/if}
+	   {/foreach}
+       <input type="hidden" id="cat_id" value="" />
+	</div>
+	<div class="w_sy_bfd_3">
+	 <a href="javascript:quote();" title="获取报价" class="w_sy_bfd_31">获取报价</a>
+	 <a href="" title="续保">续保</a>
+	</div>
+  </div>
+<script>
+region.isAdmin = true;
+$("#selCountries").change();
+</script>
+ </div>
+ <div class="clear"></div>
+ <div class="w_center">
+ <div class="w_sy_f1">
+   <div class="w_sy_f1_t">
+     <span class="w_syf1_ta" id="wr1" onmouseover="setTab('wr',1,4,'w_syf1_ta')"><i></i>公司新闻</span>
+	 <span id="wr2" onmouseover="setTab('wr',2,4,'w_syf1_ta')"><i></i>行业动态</span>
+	 <span id="wr3" onmouseover="setTab('wr',3,4,'w_syf1_ta')"><i></i>保险法规</span>
+	 <span id="wr4" onmouseover="setTab('wr',4,4,'w_syf1_ta')"><i></i>其他新闻</span>
+   </div>
+   <div class="w_sy_f1_n" id="con_wr_1" style="display:block;">
+     <div class="w_sy_f1_n1">
+	   <ul>
+	     {foreach from=$news_gs item=gs key=k}
+         {if $k < 2}
+         <li>
+		   <a href="article.php?id={$gs.article_id}" title="{$gs.title}"><img src="/{$gs.file_url}" title="{$gs.title}" alt="{$gs.title}"/></a>
+		   <a href="article.php?id={$gs.article_id}" title="{$gs.title}"><h2>{$gs.title|truncate:22}</h2></a>
+		   <p>{$gs.description|truncate:84}<a href="article.php?id={$gs.article_id}" title="查看详情>>">查看详情>></a></p>
+		 </li>
+         {/if}
+         {/foreach}
+	   </ul>
+	 </div>
+	 <div class="w_sy_f1_n2">
+	   <ul>
+	    {foreach from=$news_gs item=gs key=k}
+        {if $k > 1}
+        <li><a href="article.php?id={$gs.article_id}" title="{$gs.title}"><i>*</i>{$gs.title}</a></li>
+        {/if}
+        {/foreach}
+	   </ul>
+	 </div> 
+	 <div class="w_sy_f1_n3">
+	  <a href="article_cat.php?id=6" title="查看更多>>">查看更多>></a>
+	 </div> 
+   </div>
+   <div class="w_sy_f1_n" id="con_wr_2" style="display: none;">
+     <div class="w_sy_f1_n1">
+	   <ul>
+	     {foreach from=$news_hy item=gs key=k}
+         {if $k < 2}
+         <li>
+		   <a href="article.php?id={$gs.article_id}" title="{$gs.title}"><img src="/{$gs.file_url}" title="{$gs.title}" alt="{$gs.title}"/></a>
+		   <a href="article.php?id={$gs.article_id}" title="{$gs.title}"><h2>{$gs.title|truncate:22}</h2></a>
+		   <p>{$gs.description|truncate:84}<a href="article.php?id={$gs.article_id}" title="查看详情>>">查看详情>></a></p>
+		 </li>
+         {/if}
+         {/foreach}
+	   </ul>
+	 </div>
+	 <div class="w_sy_f1_n2">
+	   <ul>
+	    {foreach from=$news_hy item=gs key=k}
+        {if $k > 1}
+        <li><a href="article.php?id={$gs.article_id}" title="{$gs.title}"><i>*</i>{$gs.title}</a></li>
+        {/if}
+        {/foreach}
+	   </ul>
+	 </div> 
+	 <div class="w_sy_f1_n3">
+	  <a href="article_cat.php?id=7" title="查看更多>>">查看更多>></a>
+	 </div> 
+   </div>
+   <div class="w_sy_f1_n" id="con_wr_3" style="display: none;">
+     <div class="w_sy_f1_n1">
+	   <ul>
+	     {foreach from=$news_bx item=gs key=k}
+         {if $k < 2}
+         <li>
+		   <a href="article.php?id={$gs.article_id}" title="{$gs.title}"><img src="/{$gs.file_url}" title="{$gs.title}" alt="{$gs.title}"/></a>
+		   <a href="article.php?id={$gs.article_id}" title="{$gs.title}"><h2>{$gs.title|truncate:22}</h2></a>
+		   <p>{$gs.description|truncate:84}<a href="article.php?id={$gs.article_id}" title="查看详情>>">查看详情>></a></p>
+		 </li>
+         {/if}
+         {/foreach}
+	   </ul>
+	 </div>
+	 <div class="w_sy_f1_n2">
+	   <ul>
+	    {foreach from=$news_bx item=gs key=k}
+        {if $k > 1}
+        <li><a href="article.php?id={$gs.article_id}" title="{$gs.title}"><i>*</i>{$gs.title}</a></li>
+        {/if}
+        {/foreach}
+	   </ul>
+	 </div> 
+	 <div class="w_sy_f1_n3">
+	  <a href="article_cat.php?id=8" title="查看更多>>">查看更多>></a>
+	 </div> 
+   </div>
+   <div class="w_sy_f1_n" id="con_wr_4" style="display: none;">
+     <div class="w_sy_f1_n1">
+	   <ul>
+	     {foreach from=$news_qt item=gs key=k}
+         {if $k < 2}
+         <li>
+		   <a href="article.php?id={$gs.article_id}" title="{$gs.title}"><img src="/{$gs.file_url}" title="{$gs.title}" alt="{$gs.title}"/></a>
+		   <a href="article.php?id={$gs.article_id}" title="{$gs.title}"><h2>{$gs.title|truncate:22}</h2></a>
+		   <p>{$gs.description|truncate:84}<a href="article.php?id={$gs.article_id}" title="查看详情>>">查看详情>></a></p>
+		 </li>
+         {/if}
+         {/foreach}
+	   </ul>
+	 </div>
+	 <div class="w_sy_f1_n2">
+	   <ul>
+	    {foreach from=$news_qt item=gs key=k}
+        {if $k > 1}
+        <li><a href="article.php?id={$gs.article_id}" title="{$gs.title}"><i>*</i>{$gs.title}</a></li>
+        {/if}
+        {/foreach}
+	   </ul>
+	 </div> 
+	 <div class="w_sy_f1_n3">
+	  <a href="article_cat.php?id=9" title="查看更多>>">查看更多>></a>
+	 </div> 
+   </div>
+ </div>
+ <div class="clear"></div>
+ <div class="w_sy_f2">
+   <h2 class="w_tit1">全方位服务</h2>
+   <ul>
+     <li>
+	  <a href="article_cat.php?id=12" title="承保服务"><img src="/images/w_f2_11.png" title="承保服务" alt="承保服务"/></a>
+	  <div class="w_sy_f2_d"><a href="article_cat.php?id=12" title="承保服务"><img src="/images/w_f2_12.png" title="承保服务" alt="承保服务"/></a></div>
+	 </li>
+	 <li>
+	  <a href="article.php?id=34" title="理赔服务"><img src="/images/w_f2_21.png" title="理赔服务" alt="理赔服务"/></a>
+	  <div class="w_sy_f2_d"><a href="article.php?id=34" title="理赔服务"><img src="/images/w_f2_22.png" title="理赔服务" alt="理赔服务"/></a></div>
+	 </li>
+	 <li>
+	  <a href="article_cat.php?id=10" title="用车服务"><img src="/images/w_f2_31.png" title="用车服务" alt="用车服务"/></a>
+	  <div class="w_sy_f2_d"><a href="article_cat.php?id=10" title="用车服务"><img src="/images/w_f2_32.png" title="用车服务" alt="用车服务"/></a></div>
+	 </li>
+	 <li>
+	  <a href="article_cat.php?id=6" title="其他服务"><img src="/images/w_f2_41.png" title="其他服务" alt="其他服务"/></a>
+	  <div class="w_sy_f2_d"><a href="article_cat.php?id=6" title="其他服务"><img src="/images/w_f2_42.png" title="其他服务" alt="其他服务"/></a></div>
+	 </li>
+   </ul>
+ </div>
+ <div class="clear"></div>
+ <div class="w_sy_f3">
+  <div class="w_sy_f3_l"> 
+   <div class="w_sy_f3_ltit"><i class="w_f3_i1"></i><b>汽车保险</b>/ 为您的爱车买份保障</div>
+   <div class="w_sy_f3_l_n">
+     <div  class="w_sy_f3_l_n1">
+	   <div class="w_sy_f3_l_n1_img"><a href="category.php?id=1" title="汽车保险"><img src="/images/car_img.jpg"></a></div>
+	   <ul>
+	   {foreach from=$cx item=r key=k}
+       {if $k < 9}
+       <li><a href="category.php?id={$r.cat_id}" title="{$r.cat_name}">{$r.cat_name}</a></li>
+       {/if}
+	   {/foreach}
+	   </ul>
+	 </div>
+	 <div class="w_sy_f3_l_n2 no_border_rgt">
+	  {if $cx[9]['cat_id']}
+       <h2>保险公司</h2>
+	   <ul>
+       {foreach from=$cx item=r key=k}
+       {if $k > 8}
+	   <li><a href="category.php?id={$r.cat_id}" title="{$r.cat_name}">{$r.cat_name}</a></li>
+       {/if}
+	   {/foreach}
+	  </ul>
+      {/if}
+	 </div>
+   </div>
+  </div>   
+  <div class="w_sy_f3_r">
+   <div class="w_sy_f3_rtit"><span class="w_sy_f3_rtit_s" id="tw1" onclick="setTab('tw',1,2,'w_sy_f3_rtit_s')">热销TOP6</span><span id="tw2" onclick="setTab('tw',2,2,'w_sy_f3_rtit_s')">保险手册</span></div>
+   <ul id="con_tw_1" style="display:block;">
+     {foreach from=$cx item=r key=k}
+     {if $k < 6}
+     <li {if $k == 5}class="no_bott"{/if}>
+	 <div class="w_sy_f3_rn1"><i {if $k == 1}style="background:#f69311"{/if}>{$k}</i><a href="category.php?id={$r.cat_id}" title="{$r.cat_name}">{$r.cat_name}</a></div>
+	 </li>
+     {/if}
+     {/foreach}
+	  
+	 <div class="w_xbl">{insert name=ads id=4 num=1}</div>
+   </ul>
+   <ul id="con_tw_2" style="display: none;">
+     {foreach from=$cx_wz_list item=r key=k}
+     <li {if $k == 5}class="no_bott"{/if}>
+	 <div class="w_sy_f3_rn1"><i {if $k == 1}style="background:#f69311"{/if}>{$k}</i><a href="article.php?id={$r.article_id}" title="{$r.title}">{$r.title}</a></div>
+	 </li>
+     {/foreach}
+	 <div class="w_xbl">{insert name=ads id=5 num=1}</div>
+   </ul>
+  </div>
+ </div>
+ <div class="clear"></div>
+ <div class="w_xbanner">{insert name=ads id=6 num=1}</div>
+ <div class="clear"></div>
+ <div class="w_sy_f3">
+  <div class="w_sy_f3_l"> 
+   <div class="w_sy_f3_ltit"><i class="w_f3_i2"></i><b>旅游保险</b></div>
+   <div class="w_sy_f3_l_n w_sy_3k">
+     <div  class="w_sy_f3_l_n3">
+	   <h2><span><i>￥88</i>起</span>境内旅行保险</h2>
+	   <ul>
+	   {foreach from=$jn_list item=r}
+       <li><a href="goods.php?id={$r.goods_id}" title="{$r.goods_name}">{$r.goods_name}</a></li>
+	   {/foreach}
+	   </ul>
+	 </div>
+	 <div class="w_sy_f3_l_n4">
+	   <h2><span><i>￥100</i>起</span>境外旅行保险</h2>
+	   <ul>
+	   {foreach from=$jw_list item=r}
+       <li><a href="goods.php?id={$r.goods_id}" title="{$r.goods_name}">{$r.goods_name}</a></li>
+	   {/foreach}
+	  </ul> 
+	 </div>
+	 <div class="w_sy_f3_l_n5 no_border_rgt">
+	   <h2><span><i>￥100</i>起</span>港澳台旅行保险</h2>
+	   <ul>
+	   {foreach from=$gat_list item=r}
+       <li><a href="goods.php?id={$r.goods_id}" title="{$r.goods_name}">{$r.goods_name}</a></li>
+	   {/foreach}
+	  </ul> 
+	 </div>
+   </div>
+  </div>   
+  <div class="w_sy_f3_r">
+   <div class="w_sy_f3_rtit"><span class="w_sy_f3_rtit_s" id="tj1" onclick="setTab('tj',1,2,'w_sy_f3_rtit_s')">热销TOP3</span><span id="tj2" onclick="setTab('tj',2,2,'w_sy_f3_rtit_s')">保险手册</span></div>
+   <ul id="con_tj_1" style="display:block;">
+     {foreach from=$ly_list item=r key=k name=ly_list}
+     <li {if $smarty.foreach.ly_list.last}class="no_bott"{/if}>
+	 <div class="w_sy_f3_rn1"><i {if $k ==1}style="background:#f69311"{/if}>{$k}</i><a href="goods.php?id={$r.goods_id}" title="{$r.goods_name}">{$r.goods_name}</a></div>
+	 <div class="w_sy_f3_rn2"><i>销量：{$r.salesnum}</i>￥<em>{$r.shop_price}</em>起</div>
+	 </li>
+     {/foreach}
+	  
+	 <div class="w_xbl">{insert name=ads id=7 num=1}</div>
+   </ul>
+   <ul id="con_tj_2" style="display: none;">
+     {foreach from=$ly_wz_list item=r key=k}
+     <li {if $k == 5}class="no_bott"{/if}>
+	 <div class="w_sy_f3_rn1"><i {if $k == 1}style="background:#f69311"{/if}>{$k}</i><a href="article.php?id={$r.article_id}" title="{$r.title}">{$r.title}</a></div>
+	 </li>
+     {/foreach}
+	 <div class="w_xbl">{insert name=ads id=8 num=1}</div>
+   </ul>
+  </div>
+ </div>
+ <div class="clear"></div>
+ <div class="w_xbanner">{insert name=ads id=9 num=1}</div>
+ <div class="clear"></div>
+ <div class="w_sy_f3">
+  <div class="w_sy_f3_l"> 
+   <div class="w_sy_f3_ltit"><i class="w_f3_i3"></i><b>意外保险</b></div>
+   <div class="w_sy_f3_l_n w_sy_3k">
+     <div  class="w_sy_f3_l_n6">
+	   <h2>航意险</h2>
+	   <ul>
+	   {foreach from=$dz_list item=r}
+       <li><a href="goods.php?id={$r.goods_id}" title="{$r.goods_name}">{$r.goods_name}</a></li>
+	   {/foreach}
+       </ul>
+	 </div>
+	 <div class="w_sy_f3_l_n7">
+	   <h2>交通意外</h2>
+	   <ul>
+	   {foreach from=$czw_list item=r}
+       <li><a href="goods.php?id={$r.goods_id}" title="{$r.goods_name}">{$r.goods_name}</a></li>
+	   {/foreach}
+	  </ul> 
+	 </div>
+	 <div class="w_sy_f3_l_n8 no_border_rgt">
+	   <h2>人身意外</h2>
+	   <ul>
+	   {foreach from=$hz_list item=r}
+       <li><a href="goods.php?id={$r.goods_id}" title="{$r.goods_name}">{$r.goods_name}</a></li>
+	   {/foreach}
+	  </ul> 
+	 </div>
+   </div>
+  </div>   
+  <div class="w_sy_f3_r">
+   <div class="w_sy_f3_rtit"><span class="w_sy_f3_rtit_s" id="tx1" onclick="setTab('tx',1,2,'w_sy_f3_rtit_s')">热销TOP3</span><span id="tx2" onclick="setTab('tx',2,2,'w_sy_f3_rtit_s')">保险手册</span></div>
+   <ul id="con_tx_1" style="display:block;">
+     {foreach from=$jc_list item=r key=k name=jc_list}
+     <li {if $smarty.foreach.jc_list.last}class="no_bott"{/if}>
+	 <div class="w_sy_f3_rn1"><i {if $k ==1}style="background:#f69311"{/if}>{$k}</i><a href="goods.php?id={$r.goods_id}" title="{$r.goods_name}">{$r.goods_name}</a></div>
+	 <div class="w_sy_f3_rn2"><i>销量：{$r.salesnum}</i>￥<em>{$r.shop_price}</em>起</div>
+	 </li>
+     {/foreach}
+	 <div class="w_xbl"><a href="" title=""><img src="/images/w_xbanner_3.jpg" title="" alt=""/></a></div>
+   </ul>
+   <ul id="con_tx_2" style="display: none;">
+     {foreach from=$jc_wz_list item=r key=k}
+     <li {if $k == 5}class="no_bott"{/if}>
+	 <div class="w_sy_f3_rn1"><i {if $k == 1}style="background:#f69311"{/if}>{$k}</i><a href="article.php?id={$r.article_id}" title="{$r.title}">{$r.title}</a></div>
+	 </li>
+     {/foreach}
+	 <div class="w_xbl"><a href="" title=""><img src="/images/w_xbanner_1.jpg" title="" alt=""/></a></div>
+   </ul>
+  </div>
+ </div>
+ <div class="clear"></div>
+ <div class="w_sy_f4">
+   <h2 class="w_tit1">知名合作伙伴</h2>
+   <div class="w_bd_3">
+       <div onmouseup="StopUp_3()" class="LeftBotton3" onmousedown="GoUp_3()" onmouseout="StopUp_3()"></div>
+      <div class="Cont3" id="Cont_3">
+        <div class="ScrCont">
+          <div id="List1_3">
+            <!-- 图片列表 begin -->
+           {foreach from=$hz item=link key=k name=link}
+            {if $smarty.foreach.link.last && ($k+1)%2}
+            <div class="box3">
+             <img src="{$link.logo}" title="{$link.name}" alt="{$link.name}" />
+             </div>
+            {elseif ($k+1)%2}
+            <div class="box3">
+              <img src="{$link.logo}" title="{$link.name}" alt="{$link.name}" />
+            {else}
+			 <img src="{$link.logo}" title="{$link.name}" alt="{$link.name}" />
+            </div>
+            {/if}
+           {/foreach}
+			
+            <!-- 图片列表 end -->
+          </div>
+          <div id="List2_3"></div>
+        </div>
+      </div>
+      <div onmouseup="ISL_StopDown_3()" class="RightBotton3" onmousedown="ISL_GoDown_3()" onmouseout="ISL_StopDown_3()"></div>
+      <script type="text/javascript" src="/js/rollpic3.js"></script>
+    </div>
+ </div>
+ <div class="clear"></div>
+ <div class="w_sy_f5">
+   <h2 class="w_tit2">竭诚为您 无忧购保</h2>
+   <div class="w_sy_f5_n">
+    <img src="/images/w_ty_bt.jpg" title="竭诚为您 无忧购保" alt="竭诚为您 无忧购保"/>
+   </div>
+ </div>  
+ </div>
+<!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
+</body>
+</html>

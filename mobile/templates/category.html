@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>汽车保险--中联保险 </title>
+    <meta name="author" content="中联保险 ">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="description" content="中联保险">
+    <meta name="keywords" content="中联保险">
+    <meta name="author" content="中联保险">
+    <meta http-equiv="Expires" CONTENT="-1">
+    <meta http-equiv="Cache-Control" CONTENT="no-cache">
+    <meta http-equiv="Pragma" CONTENT="no-cache">
+    <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/izl-css.css" rel="stylesheet">
+    <script src="/js/jquery-1.9.1.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+<body>
+<!--导航 -->
+<div class="container top-menu">
+    <a href="javascript:location.reload()"><span class="glyphicon glyphicon-chevron-left" style="font-size:2rem;"></span></a>
+    <div class="cf-title" id="fd-caidan">汽车保险</div>
+    <div data-toggle="dropdown" href="#3" style="display:none;"><span class="glyphicon glyphicon-align-justify"style="font-size:2rem;"></span></div>
+    <ul class="dropdown-menu izl-fmenu" role="menu" aria-labelledby="dLabel" style="right:0; width:30%; left:auto">
+        <li><A href="">我的订单</A></li>
+        <li><A href="">我的视频</A></li>
+        <li><A href="">我的视频</A></li>
+    </ul>
+</div>
+
+<div class="bg-hight"></div>
+<!--内容 -->
+<div class="qcbx-box">
+    <ul class="qcbx-list">
+        {foreach from=$cat_children item=child_data}
+        <li class="list1"><a href="category.php?c_id={$child_data.id}"><h3>{$child_data.name}</h3><span>{$child_data.cat_desc}</span></a></li>
+        {/foreach}
+    </ul>
+    <div class="clearfix"></div>
+    <div class="look-more" style="border-top:0; border-bottom:0; font-size:1.3rem;"><a href="#3">查看更多</a></div>
+    <div class="qcbx-ads"><img src="/images/qcbx-ads_03.gif" ></div>
+    <div class="bg-hight"></div>
+    <div class="qcbx-ads"><img src="/images/qcbx-ads_07.gif" ></div>
+    <h3 class="qcbx-list2-tit">哪个更适合我？</h3>
+    <ul class="qcbx-list2">
+        <li><span><a href="#3">大众版</a></span></li>
+        <li><span><a href="#3">加强版</a></span></li>
+        <li><span><a href="#3">定制版</a></span></li>
+    </ul>
+
+
+
+</div>
+
+
+<div class="izl-place"></div>
+
+<!--底部导航 -->
+<div class="izl-footnav">
+    <ul>
+        <li><a href="index.html" title="首页"><span class="f-but-icon1">&nbsp;</span><b class="f-but-tit">首页</b></a></li>
+        <li><a href="我的订单" title="我的订单"><span class="f-but-icon2"></span><b class="f-but-tit">我的订单</b></a></li>
+        <li><a href="个人中心.html" title="个人中心"><span class="f-but-icon3"></span><b class="f-but-tit">个人中心</b></a></li>
+        <li class="menu-nobg"><a href="#3" title="在线咨询"><span class="f-but-icon4"></span><b class="f-but-tit">在线咨询</b></a></li>
+    </ul>
+</div>
+
+<a href="#" onclick="gotoTop();return false;" class="totop"></a>
+</body>
+</html>
+<!--
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>ECShop_mobile</title>
+</head>
+
+<body>
+<p align='left'>
+{if $all_cat}
+分类列表<br/>
+&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;<br/>
+{foreach from=$cat_array item=cat_data}
+<a href='category.php?c_id={$cat_data.id}'>{$cat_data.name}</a><br/>
+{foreach from=$cat_data['cat_id'] item=ccat_data}
+><a href='category.php?c_id={$ccat_data.id}'>{$ccat_data.name}</a><br/>
+{/foreach}
+{/foreach}
+{else}
+{$cat_name}的商品列表<br/>
+&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;<br/>
+
+{if $smarty.get.order_price}
+当前为价格降序排列，<a href='category.php?c_id={$smarty.get.c_id}{if $smarty.get.page}&page={$smarty.get.page}{/if}'>转换成价格升序排列</a>
+{else}
+当前为价格升序排列，<a href='category.php?c_id={$smarty.get.c_id}&order_price=1{if $smarty.get.page}&page={$smarty.get.page}{/if}'>转换成价格降序排列</a>
+{/if}<br/><br/>
+{if $cat_children}
+  下级分类<br/>
+    {foreach from=$cat_children item=child_data}
+        <a href='category.php?c_id={$child_data.id}'>{$child_data.name}</a><br/>
+    {/foreach}
+    &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;<br/>
+{/if}
+{foreach from=$goods_data item=goods}
+    {$goods.i}.<a href='goods.php?id={$goods.id}'>{$goods.name}</a>[{$goods.price}]<br/>
+{foreachelse}
+    暂无此类商品<br/>
+{/foreach}<br/>
+{if $pagebar}
+{$pagebar}<br/>
+{/if}
+{/if}
+&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;<br/>
+<a href="javascript:history.back(-1)">回上一页</a><br/>
+{if $pcat_array}
+    <a href='category.php?c_id={$pcat_array.cat_id}'>回{$pcat_array.cat_name}</a><br/>
+{/if}
+{if $c_id}
+    <a href='category.php'>回所有分类</a><br/>
+{/if}
+<a href='index.php'>返回首页</a>
+{$footer}
+</p>
+</body>
+</html>-->

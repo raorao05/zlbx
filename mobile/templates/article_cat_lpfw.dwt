@@ -1,0 +1,49 @@
+{include file='header.html'}
+<!--导航 -->
+<div class="container top-menu" >
+	<a href="javascript:history.back(-1)"><span class="glyphicon glyphicon-chevron-left" style="font-size:2rem;"></span></a>
+	<div class="cf-title" id="fd-caidan">理赔服务</div>
+	<div data-toggle="dropdown" href="#3" style="display:none;"><span class="glyphicon glyphicon-align-justify"style="font-size:2rem;"></span></div>
+	<ul class="dropdown-menu izl-fmenu" role="menu" aria-labelledby="dLabel" style="right:0; width:30%; left:auto">
+		<li><A href="">我的订单</A></li>
+		<li><A href="">我的视频</A></li>
+		<li><A href="">我的视频</A></li>
+	</ul>
+</div>
+
+<div class="bg-hight"></div>
+<!--内容 -->
+<div class="bxcp-box" >
+	<ul class="bxcp-box-lpfw">
+		<li onclick="huadong('bxcp-list1')" class="on bxcp-list1" ><a>车险理赔</a></li>
+		<li onclick="huadong('bxcp-list2')" class=" bxcp-list2"><a>非车险理赔</a></li>
+	</ul>
+	<div class="clearfix"></div>
+	<div>
+	<ul class="bxcp-list" id="bxcp-list1">
+		{foreach from=$cxlp item=r}
+		<li class="r-list"><a class="collapsed" href="article_lpfw.php?id={$r.article_id}" title="{$r.title}">{$r.title}</a></li>
+		{/foreach}
+		{foreach from=$cx_cat item=r}
+		<li class="r-list"><a  class="collapsed" href="article_cat_lpfw.php?id={$r.cat_id}" title="{$r.cat_name}">{$r.cat_name}</a></li>
+		{/foreach}
+	</ul>
+	<ul class="bxcp-list" id="bxcp-list2" style="display: none;">
+		{foreach from=$fcxlp item=r}
+		<li class="r-list"><a  class="collapsed" href="article_lpfw.php?id={$r.article_id}" title="{$r.title}">{$r.title}</a></li>
+		{/foreach}
+		{foreach from=$fcx_cat item=r}
+		<li class="r-list"><a class="collapsed"  href="article_cat_lpfw.php?id={$r.cat_id}" title="{$r.cat_name}">{$r.cat_name}</a></li>
+		{/foreach}
+	</ul>
+	</div>
+</div>
+{include file='footer.html'}
+<script>
+	function huadong(id){
+		$('.'+id).addClass('on');
+		$('.'+id).siblings().removeClass('on');
+		$('#'+id).show();
+		$('#'+id).siblings().hide();
+	}
+</script>

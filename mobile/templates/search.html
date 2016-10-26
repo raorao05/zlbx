@@ -1,0 +1,103 @@
+{include file='header.html'}
+<script type="text/javascript" src="/js/jquery.more.js"></script>
+<link rel="stylesheet" href="/css/newAdds.css">
+<script src="/js/newAdds.js"></script>
+<script >
+    var Tday = new Array();
+    var daysms = 24 * 60 * 60 * 1000
+    var hoursms = 60 * 60 * 1000
+    var Secondms = 60 * 1000
+    var microsecond = 1000
+    var DifferHour = -1
+    var DifferMinute = -1
+    var DifferSecond = -1
+</script>
+<style>
+    /*设置字体大小*/
+    html{ font-size:62.5%;}
+    @media only screen and (min-width:481px){ html{ font-size:98%!important;} }
+    @media only screen and (min-width:561px){ html{ font-size:109%!important;} }
+    @media only screen and (min-width:641px){ html{ font-size:125%!important;}}
+    .backTitle{
+        font-size: 2.5rem;
+    }
+</style>
+
+<div class="backTitle">
+    <a href="javascript:history.back(-1)" title=""><img src="/images/goBack.png" alt=""></a>
+    今日团购
+</div>
+<ul class="secKillList secKillList6">
+    <!--{foreach from=$goods_data item=goods key=key}-->
+    <li>
+        <a href="goods_show.php?id={$goods.goods_id}" title="">
+            <div class="img1">
+                <img src="/{$goods.goods_img}" alt="">
+            </div>
+            <div class="right">
+                <p class="p1">{$goods.goods_name}</p>
+                <p class="p2">编号：{$goods.goods_sn}</p>
+                <p class="p3">团购价：<span class="span1">{$goods.promote_price}</span>
+                    <span class="span2">原价</span>
+                    <del>{$goods.shop_price}</del>
+                </p>
+                <p class="p5 clearfix">
+                    <span class="span3">已有{$goods.salenum}人团购<br /><i>结束：<span id="jstimerBox{$key}"></span></i></span>
+                    <span class="span2">马上团购</span>
+                </p>
+            </div>
+        </a>
+    </li>
+    <script>
+
+
+        Tday[{$key}] = new Date("{$goods.gmt_end_time}");
+        window.setInterval(function()
+        {clock11({$key});}, 1000);
+    </script>
+    {foreachelse}
+    没有数据...
+    {/foreach}
+    <script>
+        function clock11(key)
+        {
+            var time = new Date()
+            var hour = time.getHours()
+            var minute = time.getMinutes()
+            var second = time.getSeconds()
+            var timevalue = ""+((hour > 12) ? hour-12:hour)
+            timevalue +=((minute < 10) ? ":0":":")+minute
+            timevalue +=((second < 10) ? ":0":":")+second
+            timevalue +=((hour >12 ) ? " PM":" AM")
+            var convertHour = DifferHour
+            var convertMinute = DifferMinute
+            var convertSecond = DifferSecond
+            var Diffms = Tday[key].getTime() - time.getTime()
+            DifferHour = Math.floor(Diffms / daysms)
+            Diffms -= DifferHour * daysms
+            DifferMinute = Math.floor(Diffms / hoursms)
+            Diffms -= DifferMinute * hoursms
+            DifferSecond = Math.floor(Diffms / Secondms)
+            Diffms -= DifferSecond * Secondms
+            var dSecs = Math.floor(Diffms / microsecond)
+
+            if(convertHour != DifferHour) e=""+DifferHour+"天";
+            if(convertMinute != DifferMinute) f=""+DifferMinute+"小时";
+            if(convertSecond != DifferSecond) g=""+DifferSecond+"分";
+
+
+
+
+
+            if (DifferHour>0) {e=e}
+            else {e=''}
+
+//            alert(e + f + g + h);
+            $("#jstimerBox"+key).html(e + f + g ) ;
+        }
+    </script>
+</ul>
+
+{include file='footer.html'}
+</body>
+</html>

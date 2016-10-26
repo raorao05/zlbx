@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="gbk">
+	<meta http-equiv="Cache-Control" content="no-cache"/>
+	<meta content="telephone=no" name="format-detection" />
+	<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=2.0"/>
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+	<meta name="keywords" content="#" />
+	<meta name="description" content="#" />
+	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="">
+	<link rel="apple-touch-icon-precomposed" sizes="57x57" href="">
+	<link href="/css/izl-css.css" type="text/css" rel="stylesheet"/>
+	<link rel="stylesheet" href="/css/newAdds.css">
+	<title>绑定老用户</title>
+	<style>
+	body{
+		background-color: #f6f6f6;
+	}
+	</style>
+</head>
+<body>
+	<div class="backTitle">
+		<a href="javascript :history.back(-1)" title=""><img src="/images/goBack.png" alt=""></a>
+		老用户绑定
+	</div>
+	<form action="user.php" method="get" class="bindOldUser">
+		<div class="number clearfix">
+			<span>手机号码：</span>
+			<input type="text" name="name" placeholder="请输入手机号码">
+		</div>
+		<div class="number clearfix">
+			<span>密码：</span>
+			<input type="password" name="password" placeholder="请输入你的密码">
+		</div>
+		<input type="hidden" name="act"  value="bangding">
+		<input type="submit" value="提交" class="submit">
+	</form>
+	{include file='footer.html'}
+</body>
+</html>
