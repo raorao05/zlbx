@@ -234,6 +234,7 @@ if(strpos($_SERVER['HTTP_USER_AGENT'],'MicroMessenger'))
     $appid = 'wx2c0db652b5b5b41c';
     $secret ='717ecbe36a79e26523f211e3f4c00e7b';
     $openid=$_COOKIE['sopenid'];
+    $openid = 'o3zeNwYpBnrHoknYwVK7PVOOlvo4';
     if(!$openid){
         $code=isset($_GET['code'])?$_GET['code']:null;
         $url = get_url();

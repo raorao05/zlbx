@@ -44,6 +44,7 @@ $modules['03_promotion']['07_card_list']            = 'card.php?act=list';
 $modules['03_promotion']['08_group_buy']            = 'group_buy.php?act=list';
 $modules['03_promotion']['09_topic']                = 'topic.php?act=list';
 $modules['03_promotion']['10_auction']              = 'auction.php?act=list';*/
+$modules['03_promotion']['08_group_buy']            = 'group_buy.php?act=list';
 $modules['03_promotion']['12_favourable']           = 'favourable.php?act=list';
 $modules['03_promotion']['16_favourable']           = 'weixin_egg.php?act=list';
 $modules['03_promotion']['17_favourable']           = 'weixin_egg.php?act=log';
@@ -119,8 +120,8 @@ $modules['11_system']['ucenter_setup']              = 'integrate.php?act=setup&c
 //$modules['11_system']['021_reg_fields']             = 'reg_fields.php?act=list';
 
 
-//$modules['12_template']['02_template_select']       = 'template.php?act=list';
-//$modules['12_template']['03_template_setup']        = 'template.php?act=setup';
+$modules['12_template']['02_template_select']       = 'template.php?act=list';
+$modules['12_template']['03_template_setup']        = 'template.php?act=setup';
 //$modules['12_template']['04_template_library']      = 'template.php?act=library';
 //$modules['12_template']['05_edit_languages']        = 'edit_languages.php?act=list';
 //$modules['12_template']['06_template_backup']       = 'template.php?act=backup_setting';

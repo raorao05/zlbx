@@ -98,7 +98,7 @@ if ($_REQUEST['act'] == 'export')
     $excel->getActiveSheet()->getColumnDimension('F')->setWidth(30);
     $excel->getActiveSheet()->getColumnDimension('G')->setWidth(30);
     $excel->getActiveSheet()->getColumnDimension('H')->setWidth(30);
-    //查詢值
+    //查?值
     $user_list = user_list();
     $user_list = $user_list['user_list'];
     //填充表格信息
@@ -132,6 +132,87 @@ if ($_REQUEST['act'] == 'export')
         $write->save('php://output');
 
 }
+
+
+/*------------------------------------------------------ */
+//-- 用户列表导入
+/*------------------------------------------------------ */
+elseif ($_REQUEST['act'] == 'import')
+{
+    /* 检查权限 */
+    admin_priv('users_manage');
+    $sql = "SELECT rank_id, rank_name, min_points FROM ".$ecs->table('user_rank')." ORDER BY min_points ASC ";
+    $rs = $db->query($sql);
+
+    $ranks = array();
+    while ($row = $db->FetchRow($rs))
+    {
+        $ranks[$row['rank_id']] = $row['rank_name'];
+    }
+
+    require(dirname(__FILE__) . '/phpexcel/Classes/PHPExcel.php');
+
+    //创建对象
+    $excel = new PHPExcel();
+    //Excel表格式,8列
+    $letter = array('A','B1','C1','D1','E1','F1','G1','H1');
+    //表头数组
+    $tableheader = array('会员名称','手机号','邮件地址','可用资金','冻结资金','等级积分','消费积分','注册日期');
+    //填充表头信息
+
+    $excel->getActiveSheet()->setCellValue("A1",iconv("gbk","utf-8//IGNORE",'会员名称'));
+    $excel->getActiveSheet()->setCellValue("B1",iconv("gbk","utf-8//IGNORE",'手机号'));
+    $excel->getActiveSheet()->setCellValue("C1",iconv("gbk","utf-8//IGNORE",'邮件地址'));
+    $excel->getActiveSheet()->setCellValue("D1",iconv("gbk","utf-8//IGNORE",'账户余额'));
+    $excel->getActiveSheet()->setCellValue("E1",iconv("gbk","utf-8//IGNORE",'冻结资金'));
+    $excel->getActiveSheet()->setCellValue("F1",iconv("gbk","utf-8//IGNORE",'等级积分'));
+    $excel->getActiveSheet()->setCellValue("G1",iconv("gbk","utf-8//IGNORE",'消费积分'));
+    $excel->getActiveSheet()->setCellValue("H1",iconv("gbk","utf-8//IGNORE",'注册日期'));
+
+    //表格宽度
+    $excel->getActiveSheet()->getColumnDimension('A')->setWidth(30);
+    $excel->getActiveSheet()->getColumnDimension('B')->setWidth(30);
+    $excel->getActiveSheet()->getColumnDimension('C')->setWidth(30);
+    $excel->getActiveSheet()->getColumnDimension('D')->setWidth(30);
+    $excel->getActiveSheet()->getColumnDimension('E')->setWidth(30);
+    $excel->getActiveSheet()->getColumnDimension('F')->setWidth(30);
+    $excel->getActiveSheet()->getColumnDimension('G')->setWidth(30);
+    $excel->getActiveSheet()->getColumnDimension('H')->setWidth(30);
+    //查?值
+    $user_list = user_list();
+    $user_list = $user_list['user_list'];
+    //填充表格信息
+    $hang = 2;
+    $shuliang   = 0;
+    $chanpin    = $hang;
+    foreach ($user_list as $key=>$value) {
+        // $shuliang = $shuliang + 1;
+
+        $excel->getActiveSheet()->setCellValue('A' . $hang,iconv("gbk","utf-8//IGNORE", $value['user_name'])." ");//加个空格，防止时间戳被转换
+        $excel->getActiveSheet()->setCellValue('B' . $hang, $value['mobile_phone']." ");
+        $excel->getActiveSheet()->setCellValue('C' . $hang, $value['email']);
+        $excel->getActiveSheet()->setCellValue('D' . $hang, $value['user_money']." ");
+        $excel->getActiveSheet()->setCellValue('E' . $hang, $value['frozen_money']." ");
+        $excel->getActiveSheet()->setCellValue('F' . $hang, $value['rank_points']." ");
+        $excel->getActiveSheet()->setCellValue('G' . $hang, $value['pay_points']." ");
+        $excel->getActiveSheet()->setCellValue('H' . $hang, $value['reg_time']." ");
+        $hang = $hang + 1;
+    }
+    //创建Excel输入对象
+    $write = new PHPExcel_Writer_Excel5($excel);
+    header("Pragma: public");
+    header("Expires: 0");
+    header("Cache-Control:must-revalidate, post-check=0, pre-check=0");
+    header("Content-Type:application/force-download");
+    header("Content-Type:application/vnd.ms-execl");
+    header("Content-Type:application/octet-stream");
+    header("Content-Type:application/download");;
+    header('Content-Disposition:attachment;filename=会员列表'.date('Y-m-d',time()).'.xls');
+    header("Content-Transfer-Encoding:binary");
+    $write->save('php://output');
+
+}
+
 /*------------------------------------------------------ */
 //-- ajax返回用户列表
 /*------------------------------------------------------ */

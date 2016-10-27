@@ -140,7 +140,8 @@ function quote(){
 		<li><a href="search.php?intro=best" title="推荐产品">推荐产品</a></li>
 		<li><a href="article_cat.php?id=12" title="保险学院">保险学院</a></li>
 		<li><a href="article.php?id=34" title="理赔服务">理赔服务</a></li>
-		<li><a href="article.php?id=33" title="人员招聘">人员招聘</a></li>                                                                                         
+		<!--<li><a href="article.php?id=33" title="人员招聘">人员招聘</a></li>-->
+	    <li><a href="group_buy.php" title="团购活动">团购活动</a></li>
 	  </ul>
 	</div>
  </div>	

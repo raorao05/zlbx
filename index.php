@@ -1,13 +1,13 @@
 <?php
-die('xxx');
+
 /**
- * ECSHOP ï¿½ï¿½Ò³ï¿½Ä¼ï¿½
+ * ECSHOP Ê×Ò³ÎÄ¼þ
  * ============================================================================
- * * ï¿½ï¿½È¨ï¿½ï¿½ï¿½ï¿½ 2005-2012 ï¿½Ïºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¼ï¿½ï¿½ï¿½ï¿½Þ¹ï¿½Ë¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¨ï¿½ï¿½ï¿½ï¿½
- * ï¿½ï¿½Õ¾ï¿½ï¿½Ö·: http://www.ecshop.comï¿½ï¿½
+ * * °æÈ¨ËùÓÐ 2005-2012 ÉÏº£ÉÌÅÉÍøÂç¿Æ¼¼ÓÐÏÞ¹«Ë¾£¬²¢±£ÁôËùÓÐÈ¨Àû¡£
+ * ÍøÕ¾µØÖ·: http://www.ecshop.com£»
  * ----------------------------------------------------------------------------
- * ï¿½â²»ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö»ï¿½ï¿½ï¿½Ú²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÒµÄ¿ï¿½Äµï¿½Ç°ï¿½ï¿½ï¿½Â¶Ô³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Þ¸Äºï¿½
- * Ê¹ï¿½Ã£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½Ê½ï¿½Îºï¿½Ä¿ï¿½Äµï¿½ï¿½Ù·ï¿½ï¿½ï¿½ï¿½ï¿½
+ * Õâ²»ÊÇÒ»¸ö×ÔÓÉÈí¼þ£¡ÄúÖ»ÄÜÔÚ²»ÓÃÓÚÉÌÒµÄ¿µÄµÄÇ°ÌáÏÂ¶Ô³ÌÐò´úÂë½øÐÐÐÞ¸ÄºÍ
+ * Ê¹ÓÃ£»²»ÔÊÐí¶Ô³ÌÐò´úÂëÒÔÈÎºÎÐÎÊ½ÈÎºÎÄ¿µÄµÄÔÙ·¢²¼¡£
  * ============================================================================
  * $Author: liubo $
  * $Id: index.php 17217 2011-01-19 06:29:08Z liubo $
@@ -39,28 +39,28 @@ if(($ua == '' || preg_match($uachar, $ua))&& !strpos(strtolower($_SERVER['REQUES
 }
 
 /*------------------------------------------------------ */
-//-- ShopexÏµÍ³ï¿½ï¿½Ö·×ªï¿½ï¿½
+//-- ShopexÏµÍ³µØÖ·×ª»»
 /*------------------------------------------------------ */
 if (!empty($_GET['gOo']))
 {
     if (!empty($_GET['gcat']))
     {
-        /* ï¿½ï¿½Æ·ï¿½ï¿½ï¿½à¡£*/
+        /* ÉÌÆ··ÖÀà¡£*/
         $Loaction = 'category.php?id=' . $_GET['gcat'];
     }
     elseif (!empty($_GET['acat']))
     {
-        /* ï¿½ï¿½ï¿½Â·ï¿½ï¿½à¡£*/
+        /* ÎÄÕÂ·ÖÀà¡£*/
         $Loaction = 'article_cat.php?id=' . $_GET['acat'];
     }
     elseif (!empty($_GET['goodsid']))
     {
-        /* ï¿½ï¿½Æ·ï¿½ï¿½ï¿½é¡£*/
+        /* ÉÌÆ·ÏêÇé¡£*/
         $Loaction = 'goods.php?id=' . $_GET['goodsid'];
     }
     elseif (!empty($_GET['articleid']))
     {
-        /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é¡£*/
+        /* ÎÄÕÂÏêÇé¡£*/
         $Loaction = 'article.php?id=' . $_GET['articleid'];
     }
 
@@ -72,7 +72,7 @@ if (!empty($_GET['gOo']))
     }
 }
 
-//ï¿½Ð¶ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ajaxï¿½ï¿½ï¿½ï¿½
+//ÅÐ¶ÏÊÇ·ñÓÐajaxÇëÇó
 $act = !empty($_GET['act']) ? $_GET['act'] : '';
 if ($act == 'cat_rec')
 {
@@ -84,16 +84,16 @@ if ($act == 'cat_rec')
     $result   = array('error' => 0, 'content' => '', 'type' => $rec_type, 'cat_id' => $cat_id);
 
     $children = get_children($cat_id);
-    $smarty->assign($rec_array[$rec_type] . '_goods',      get_category_recommend_goods($rec_array[$rec_type], $children));    // ï¿½Æ¼ï¿½ï¿½ï¿½Æ·
+    $smarty->assign($rec_array[$rec_type] . '_goods',      get_category_recommend_goods($rec_array[$rec_type], $children));    // ÍÆ¼öÉÌÆ·
     $smarty->assign('cat_rec_sign', 1);
     $result['content'] = $smarty->fetch('library/recommend_' . $rec_array[$rec_type] . '.lbi');
     die($json->encode($result));
 }
 
 /*------------------------------------------------------ */
-//-- ï¿½Ð¶ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Ú»ï¿½ï¿½æ£¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½æ£¬ï¿½ï¿½Ö®ï¿½ï¿½È¡ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½
+//-- ÅÐ¶ÏÊÇ·ñ´æÔÚ»º´æ£¬Èç¹û´æÔÚÔòµ÷ÓÃ»º´æ£¬·´Ö®¶ÁÈ¡ÏàÓ¦ÄÚÈÝ
 /*------------------------------------------------------ */
-/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+/* »º´æ±àºÅ */
 /*$cache_id = sprintf('%X', crc32($_SESSION['user_rank'] . '-' . $_CFG['lang']));*/
 
 if (!$smarty->is_cached('index.dwt', $cache_id))
@@ -101,13 +101,13 @@ if (!$smarty->is_cached('index.dwt', $cache_id))
     assign_template();
 
     $position = assign_ur_here();
-    $smarty->assign('page_title',      $position['title']);    // Ò³ï¿½ï¿½ï¿½ï¿½ï¿½
-    $smarty->assign('ur_here',         $position['ur_here']);  // ï¿½ï¿½Ç°Î»ï¿½ï¿½
+    $smarty->assign('page_title',      $position['title']);    // Ò³Ãæ±êÌâ
+    $smarty->assign('ur_here',         $position['ur_here']);  // µ±Ç°Î»ÖÃ
 
     /* meta information */
     $smarty->assign('keywords',        htmlspecialchars($_CFG['shop_keywords']));
     $smarty->assign('description',     htmlspecialchars($_CFG['shop_desc']));
-    $smarty->assign('flash_theme',     $_CFG['flash_theme']);  // Flashï¿½Ö²ï¿½Í¼Æ¬Ä£ï¿½ï¿½
+    $smarty->assign('flash_theme',     $_CFG['flash_theme']);  // FlashÂÖ²¥Í¼Æ¬Ä£°å
 
     $smarty->assign('feed_url',        ($_CFG['rewrite'] == 1) ? 'feed.xml' : 'feed.php'); // RSS URL
 
@@ -122,22 +122,22 @@ if (!$smarty->is_cached('index.dwt', $cache_id))
             $v1['']
         }
     }*/
-	$smarty->assign('categories',      $categories); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-    $smarty->assign('helps',           get_shop_help());       // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-    $smarty->assign('top_goods',       get_top10());           // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	$smarty->assign('categories',      $categories); // ·ÖÀàÊ÷
+    $smarty->assign('helps',           get_shop_help());       // Íøµê°ïÖú
+    $smarty->assign('top_goods',       get_top10());           // ÏúÊÛÅÅÐÐ
 
-    $smarty->assign('best_goods',      get_recommend_goods('best'));    // ï¿½Æ¼ï¿½ï¿½ï¿½Æ·
-    $smarty->assign('new_goods',       get_recommend_goods('new'));     // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ·
-    $smarty->assign('hot_goods',       get_recommend_goods('hot'));     // ï¿½Èµï¿½ï¿½ï¿½ï¿½ï¿½
-    $smarty->assign('promotion_goods', get_promote_goods()); // ï¿½Ø¼ï¿½ï¿½ï¿½Æ·
+    $smarty->assign('best_goods',      get_recommend_goods('best'));    // ÍÆ¼öÉÌÆ·
+    $smarty->assign('new_goods',       get_recommend_goods('new'));     // ×îÐÂÉÌÆ·
+    $smarty->assign('hot_goods',       get_recommend_goods('hot'));     // ÈÈµãÎÄÕÂ
+    $smarty->assign('promotion_goods', get_promote_goods()); // ÌØ¼ÛÉÌÆ·
     $smarty->assign('brand_list',      get_brands());
-    $smarty->assign('promotion_info',  get_promotion_info()); // ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½Ì¬ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½Ð´ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½Ä±ï¿½Ç©ï¿½ï¿½
+    $smarty->assign('promotion_info',  get_promotion_info()); // Ôö¼ÓÒ»¸ö¶¯Ì¬ÏÔÊ¾ËùÓÐ´ÙÏúÐÅÏ¢µÄ±êÇ©À¸
 
-    $smarty->assign('invoice_list',    index_get_invoice_query());  // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¯
-    $smarty->assign('new_articles',    index_get_new_articles());   // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-    $smarty->assign('group_buy_goods', index_get_group_buy());      // ï¿½Å¹ï¿½ï¿½ï¿½Æ·
-    $smarty->assign('auction_list',    index_get_auction());        // ï¿½ï¿½ï¿½ï¿½ï¿½î¶¯
-    $smarty->assign('shop_notice',     $_CFG['shop_notice']);       // ï¿½Ìµê¹«ï¿½ï¿½
+    $smarty->assign('invoice_list',    index_get_invoice_query());  // ·¢»õ²éÑ¯
+    $smarty->assign('new_articles',    index_get_new_articles());   // ×îÐÂÎÄÕÂ
+    $smarty->assign('group_buy_goods', index_get_group_buy());      // ÍÅ¹ºÉÌÆ·
+    $smarty->assign('auction_list',    index_get_auction());        // ÅÄÂô»î¶¯
+    $smarty->assign('shop_notice',     $_CFG['shop_notice']);       // ÉÌµê¹«¸æ
 
     $time = gmtime();
     $sql = 'SELECT ad_code, ad_link,ad_name FROM ' . $ecs->table("ad") . " WHERE enabled = 1 and position_id=1 and start_time<$time and end_time>$time";
@@ -147,10 +147,10 @@ if (!$smarty->is_cached('index.dwt', $cache_id))
 	}
     $smarty->assign('ad', $ad1);
 
-    $smarty->assign('news_gs',      get_article_list(6)); // ï¿½ï¿½Ë¾ï¿½ï¿½ï¿½ï¿½
-	$smarty->assign('news_hy',      get_article_list(7)); // ï¿½ï¿½Òµï¿½ï¿½Ì¬
-	$smarty->assign('news_bx',      get_article_list(8)); // ï¿½ï¿½ï¿½Õ·ï¿½ï¿½ï¿½
-	$smarty->assign('news_qt',      get_article_list(9)); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    $smarty->assign('news_gs',      get_article_list(6)); // ¹«Ë¾ÐÂÎÅ
+	$smarty->assign('news_hy',      get_article_list(7)); // ÐÐÒµ¶¯Ì¬
+	$smarty->assign('news_bx',      get_article_list(8)); // ±£ÏÕ·¨¹æ
+	$smarty->assign('news_qt',      get_article_list(9)); // ÆäËûÐÂÎÅ
 
     $sql = 'SELECT link_logo, link_name  FROM ' . $GLOBALS['ecs']->table('hzhb') . ' ORDER BY link_id desc';
     $res = $GLOBALS['db']->getAll($sql);
@@ -166,7 +166,7 @@ if (!$smarty->is_cached('index.dwt', $cache_id))
         }
     }
     $smarty->assign('hz',     $hz);
-    /* ï¿½ï¿½Ò³ï¿½Æ¼ï¿½ï¿½ï¿½ï¿½ï¿½ */
+    /* Ê×Ò³ÍÆ¼ö·ÖÀà */
     $cat_recommend_res = $db->getAll("SELECT c.cat_id, c.cat_name, cr.recommend_type FROM " . $ecs->table("cat_recommend") . " AS cr INNER JOIN " . $ecs->table("category") . " AS c ON cr.cat_id=c.cat_id");
     if (!empty($cat_recommend_res))
     {
@@ -183,39 +183,39 @@ if (!$smarty->is_cached('index.dwt', $cache_id))
 		$cx_list[($key+1)]=$v;
 	}
 	$smarty->assign('cx', $cx_list);
-	$cx_wz=get_article_list(16,5);       //ï¿½ï¿½ï¿½Ð·ï¿½ï¿½ï¿½ï¿½Âµï¿½ï¿½ï¿½ï¿½ï¿½
+	$cx_wz=get_article_list(16,5);       //³öÐÐ·ÖÀàÏÂµÄÎÄÕÂ
 	foreach($cx_wz as $key=>$v){
 		$cx_wz_list[($key+1)]=$v;
 	}
 	$smarty->assign('cx_wz_list', $cx_wz_list);
 	
-	$ly_wz=get_article_list(17,5);       //ï¿½ï¿½ï¿½Î·ï¿½ï¿½ï¿½ï¿½Âµï¿½ï¿½ï¿½ï¿½ï¿½
+	$ly_wz=get_article_list(17,5);       //ÂÃÓÎ·ÖÀàÏÂµÄÎÄÕÂ
 	foreach($ly_wz as $key=>$v){
 		$ly_wz_list[($key+1)]=$v;
 	}
 	$smarty->assign('ly_wz_list', $ly_wz_list);
 	
-	$smarty->assign('jn_list',        catecory_type(6));       //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î±ï¿½ï¿½ï¿½ï¿½Æ¼ï¿½
-	$smarty->assign('jw_list',        catecory_type(7));       //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î±ï¿½ï¿½ï¿½ï¿½Æ¼ï¿½
-	$smarty->assign('gat_list',       catecory_type(8));       //ï¿½Û°ï¿½Ì¨ï¿½ï¿½ï¿½Î±ï¿½ï¿½ï¿½ï¿½Æ¼ï¿½
-	$smarty->assign('ly_list',        catecory_type_hot(5));    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	$smarty->assign('jn_list',        catecory_type(6));       //¾³ÄÚÂÃÓÎ±£ÏÕÍÆ¼ö
+	$smarty->assign('jw_list',        catecory_type(7));       //¾³ÍâÂÃÓÎ±£ÏÕÍÆ¼ö
+	$smarty->assign('gat_list',       catecory_type(8));       //¸Û°ÄÌ¨ÂÃÓÎ±£ÏÕÍÆ¼ö
+	$smarty->assign('ly_list',        catecory_type_hot(5));    //ÂÃÓÎÈÈÏú
 	
-	$jc_wz=get_article_list(19,5);       //ï¿½Ò²Æ·ï¿½ï¿½ï¿½ï¿½Âµï¿½ï¿½ï¿½ï¿½ï¿½
+	$jc_wz=get_article_list(19,5);       //¼Ò²Æ·ÖÀàÏÂµÄÎÄÕÂ
 	foreach($jc_wz as $key=>$v){
 		$jc_wz_list[($key+1)]=$v;
 	}
 	$smarty->assign('jc_wz_list', $jc_wz_list);
 	
-	$smarty->assign('dz_list',         catecory_type(12));       //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¼ï¿½
-	$smarty->assign('czw_list',        catecory_type(11));       //ï¿½ï¿½ï¿½ï¿½ï¿½Ý±ï¿½ï¿½ï¿½ï¿½Æ¼ï¿½
-	$smarty->assign('hz_list',         catecory_type(10));       //ï¿½ï¿½ï¿½Ö±ï¿½ï¿½ï¿½ï¿½Æ¼ï¿½
-	$smarty->assign('jc_list',         catecory_type_hot(9));    //ï¿½Ò²Æ±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	$smarty->assign('dz_list',         catecory_type(12));       //µØÕð±£ÏÕÍÆ¼ö
+	$smarty->assign('czw_list',        catecory_type(11));       //³ö×âÎÝ±£ÏÕÍÆ¼ö
+	$smarty->assign('hz_list',         catecory_type(10));       //»ðÔÖ±£ÏÕÍÆ¼ö
+	$smarty->assign('jc_list',         catecory_type_hot(9));    //¼Ò²Æ±£ÏÕÈÈÏú
 	
 	$region = $db->getCol("SELECT region_name FROM " . $ecs->table('region') . " WHERE region_type=2");
 	$jy_region=explode(",",$_CFG['shop_notice']);
 	
 	
-    /* Ò³ï¿½ï¿½ï¿½ÐµÄ¶ï¿½Ì¬ï¿½ï¿½ï¿½ï¿½ */
+    /* Ò³ÃæÖÐµÄ¶¯Ì¬ÄÚÈÝ */
     assign_dynamic('index');
 }
 
@@ -226,7 +226,7 @@ $smarty->display('index.dwt', $cache_id);
 /*------------------------------------------------------ */
 
 /**
- * ï¿½ï¿½ï¿½Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¯
+ * µ÷ÓÃ·¢»õµ¥²éÑ¯
  *
  * @access  private
  * @return  array
@@ -258,7 +258,7 @@ function index_get_invoice_query()
 }
 
 /**
- * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
+ * »ñµÃ×îÐÂµÄÎÄÕÂÁÐ±í¡£
  *
  * @access  private
  * @return  array
@@ -289,7 +289,7 @@ function index_get_new_articles()
 }
 
 /**
- * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½ï¿½Å¹ï¿½ï¿½î¶¯
+ * »ñµÃ×îÐÂµÄÍÅ¹º»î¶¯
  *
  * @access  private
  * @return  array
@@ -316,11 +316,11 @@ function index_get_group_buy()
 
         while ($row = $GLOBALS['db']->fetchRow($res))
         {
-            /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼Îªï¿½Õ£ï¿½Ê¹ï¿½ï¿½Ä¬ï¿½ï¿½Í¼Æ¬ */
+            /* Èç¹ûËõÂÔÍ¼Îª¿Õ£¬Ê¹ÓÃÄ¬ÈÏÍ¼Æ¬ */
             $row['goods_img'] = get_image_path($row['goods_id'], $row['goods_img']);
             $row['thumb'] = get_image_path($row['goods_id'], $row['goods_thumb'], true);
 
-            /* ï¿½ï¿½ï¿½Ý¼Û¸ï¿½ï¿½ï¿½Ý£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ */
+            /* ¸ù¾Ý¼Û¸ñ½×ÌÝ£¬¼ÆËã×îµÍ¼Û */
             $ext_info = unserialize($row['ext_info']);
             $price_ladder = $ext_info['price_ladder'];
             if (!is_array($price_ladder) || empty($price_ladder))
@@ -348,7 +348,7 @@ function index_get_group_buy()
 }
 
 /**
- * È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½î¶¯ï¿½Ð±ï¿½
+ * È¡µÃÅÄÂô»î¶¯ÁÐ±í
  * @return  array
  */
 function index_get_auction()
@@ -387,14 +387,14 @@ function index_get_auction()
 }
 
 /**
- * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ * »ñµÃËùÓÐµÄÓÑÇéÁ´½Ó
  *
  * @access  private
  * @return  array
  */
 
 
-/*ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½ï¿½ï¿½ï¿½ï¿½TOP3*/
+/*¶¥¼¶·ÖÀàÏÂµÄÈÈÏúTOP3*/
 function catecory_type_hot($parent_id){
 	$sql = 'SELECT cat_id from ' . $GLOBALS['ecs']->table('category') . ' where parent_id='.$parent_id;
 	$res = $GLOBALS['db']->getCol($sql);
@@ -410,7 +410,7 @@ function catecory_type_hot($parent_id){
 	return $arr;
 }
 
-/*Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½ï¿½Æ¼ï¿½ï¿½ï¿½Æ·*/
+/*Ö¸¶¨·ÖÀàÏÂµÄÍÆ¼öÉÌÆ·*/
 function catecory_type($cat_id,$type='is_best',$num=5){
 	$sql = 'SELECT goods_id,goods_name,shop_price,salesnum from ' . $GLOBALS['ecs']->table('goods') . ' where cat_id='.$cat_id.' and '.$type.'=1 limit '.$num;
 	$res = $GLOBALS['db']->getAll($sql);
