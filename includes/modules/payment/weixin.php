@@ -204,7 +204,8 @@ class weixin {
 				return "错误代码描述：".$unifiedOrderResult['err_code_des']."<br>";
 			}
 			$product_url = $unifiedOrderResult["code_url"];
-			return "<img src='http://qr.liantu.com/api.php?text=" . $product_url . "' alt='扫描进行支付'><iframe src='weixin_order_check.php?oid={$order['order_id']}' style='display:none'></iframe>";
+			//print_r($order);
+			return "<img src='http://qr.liantu.com/api.php?text=" . $product_url . "' alt='扫描进行支付'><iframe src='order_status.html?order_sn={$order['order_sn']}' style='display:none'></iframe>";
 		}
 	}
 }
