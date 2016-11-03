@@ -29,7 +29,8 @@
             if(data && data.err == 0 && data.order_status == 2){
                 //console.log('payed');
                 //loop = false;
-                window.parent.location.href = 'pay_success.html?order_id=' + data.order_id;
+                //window.parent.location.href = 'pay_success.html?order_id=' + data.order_id;
+                window.parent.location.href = 'respond.php';
             }
         })
     }
