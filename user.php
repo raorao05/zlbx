@@ -171,6 +171,7 @@ elseif ($action == 'act_register')
     {
         include_once(ROOT_PATH . 'includes/lib_passport.php');
 
+
         $username = isset($_POST['username']) ? trim($_POST['username']) : '';
         $password = isset($_POST['password']) ? trim($_POST['password']) : '';
         $email    = isset($_POST['email']) ? trim($_POST['email']) : '';
@@ -266,6 +267,23 @@ elseif ($action == 'act_register')
 		}
 		
 		$other['sfz_pic']    = $original_img ? trim($original_img) : '';
+
+
+        /*
+        $register_type = isset($_POST['type']) ? $_POST['type'] : 0;
+        if ($register_type == 0) //普通注册
+        {
+            $other['user_rank'] = 1;
+        }
+        elseif ($register_type == 1)
+        {
+            $other['user_rank'] = 2;
+        }
+        else
+        {
+            $other['user_rank'] = 0;
+        }
+        */
 		
         if (register($username, $password, $email, $other) !== false)
         {
@@ -314,9 +332,10 @@ elseif ($action == 'act_register')
 
 //注册验证码
 elseif ($action =='sendsms_zc'){
-		include_once('/includes/cls_json.php');
+		include_once(ROOT_PATH .'includes/cls_json.php');
     	$json = new JSON;	
-		$mobile=$_POST['mobile'];
+		//$mobile=$_POST['mobile'];
+        $mobile = $_REQUEST['mobile'];
 		$sendnum=isset($_COOKIE[$mobile.'num'])?$_COOKIE[$mobile.'num']:'';
 		if($sendnum==''){
 			$sendnum=1;
@@ -326,6 +345,7 @@ elseif ($action =='sendsms_zc'){
 		if($sendnum>5){$result['error']=0;$result['content']='该手机号码已超过指定发送次数!';die($json->encode($result));}
 		//检查是否已存在该用户
 		$sql = "select count(*) from ".$GLOBALS['ecs']->table('users')." where user_name='".$mobile."' or mobile_phone='".$mobile."' LIMIT 1";
+        //die($sql);
 		$num = $GLOBALS['db']->getOne($sql);
 		if($num>0){
 			$result['error']=0;
@@ -347,15 +367,22 @@ elseif ($action =='sendsms_zc'){
 				$psw = md5("weixiang");
 				$params = array('act'=>"sendmsg",'unitid'=>"114101",'username'=>"weixiang",'passwd'=>$psw,'msg'=>$msg,'phone'=>$mobile); 
 				$pageContents = HttpClient::quickPost($url, $params);*/
+                //echo $code . '<br>';
                 $url = "http://14.23.153.70:9999/smshttp";
                 $msg = '您正在注册中联保险商城会员，验证码：'.$code.'，请勿泄露，请填写验证码并完成注册。';
                 $url=iconv("GBK", "UTF-8", $url);
                 $data = array('act'=>"sendmsg",'unitid'=>"120301",'username'=>"zlbx",
-                    'passwd'=>md5('abcd1234'),'msg'=>$msg,'phone'=>$mobile,'sendtime'=>'');
-                curlPost($url, $data);
-				setcookie($mobile, $code, time()+600);
-				setcookie($mobile.'num',$sendnum,time()+3600);
-				$result['content']=' 短信验证码已发送至手机！';
+                    'passwd'=>md5('abcd@@1234'),'msg'=>$msg,'phone'=>$mobile,'sendtime'=>'');
+                $ret = curlPost($url, $data);
+                if($ret != 0){
+                    $msg = explode(',',$ret);
+                    $result['error'] = 0;
+                    $result['content'] = $msg[2];
+                }else{
+                    setcookie($mobile, $code, time()+600);
+                    setcookie($mobile.'num',$sendnum,time()+3600);
+                    $result['content']=' 短信验证码已发送至手机！';
+                }
 			}else{    
 				//手机号码格式不对
 				$result['error']=0;
@@ -562,7 +589,6 @@ elseif ($action == 'logout')
     {
         $back_act = strpos($GLOBALS['_SERVER']['HTTP_REFERER'], 'user.php') ? './index.php' : $GLOBALS['_SERVER']['HTTP_REFERER'];
     }
-
     $user->logout();
     $ucdata = empty($user->ucdata)? "" : $user->ucdata;
     show_message($_LANG['logout'] . $ucdata, array($_LANG['back_up_page'], $_LANG['back_home_lnk']), array($back_act, 'index.php'), 'info');

@@ -303,7 +303,20 @@ elseif ($action == 'act_register')
                 send_regiter_hash($_SESSION['user_id']);
             }
             if($_COOKIE['sopenid']){
-                $sql="UPDATE ".  $ecs->table('user') ." SET wx_open_id =".$_COOKIE['sopenid']." WHERE user_id=".$_SESSION['user_id'];
+                //$sql="UPDATE ".  $ecs->table('user') ." SET wx_open_id =".$_COOKIE['sopenid']." WHERE user_id=".$_SESSION['user_id'];
+                $sql="UPDATE ".  $ecs->table('users') ." SET wx_open_id ='".$_COOKIE['sopenid']."' WHERE user_id=".$_SESSION['user_id'];
+                $db->query($sql);
+            }
+            if($_COOKIE['nickname']){
+                $sql="UPDATE ".  $ecs->table('users') ." SET alias ='".$_COOKIE['nickname']."' WHERE user_id=".$_SESSION['user_id'];
+                $db->query($sql);
+            }
+            if($_COOKIE['avatar']){
+                $sql="UPDATE ".  $ecs->table('users') ." SET avatar ='".$_COOKIE['avatar']."' WHERE user_id=".$_SESSION['user_id'];
+                $db->query($sql);
+            }
+            if($_COOKIE['sex']){
+                $sql="UPDATE ".  $ecs->table('users') ." SET sex ='".$_COOKIE['sex']."' WHERE user_id=".$_SESSION['user_id'];
                 $db->query($sql);
             }
             $ucdata = empty($user->ucdata)? "" : $user->ucdata;
@@ -318,7 +331,7 @@ elseif ($action == 'act_register')
 
 //注册验证码
 elseif ($action =='sendsms_zc'){
-		include_once('/includes/cls_json.php');
+        include_once(ROOT_PATH . 'includes/cls_json.php');
     	$json = new JSON;	
 		$mobile=$_POST['mobile'];
 		$sendnum=isset($_COOKIE[$mobile.'num'])?$_COOKIE[$mobile.'num']:'';
@@ -350,7 +363,7 @@ elseif ($action =='sendsms_zc'){
 				$url = "http://14.23.153.70:9999/smshttp";
 				$psw = md5("weixiang");
 				$params = array('act'=>"sendmsg",'unitid'=>"114101",'username'=>"weixiang",'passwd'=>$psw,'msg'=>$msg,'phone'=>$mobile); 
-				$pageContents = HttpClient::quickPost($url, $params);*/
+				$pageContents = HttpClient::quickPost($url, $params);
                 $url = "http://14.23.153.70:9999/smshttp";
                 $msg = '您正在注册中联保险商城会员，验证码：'.$code.'，请勿泄露，请填写验证码并完成注册。';
                 $url=iconv("GBK", "UTF-8", $url);
@@ -360,6 +373,22 @@ elseif ($action =='sendsms_zc'){
 				setcookie($mobile, $code, time()+600);
 				setcookie($mobile.'num',$sendnum,time()+3600);
 				$result['content']=' 短信验证码已发送至手机！';
+                */
+                $url = "http://14.23.153.70:9999/smshttp";
+                $msg = '您正在注册中联保险商城会员，验证码：'.$code.'，请勿泄露，请填写验证码并完成注册。';
+                $url=iconv("GBK", "UTF-8", $url);
+                $data = array('act'=>"sendmsg",'unitid'=>"120301",'username'=>"zlbx",
+                    'passwd'=>md5('abcd@@1234'),'msg'=>$msg,'phone'=>$mobile,'sendtime'=>'');
+                $ret = curlPost($url, $data);
+                if($ret != 0){
+                    $msg = explode(',',$ret);
+                    $result['error'] = 0;
+                    $result['content'] = $msg[2];
+                }else{
+                    setcookie($mobile, $code, time()+600);
+                    setcookie($mobile.'num',$sendnum,time()+3600);
+                    $result['content']=' 短信验证码已发送至手机！';
+                }
 			}else{    
 				//手机号码格式不对
 				$result['error']=0;
@@ -491,9 +520,28 @@ elseif ($action == 'act_login')
         update_user_info();
         recalculate_price();
         if($_COOKIE['sopenid']){
+            //$sql="UPDATE ".  $ecs->table('user') ." SET wx_open_id =".$_COOKIE['sopenid']." WHERE user_id=".$_SESSION['user_id'];
+            $sql="UPDATE ".  $ecs->table('users') ." SET wx_open_id ='".$_COOKIE['sopenid']."' WHERE user_id=".$_SESSION['user_id'];
+            $db->query($sql);
+        }
+        if($_COOKIE['nickname']){
+            $sql="UPDATE ".  $ecs->table('users') ." SET alias ='".$_COOKIE['nickname']."' WHERE user_id=".$_SESSION['user_id'];
+            $db->query($sql);
+        }
+        if($_COOKIE['avatar']){
+            $sql="UPDATE ".  $ecs->table('users') ." SET avatar ='".$_COOKIE['avatar']."' WHERE user_id=".$_SESSION['user_id'];
+            $db->query($sql);
+        }
+        if($_COOKIE['sex']){
+            $sql="UPDATE ".  $ecs->table('users') ." SET sex ='".$_COOKIE['sex']."' WHERE user_id=".$_SESSION['user_id'];
+            $db->query($sql);
+        }
+        /*
+        if($_COOKIE['sopenid']){
             $sql="UPDATE ".  $ecs->table('user') ." SET wx_open_id =".$_COOKIE['sopenid']." WHERE user_id=".$_SESSION['user_id'];
             $db->query($sql);
         }
+        */
         $ucdata = isset($user->ucdata)? $user->ucdata : '';
         show_message($_LANG['login_success'] . $ucdata , array($_LANG['back_up_page'], $_LANG['profile_lnk']), array($back_act,'user.php'), 'info');
     }
@@ -571,6 +619,11 @@ elseif ($action == 'logout')
     }
 
     $user->logout();
+    $time = time() - 3600;
+    setcookie("sopenid",  '', $time, "/");
+    setcookie("nickname", '', $time, "/");
+    setcookie("sex", '', $time, "/");
+    setcookie("avatar", '', $time, "/");
     $ucdata = empty($user->ucdata)? "" : $user->ucdata;
     show_message($_LANG['logout'] . $ucdata, array($_LANG['back_up_page'], $_LANG['back_home_lnk']), array($back_act, 'index.php'), 'info');
 }
