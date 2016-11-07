@@ -1,212 +1,379 @@
 <?php
-if (! defined ( 'IN_ECS' )) {
-	die ( 'Hacking attempt' );
+
+/**
+ * ECSHOP Î¢ĞÅÖ§¸¶²å¼ş V3.3°æ±¾
+ * ============================================================================
+ * * °æÈ¨ËùÓĞ 2005-2014 ÂóËë¹¤×÷ÊÒ °æÈ¨ËùÓĞ
+ * ÍøÕ¾µØÖ·: http://www.maisui.net.cn£»
+ */
+
+if (!defined('IN_ECS')) {
+	die('Hacking attempt');
 }
 
-$payment_lang = ROOT_PATH . 'languages/' . $GLOBALS ['_CFG'] ['lang'] . '/payment/weixin.php';
+$payment_lang = ROOT_PATH . 'languages/' .$GLOBALS['_CFG']['lang']. '/payment/wxpay.php';
 
-if (file_exists ( $payment_lang )) {
+if (file_exists($payment_lang))
+{
 	global $_LANG;
-	
-	include_once ($payment_lang);
+
+	include_once($payment_lang);
 }
 
-/* æ¨¡å—çš„åŸºæœ¬ä¿¡æ¯ */
-if (isset ( $set_modules ) && $set_modules == TRUE) {
-	$i = isset ( $modules ) ? count ( $modules ) : 0;
-	
-	/* ä»£ç  */
-	$modules [$i] ['code'] = basename ( __FILE__, '.php' );
-	
-	/* æè¿°å¯¹åº”çš„è¯­è¨€é¡¹ */
-	$modules [$i] ['desc'] = 'weixin_desc';
-	
-	/* æ˜¯å¦æ”¯æŒè´§åˆ°ä»˜æ¬¾ */
-	$modules [$i] ['is_cod'] = '0';
-	
-	/* æ˜¯å¦æ”¯æŒåœ¨çº¿æ”¯ä»˜ */
-	$modules [$i] ['is_online'] = '1';
-	
-	/* ä½œè€… */
-	$modules [$i] ['author'] = '68ecshop';
-	
-	/* ç½‘å€ */
-	$modules [$i] ['website'] = '';
-	
-	/* ç‰ˆæœ¬å· */
-	$modules [$i] ['version'] = '2.0.0';
-	
-	/* é…ç½®ä¿¡æ¯ */
-	$modules [$i] ['config'] = array (
-			array (
-					'name' => 'appId',
-					'type' => 'text',
-					'value' => '' 
-			),
-			array (
-					'name' => 'appSecret',
-					'type' => 'text',
-					'value' => '' 
-			),
-			array (
-					'name' => 'partnerId',
-					'type' => 'text',
-					'value' => '' 
-			),
-			array (
-					'name' => 'partnerKey',
-					'type' => 'text',
-					'value' => '' 
-			) 
-	// array('name' => 'notify_url', 'type' => 'text', 'value' => ''),
-	// array('name' => 'is_instant', 'type' => 'select', 'value' => '0')
-	// array('name' => 'alipay_pay_method', 'type' => 'select', 'value' => '')
-		);
-	
+/* Ä£¿éµÄ»ù±¾ĞÅÏ¢ */
+if (isset($set_modules) && $set_modules == TRUE)
+{
+	$i = isset($modules) ? count($modules) : 0;
+
+	/* ´úÂë */
+	$modules[$i]['code']    = basename(__FILE__, '.php');
+
+	/* ÃèÊö¶ÔÓ¦µÄÓïÑÔÏî */
+	$modules[$i]['desc']    = 'wxpay_desc';
+
+	/* ÊÇ·ñÖ§³Ö»õµ½¸¶¿î */
+	$modules[$i]['is_cod']  = '0';
+
+	/* ÊÇ·ñÖ§³ÖÔÚÏßÖ§¸¶ */
+	$modules[$i]['is_online']  = '1';
+
+	/* ×÷Õß */
+	$modules[$i]['author']  = 'ÂóËë¹¤×÷ÊÒ';
+
+	/* ÍøÖ· */
+	$modules[$i]['website'] = 'http://mp.weixin.qq.com/';
+
+	/* °æ±¾ºÅ */
+	$modules[$i]['version'] = '3.3';
+
+	/* ÅäÖÃĞÅÏ¢ */
+	$modules[$i]['config']  = array(
+		array('name' => 'wxpay_appid',           'type' => 'text',   'value' => 'wxca93dccf7f945c0c'),
+		array('name' => 'wxpay_appsecret',       'type' => 'text',   'value' => '2a1d71868657ae6139cd58a1dc384208'),
+		array('name' => 'wxpay_mchid',      'type' => 'text',   'value' => 'wd9'),
+		array('name' => 'wxpay_key',      'type' => 'text', 'value' => 'a79e4484bb8577618a7c5f11036249f1'),
+		array('name' => 'wxpay_signtype',      'type' => 'text', 'value' => 'sha1')
+	);
+
 	return;
 }
 
 /**
- * ç±»
+ * Àà
  */
-class weixin {
-	
+
+class weixin
+{
+
 	/**
-	 * æ„é€ å‡½æ•°
+	 * ¹¹Ôìº¯Êı
 	 *
-	 * @access public
-	 * @param        	
-	 *
+	 * @access  public
+	 * @param
 	 *
 	 * @return void
 	 */
-	function weixin() {
+	var $parameters; //cft ²ÎÊı
+	var $payments; //ÅäÖÃĞÅÏ¢
+	function wxpay()
+	{
 	}
-	function __construct() {
-		$this->weixin ();
+
+	function __construct()
+	{
+		$this->wxpay();
 	}
-	
+
 	/**
-	 * ç”Ÿæˆæ”¯ä»˜ä»£ç 
-	 * 
-	 * @param array $order
-	 *        	è®¢å•ä¿¡æ¯
-	 * @param array $payment
-	 *        	æ”¯ä»˜æ–¹å¼ä¿¡æ¯
+	 * Éú³ÉÖ§¸¶´úÂë
+	 * @param   array   $order      ¶©µ¥ĞÅÏ¢
+	 * @param   array   $payment    Ö§¸¶·½Ê½ĞÅÏ¢
 	 */
-	function get_code($order, $payment) {
-		$return_url = 'http://' . $_SERVER ['HTTP_HOST'].'/respond.php';
-		define ( APPID, $payment ['appId'] ); // appid
-		define ( APPSECRET, $payment ['appSecret'] ); // appSecret
-		define ( MCHID, $payment ['partnerId'] );
-		define ( KEY, $payment ['partnerKey'] ); // é€šåŠ å¯†ä¸²
-		define ( NOTIFY_URL, $return_url ); // æˆåŠŸå›è°ƒurl
+	function get_code($order, $payment)
+	{
+		if (!defined('EC_CHARSET'))
+		{
+			$charset = 'utf-8';
+		}
+		else
+		{
+			$charset = EC_CHARSET;
+		}
+		$charset = strtoupper($charset);
 
-		include_once ("weixin/WxPayPubHelper.php");
-		$selfUrl = 'http://' . $_SERVER ['HTTP_HOST'] . $_SERVER ['PHP_SELF'] . '?' . $_SERVER ['QUERY_STRING'];
-		if (! strpos ( $_SERVER ['HTTP_USER_AGENT'], 'MicroMessenger' )) {
-			return $this->natpayHtml ( $order );
-		}
-		if (strpos ( $_SERVER ['QUERY_STRING'], 'act=order_detail' ) !== false) {
-			return $this->natpayHtml ( $order );
-		}
-		$jsApi = new JsApi_pub ();
-		
-		if (! isset ( $_GET ['code'] )) {
-			// è§¦å‘å¾®ä¿¡è¿”å›codeç 
-			$url = $jsApi->createOauthUrlForCode ( $selfUrl );
-			Header ( "Location: $url" );exit;
-		} else {
-			// è·å–codeç ï¼Œä»¥è·å–openid
-			$code = $_GET ['code'];
-			$jsApi->setCode ( $code );
-			$openid = $jsApi->getOpenId ();
-		}
+		//ÅäÖÃ²ÎÊı
+		$this->payments = $payment;
+		//¸ùÄ¿Â¼url
+		$root_url = str_replace('mobile/', '', $GLOBALS['ecs']->url());
+		//²éÕÒopenid
+		$orderuserid = $GLOBALS['db']->getOne("SELECT user_id FROM".$GLOBALS['ecs']->table('order_info')."WHERE order_id='$order[order_id]'");
+		$openid = $GLOBALS['db']->getOne("SELECT wx_open_id FROM".$GLOBALS['ecs']->table('users')."WHERE user_id='$orderuserid'");
+		$this->setParameter("openid",$openid);
+		//ÉÌÆ·ÃèÊö
+		$this->setParameter("body", $order['order_sn']);
 
-		$unifiedOrder = new UnifiedOrder_pub ();
-		// è®¾ç½®ç»Ÿä¸€æ”¯ä»˜æ¥å£å‚æ•°
-		$unifiedOrder->setParameter ( "openid", $openid );
-		$unifiedOrder->setParameter ( "body", $order ['order_sn'] );
-		$unifiedOrder->setParameter ( "out_trade_no", $order ['order_id'] ); // å•†æˆ·è®¢å•å·
-		$unifiedOrder->setParameter ( "total_fee", $order ['order_amount'] * 100 ); // æ€»é‡‘é¢
-		$unifiedOrder->setParameter ( "notify_url", NOTIFY_URL ); // é€šçŸ¥åœ°å€
-		$unifiedOrder->setParameter ( "trade_type", "JSAPI" ); // äº¤æ˜“ç±»å‹
-		
-		$prepay_id = $unifiedOrder->getPrepayId();
-		$jsApi->setPrepayId($prepay_id);
-		return $jsApi->getParameters();
+		//ÉÌ»§¶©µ¥ºÅ
+		$this->setParameter("out_trade_no", $order['order_sn'] .'O'. $order['log_id']);
+		//¶©µ¥×Ü½ğ¶î
+		$this->setParameter("total_fee", $order['order_amount'] * 100);
+		//Ö§¸¶±ÒÖÖ
+		//$this->setParameter("fee_type", "1");
+		//Í¨ÖªURL
+		$this->setParameter("notify_url", $root_url.'respond.php');
+		//¶©µ¥Éú³ÉµÄ»úÆ÷IP
+		$this->setParameter("spbill_create_ip", real_ip());
+		//´«Èë²ÎÊı×Ö·û±àÂë
+		//$this->setParameter("input_charset", $charset);
+        $this->setParameter("input_charset", 'UTF-8');
+		//½»Ò×ÀàĞÍ
+		$this->setParameter("trade_type","JSAPI");
+
+		$prepay_id = $this->getPrepayId();
+
+		$this->setPrepayId($prepay_id);
+		//Éú³ÉjsapiÖ§¸¶ÇëÇójson
+
+		$jsapi = $this->getParameters();
+		//echo $jsapi;exit;
+		//wxjsbridge
+		$js = '<script language="javascript">
+			function callpay(){WeixinJSBridge.invoke("getBrandWCPayRequest",'.$jsapi.',function(res){if(res.err_msg == "get_brand_wcpay_request:ok"){location.href="respond.php?code=wxpay&status=1"}else{location.href="respond.php?code=wxpay&status=0"}});}
+			</script>';
+
+		$button = '<div style="text-align:center"><button class="c-btn4" type="button" onclick="callpay()">µã»÷Ö§¸¶</button></div>'.$js;
+
+		return $button;
+
+
 	}
-	
+
 	/**
-	 * å“åº”æ“ä½œ
+	 * ÏìÓ¦²Ù×÷
 	 */
-	function respond() {
-		include_once ("weixin/WxPayPubHelper.php");
-		// ä½¿ç”¨é€šç”¨é€šçŸ¥æ¥å£
-		$notify = new Notify_pub ();
-		// å­˜å‚¨å¾®ä¿¡çš„å›è°ƒ
-		$xml = $GLOBALS ['HTTP_RAW_POST_DATA'];
-		$notify->saveData ( $xml );
-		$payment = get_payment ( 'weixin' );
-		define ( KEY, $payment ['partnerKey'] ); // é€šåŠ å¯†ä¸²
-		if ($notify->checkSign () == TRUE) {
-			if ($notify->data ["return_code"] == "FAIL") {
-				$this->addLog ( $notify, 401 );
-			} elseif ($notify->data ["result_code"] == "FAIL") {
-				$this->addLog ( $notify, 402 );
-			} else {
-				$this->addLog ( $notify, 200 );		
-				$out_trade_no = $notify->data['out_trade_no'];
-				$order_sns = explode('-',$out_trade_no);
-				$order_sn = $order_sns[0];
-				if (! check_money ( $order_sn, $notify->data ['total_fee']/100 )) {
-					$this->addLog ( $notify, 404 );
-					return true;
-				}
-					
-				order_paid ($order_sn, 2);
-				echo 'success';exit;
-			}
-		}else{
-			$this->addLog ( $notify, 403 );
-		}
-		return true;
-	}
-	function addLog($other = array(), $type = 1) {
-		$log ['ip'] = $_SERVER['REMOTE_ADDR'];
-		$log ['time'] = date('Y-m-d H:i:s');
-		$log ['get'] = $_REQUEST;
-		$log ['other'] = $other;
-		$log = serialize ( $log );
-		return $GLOBALS['db']->query( "INSERT INTO " . $GLOBALS['ecs']->table('weixin_paylog') . " (`log`,`type`) VALUES ('$log','$type')" );
-	}
-	// ç”ŸæˆåŸç”Ÿæ”¯ä»˜äºŒç»´ç 
-	function natpayHtml($order) {
-		if (! strpos ( $_SERVER ['HTTP_USER_AGENT'], 'MicroMessenger' )) {
-			$unifiedOrder = new UnifiedOrder_pub ();
+	function respond()
+	{
+        include_once ("weixin/WxPayPubHelper.php");
+        // Ê¹ÓÃÍ¨ÓÃÍ¨Öª½Ó¿Ú
+        $notify = new Notify_pub ();
+        // ´æ´¢Î¢ĞÅµÄ»Øµ÷
+        $xml = $GLOBALS ['HTTP_RAW_POST_DATA'];
+        $notify->saveData ( $xml );
+        $payment = get_payment ( 'weixin' );
+        define ( KEY, $payment ['partnerKey'] ); // Í¨¼ÓÃÜ´®
+        if ($notify->checkSign () == TRUE) {
+            if ($notify->data ["return_code"] == "FAIL") {
+                $this->addLog ( $notify, 401 );
+            } elseif ($notify->data ["result_code"] == "FAIL") {
+                $this->addLog ( $notify, 402 );
+            } else {
+                $this->addLog ( $notify, 200 );
+                $out_trade_no = $notify->data['out_trade_no'];
+                $order_sns = explode('-',$out_trade_no);
+                $order_sn = $order_sns[0];
+                if (! check_money ( $order_sn, $notify->data ['total_fee']/100 )) {
+                    $this->addLog ( $notify, 404 );
+                    return true;
+                }
 
-			$order['order_id'] = $order['log_id'].'-'.$order['order_amount']*100; 
+                order_paid ($order_sn, 2);
+                echo 'success';exit;
+            }
+        }else{
+            $this->addLog ( $notify, 403 );
+        }
+        return true;
+	}
 
-			// è®¾ç½®ç»Ÿä¸€æ”¯ä»˜æ¥å£å‚æ•°
-			$return_url = 'http://' . $_SERVER ['HTTP_HOST'].'/respond.php';
-			$unifiedOrder->setParameter ( "body", $order ['order_sn'] );
-			$unifiedOrder->setParameter ( "out_trade_no", $order ['order_id'] ); // å•†æˆ·è®¢å•å·
-			$unifiedOrder->setParameter ( "total_fee", $order ['order_amount'] * 100 ); // æ€»é‡‘é¢
-			$unifiedOrder->setParameter ( "notify_url", $return_url ); // é€šçŸ¥åœ°å€
-			$unifiedOrder->setParameter ( "trade_type", "NATIVE" ); // äº¤æ˜“ç±»å‹
-			$unifiedOrderResult = $unifiedOrder->getResult();
-			if ($unifiedOrderResult["return_code"] == "FAIL") {
-				return "é€šä¿¡å‡ºé”™ï¼š".$unifiedOrderResult['return_msg']."<br>";
-			}elseif($unifiedOrderResult["result_code"] == "FAIL"){
-				$log_id = $GLOBALS ['db']->getOne ( "SELECT log_id FROM " . $GLOBALS ['ecs']->table ( 'pay_log' ) . "where order_id='{$order ['order_id']}' and is_paid=0 order by log_id desc" );
-				if($log_id > 0 && $unifiedOrderResult['err_code'] == 'ORDERPAID'){
-					order_paid ( $log_id, 2 );
-				}
-				return "é”™è¯¯ä»£ç æè¿°ï¼š".$unifiedOrderResult['err_code_des']."<br>";
+	// ÉèÖÃÇëÇó²ÎÊı
+	function setParameter($parameter, $parameterValue) {
+		$this->parameters[$this->trimString($parameter)] = $this->trimString($parameterValue);
+	}
+
+	// ÉèÖÃ²ÎÊıÊ±ĞèÒªÓÃµ½µÄ×Ö·û´¦Àíº¯Êı
+	function trimString($value){
+		$ret = null;
+		if (null != $value) {
+			$ret = $value;
+			if (strlen($ret) == 0) {
+				$ret = null;
 			}
-			$product_url = $unifiedOrderResult["code_url"];
-			return "<img src='http://qr.liantu.com/api.php?text=" . $product_url . "' alt='æ‰«æè¿›è¡Œæ”¯ä»˜'><iframe src='weixin_order_check.php?oid={$order['order_id']}' style='display:none'></iframe>";
+		}
+		return $ret;
+	}
+
+	//Éú³ÉËæ»úÊı
+	function create_noncestr( $length = 32 ) {
+		$chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+		$str ="";
+		for ( $i = 0; $i < $length; $i++ )  {
+			$str.= substr($chars, mt_rand(0, strlen($chars)-1), 1);
+		}
+		return $str;
+	}
+
+
+	// »ñÈ¡prepay_id
+	function getPrepayId()
+	{
+		$this->postXml();
+		$this->result = $this->xmlToArray($this->response);
+        //$t = $this->result['return_msg'];
+        //$d = iconv('utf-8','gb2312//IGNORE',$t);
+        //var_dump($d);
+		//print_r($this->result);
+		$prepay_id = $this->result["prepay_id"];
+		return $prepay_id;
+	}
+
+
+	//	postÇëÇóxml
+	function postXml()
+	{
+		$xml = $this->createXml();
+		$this->response = $this->postXmlCurl($xml,'https://api.mch.weixin.qq.com/pay/unifiedorder','30');
+		//var_dump($this->response);
+		return $this->response;
+	}
+
+
+	// ÉèÖÃ±êÅäµÄÇëÇó²ÎÊı£¬Éú³ÉÇ©Ãû£¬Éú³É½Ó¿Ú²ÎÊıxml
+	function createXml()
+	{
+		$this->parameters["appid"] = $this->payments['appId'];//¹«ÖÚÕËºÅID
+		$this->parameters["mch_id"] = $this->payments['partnerId'];//ÉÌ»§ºÅ
+		$this->parameters["nonce_str"] = $this->create_noncestr();//Ëæ»ú×Ö·û´®
+		$this->parameters["sign"] = $this->getSign($this->parameters);//Ç©Ãû
+        //print_r($this->parameters);
+		return  $this->arrayToXml($this->parameters);
+	}
+
+	function xmlToArray($xml)
+	{
+		//½«XML×ªÎªarray
+		$array_data = json_decode(json_encode(simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA)), true);
+		return $array_data;
+	}
+
+	function arrayToXml($arr)
+	{
+		$xml = "<xml>";
+		foreach ($arr as $key=>$val)
+		{
+			if (is_numeric($val))
+			{
+				$xml.="<".$key.">".$val."</".$key.">";
+
+			}
+			else
+				$xml.="<".$key."><![CDATA[".$val."]]></".$key.">";
+		}
+		$xml.="</xml>";
+		return $xml;
+	}
+
+	function postXmlCurl($xml,$url,$second=30)
+	{
+		//³õÊ¼»¯curl
+		$ch = curl_init();
+		curl_setopt($ch,CURLOPT_URL, $url);
+		curl_setopt($ch,CURLOPT_SSL_VERIFYPEER,FALSE);
+		curl_setopt($ch,CURLOPT_SSL_VERIFYHOST,FALSE);
+		//ÉèÖÃheader
+		curl_setopt($ch, CURLOPT_HEADER, FALSE);
+		//ÒªÇó½á¹ûÎª×Ö·û´®ÇÒÊä³öµ½ÆÁÄ»ÉÏ
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+		//postÌá½»·½Ê½
+		curl_setopt($ch, CURLOPT_POST, TRUE);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $xml);
+		//ÔËĞĞcurl
+		$data = curl_exec($ch);
+		curl_close($ch);
+		//var_dump($data);
+		if($data)
+		{
+			//curl_close($ch);
+			return $data;
+		}
+		else
+		{
+			$error = curl_errno($ch);
+			echo "curl³ö´í£¬´íÎóÂë:$error"."<br>";
+			echo "<a href='http://curl.haxx.se/libcurl/c/libcurl-errors.html'>´íÎóÔ­Òò²éÑ¯</a></br>";
+			curl_close($ch);
+			return false;
 		}
 	}
+
+	//	×÷ÓÃ£ºÉú³ÉÇ©Ãû
+	public function getSign($Obj)
+	{
+		foreach ($Obj as $k => $v)
+		{
+			$Parameters[$k] = $v;
+		}
+		//Ç©Ãû²½ÖèÒ»£º°´×ÖµäĞòÅÅĞò²ÎÊı
+		ksort($Parameters);
+		$String = $this->formatBizQueryParaMap($Parameters, false);
+		//echo '¡¾string1¡¿'.$String.'</br>';
+		//Ç©Ãû²½Öè¶ş£ºÔÚstringºó¼ÓÈëKEY
+        //var_dump($this->payments['partnerKey']);
+		$String = $String."&key=".$this->payments['partnerKey'];
+		//echo "¡¾string2¡¿".$String."</br>";
+		//Ç©Ãû²½ÖèÈı£ºMD5¼ÓÃÜ
+		$String = md5($String);
+		//echo "¡¾string3¡¿ ".$String."</br>";
+		//Ç©Ãû²½ÖèËÄ£ºËùÓĞ×Ö·û×ªÎª´óĞ´
+		$result_ = strtoupper($String);
+		//echo "¡¾result¡¿ ".$result_."</br>";
+		return $result_;
+	}
+
+	/**
+	 * 	¸ñÊ½»¯²ÎÊı£¬Ç©Ãû¹ı³ÌĞèÒªÊ¹ÓÃ
+	 */
+	function formatBizQueryParaMap($paraMap, $urlencode)
+	{
+		$buff = "";
+		ksort($paraMap);
+		foreach ($paraMap as $k => $v)
+		{
+			if($urlencode)
+			{
+				$v = urlencode($v);
+			}
+			//$buff .= strtolower($k) . "=" . $v . "&";
+			$buff .= $k . "=" . $v . "&";
+		}
+		$reqPar = '';
+		if (strlen($buff) > 0)
+		{
+			$reqPar = substr($buff, 0, strlen($buff)-1);
+		}
+		return $reqPar;
+	}
+
+	function setPrepayId($prepayId)
+	{
+		$this->prepay_id = $prepayId;
+	}
+	/**
+	 * 	ÉèÖÃjsapiµÄ²ÎÊı
+	 */
+	function getParameters()
+	{
+		$jsApiObj["appId"] = $this->payments['appId'];
+		$timeStamp = time();
+		$jsApiObj["timeStamp"] = "$timeStamp";
+		$jsApiObj["nonceStr"] = $this->create_noncestr();
+		$jsApiObj["package"] = "prepay_id=$this->prepay_id";
+		//$jsApiObj["signType"] = $this->payments['wxpay_signtype'];
+		$jsApiObj["signType"] = 'MD5';
+		$jsApiObj["paySign"] = $this->getSign($jsApiObj);
+		$this->parameters = json_encode($jsApiObj);
+		return $this->parameters;
+	}
+
+
 }
+
 ?>

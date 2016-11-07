@@ -18,7 +18,7 @@ if (!defined('IN_ECS'))
     die('Hacking attempt');
 }
 
-error_reporting(E_ALL ^ E_NOTICE);
+//error_reporting(E_ALL ^ E_NOTICE);
 
 if (__FILE__ == '')
 {
@@ -33,7 +33,7 @@ define('ROOT_PATH', str_replace('mobile/includes/init.php', '', str_replace('\\'
 @ini_set('session.cache_expire',  180);
 @ini_set('session.use_cookies',   1);
 @ini_set('session.auto_start',    0);
-@ini_set('display_errors',        1);
+@ini_set('display_errors',        0);
 @ini_set("arg_separator.output","&amp;");
 
 if (DIRECTORY_SEPARATOR == '\\')
@@ -234,7 +234,15 @@ if(strpos($_SERVER['HTTP_USER_AGENT'],'MicroMessenger'))
     $appid = 'wx2c0db652b5b5b41c';
     $secret ='717ecbe36a79e26523f211e3f4c00e7b';
     $openid=$_COOKIE['sopenid'];
-    $openid = 'o3zeNwYpBnrHoknYwVK7PVOOlvo4';
+
+    //debug用
+    //$openid = 'o3zeNwYpBnrHoknYwVK7PVOOlvo11234';
+    //setcookie("sopenid",'717ecbe36a79e26523f211e3f4c00e7b',time()+864000,"/");
+    //setcookie("nickname",'nickname123',time()+864000,"/");
+    //setcookie("sex",2,time()+864000,"/");
+    //setcookie("avatar",'http://wx.qlogo.cn/mmopen/PiajxSqBRaEIibjAsicLJSLP5egWpq51ASsr8djhBo0JibaicYQibicotBUiaU7doDXjIl65oMcs2bqZJNVAN3ibZ12G2eg/0',time()+864000,"/");
+
+
     if(!$openid){
         $code=isset($_GET['code'])?$_GET['code']:null;
         $url = get_url();
@@ -252,22 +260,25 @@ if(strpos($_SERVER['HTTP_USER_AGENT'],'MicroMessenger'))
             $output = curl_exec($ch);*/
             $output=httpGet($str);
             $output=json_decode($output,true);
-            //print_r($output);
             setcookie("sopenid",$output['openid'],time()+864000,"/");
             $openid=$output['openid'];
             $access_token=$output['access_token'];
             $str="https://api.weixin.qq.com/sns/userinfo?access_token={$access_token}&openid={$openid}&lang=zh_CN ";
             $output=httpGet($str);
             $output=json_decode($output,true);
-            //print_r($output);
+
+            //用户个人资料写cookie
+            setcookie("nickname",$output['nickname'],time()+864000,"/");
+            setcookie("sex",$output['sex'],time()+864000,"/");
+            setcookie("avatar",$output['headimgurl'],time()+864000,"/");
         }
     }
     if($openid){
         $sql = "SELECT * FROM".$ecs->table('users')." where wx_open_id = '".$openid."'";
         $row = $db->getRow($sql);
         if($row){
-                $_SESSION['user_id']=$row['user_id'];
-                recalculate_price();
+            $_SESSION['user_id']=$row['user_id'];
+            recalculate_price();
 
         }
     }

@@ -141,6 +141,10 @@ define('GBS_FINISHED',              2); // 已结束
 define('GBS_SUCCEED',               3); // 团购成功（可以发货了）
 define('GBS_FAIL',                  4); // 团购失败
 
+
+/* 秒杀活动状态 */
+define('GAT_SECKILL',               5);
+
 /* 红包是否发送邮件 */
 define('BONUS_NOT_MAIL',            0);
 define('BONUS_MAIL_SUCCEED',        1);

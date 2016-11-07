@@ -123,6 +123,12 @@ $_LANG['whole_sale'] = '批发管理';
 $_LANG['package_manage'] = '超值礼包';
 $_LANG['exchange_goods'] = '积分商城商品';
 
+//秒杀管理
+$_LANG['seckill']         = '秒杀管理';
+$_LANG['seckill_list']         = '秒杀显示';
+$_LANG['seckill_add']         = '秒杀添加';
+
+
 //邮件管理
 $_LANG['attention_list'] = '关注管理';
 $_LANG['email_list'] = '邮件订阅管理';

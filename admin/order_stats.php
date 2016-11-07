@@ -46,8 +46,8 @@ if ($_REQUEST['act'] == 'list')
 
     /* 取得订单转化率数据 */
     $sql = "SELECT COUNT(*) AS total_order_num, " .$total_fee.
-           " FROM " . $ecs->table('order_info').
-           " WHERE 1 " . order_query_sql('finished');
+        " FROM " . $ecs->table('order_info').
+        " WHERE user_id = '$user_id' " . order_query_sql('finished');
     $order_general = $db->getRow($sql);
     $order_general['total_turnover'] = floatval($order_general['total_turnover']);
 
@@ -60,6 +60,7 @@ if ($_REQUEST['act'] == 'list')
 
     /* 每千个点击的购物额 */
     $click_turnover = $click_count > 0 ? round(($order_general['total_turnover'] * 1000)/$click_count,2) : 0;
+
 
     /* 时区 */
     $timezone = isset($_SESSION['timezone']) ? $_SESSION['timezone'] : $GLOBALS['_CFG']['timezone'];
@@ -106,6 +107,15 @@ if ($_REQUEST['act'] == 'list')
         $start_date_arr[] = local_strtotime(local_date('Y-m') . '-1');
         $end_date_arr[]   = local_strtotime(local_date('Y-m') . '-31');;
     }
+
+    /* 查询单个用户的信息 */
+    $user_name = isset($_POST['user_name']) ? $_POST['user_name'] : '';
+    $user_id = '';
+    if($user_name){
+        $user_id = $db->getOne("SELECT user_id FROM " . $ecs->table('users') . "WHERE user_name='$user_name'");
+    }
+
+
 
     /* 按月份交叉查询 */
     if ($is_multi)
@@ -249,6 +259,7 @@ if ($_REQUEST['act'] == 'list')
         /* 支付方式 */
         $pay_xml = "<graph caption='" . $_LANG['pay_method'] . "' decimalPrecision='2' showPercentageValues='0' showNames='1' numberPrefix='' showValues='1' showPercentageInLabel='0' pieYScale='45' pieBorderAlpha='40' pieFillAlpha='70' pieSliceDepth='15' pieRadius='100' outCnvBaseFontSize='13' baseFontSize='12'>";
 
+
         $sql = 'SELECT i.pay_id, p.pay_name, COUNT(i.order_id) AS order_num ' .
            'FROM ' .$ecs->table('payment'). ' AS p, ' .$ecs->table('order_info'). ' AS i '.
            "WHERE p.pay_id = i.pay_id " . order_query_sql('finished') .
@@ -384,7 +395,7 @@ elseif ($act = 'download')
   * @param       $end_date      查询的结束日期
   * @return      $order_info    订单概况数据
   */
- function get_orderinfo($start_date, $end_date)
+ function get_orderinfo($start_date, $end_date,$user_name='')
  {
     $order_info = array();
 

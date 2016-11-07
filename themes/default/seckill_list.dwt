@@ -1,0 +1,440 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Keywords" content="{$keywords}" />
+<meta name="Description" content="{$description}" />
+<!-- TemplateBeginEditable name="doctitle" -->
+<title>{$page_title}</title>
+<!-- TemplateEndEditable -->
+<!-- TemplateBeginEditable name="head" -->
+<!-- TemplateEndEditable -->
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="icon" href="animated_favicon.gif" type="image/gif" />
+<link href="{$ecs_css_path}" rel="stylesheet" type="text/css" />
+<link href="/css/w_css.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="/js/jquery.js"></script>
+{* 包含脚本文件 *}
+{insert_scripts files='common.js,lefttime.js'}
+
+
+<script type="text/javascript">
+    var gmt_end_time = 1288500660; //结束时间
+    var day = "天";
+    var hour = "小时";
+    var minute = "分钟";
+    var second = "秒";
+    var end = "结束";
+    try {
+        onload_leftTime();
+    } catch (e) {
+        console.log('xxxx');
+    }
+</script>
+
+</head>
+<body>
+<!-- #BeginLibraryItem "/library/page_header.lbi" --><!-- #EndLibraryItem -->
+<!--当前位置 start-->
+<div class="block box">
+ <div id="ur_here">
+  <!-- #BeginLibraryItem "/library/ur_here.lbi" --><!-- #EndLibraryItem -->
+ </div>
+</div>
+<!--当前位置 end-->
+<div class="blank"></div>
+<div class="block clearfix">
+  <!--left start-->
+  <div class="AreaL">
+    <!-- TemplateBeginEditable name="左边区域" -->
+    <!-- #BeginLibraryItem "/library/cart.lbi" --><!-- #EndLibraryItem -->
+    <!-- #BeginLibraryItem "/library/category_tree.lbi" --><!-- #EndLibraryItem -->
+    <!-- #BeginLibraryItem "/library/goods_related.lbi" --><!-- #EndLibraryItem -->
+    <!-- #BeginLibraryItem "/library/goods_fittings.lbi" --><!-- #EndLibraryItem -->
+    <!-- #BeginLibraryItem "/library/goods_article.lbi" --><!-- #EndLibraryItem -->
+    <!-- #BeginLibraryItem "/library/goods_attrlinked.lbi" --><!-- #EndLibraryItem -->
+    <!-- TemplateEndEditable -->
+    <!-- TemplateBeginEditable name="左边广告区域（宽200px）" -->
+    <!-- TemplateEndEditable -->
+    <!--AD end-->
+    <!-- #BeginLibraryItem "/library/history.lbi" --><!-- #EndLibraryItem -->
+  </div>
+  <!--left end-->
+  <!--right start-->
+  <div class="AreaR">
+	 <!-- TemplateBeginEditable name="右边通栏广告（宽750px）" -->
+   <!-- TemplateEndEditable -->
+   <div class="blank5"></div>
+   <div class="box">
+   <div class="box_1">
+    <h3><span>{$lang.sk_goods_name}</span></h3>
+
+<!--start秒杀开始-->
+<style type="text/css">
+.miaosha_wrap {
+    background-color: #FFFFFF;
+    border: 1px solid #DDD1D2;
+	width:720px;
+	font: 12px/20px Tahoma,Verdana,Arial,times;
+}
+.miaosha_wrap .last {
+    border-bottom: medium none;
+}
+.miaosha_wrap .tuan_detail {
+    margin: 0 auto;
+    width: 698px;
+}
+.miaosha_wrap .tuan_detail .index_tuan_tit {
+    font-family: "微软雅黑";
+    line-height: 1.2;
+    padding: 16px 10px;
+    position: relative;
+}
+.tuan_detail .index_tuan_tit h3 {
+    color: #000000;
+    font-size: 28px;
+    height: 70px;
+    overflow: hidden;
+    top: 1px;
+	text-align:left;
+	background:none;
+}
+.tuan_details_info {
+    margin-bottom: 25px;
+    position: relative;
+    z-index: 5;
+}
+.tuan_detail .beginning .tuan_photo {
+    background-color: #53A020;
+}
+.tuan_details_info .tuan_photo {
+    height: 320px;
+    width: 477px;
+}
+.tuan_details_info .tuan_photo .large_img {
+    background-color: #FFFFFF;
+    height: 310px;
+    margin: 5px;
+    width: 467px;
+}
+.tuan_details_info .tuan_photo .large_img img {
+    height: 310px;
+    width: 467px;
+}
+
+.ab_pos {
+    position: absolute;
+}
+.tuan_details_info .tuan_attr {
+    height: 320px;
+    padding-left: 477px;
+}
+.tuan_detail .beginning .btns_buy {
+    background-color: #53A020;
+}
+.tuan_attr .btns_buy {
+    height: 85px;
+    margin-bottom: 10px;
+}
+.tuan_detail .beginning .btns_buy a {
+    background-position: -20px -291px;
+}
+.tuan_attr .btns_buy a {
+    background-position: -20px -417px;
+    display: block;
+    height: 41px;
+    line-height: 200px;
+    overflow: hidden;
+    position: absolute;
+    right: 0;
+    top: 21px;
+    width: 87px;
+    z-index: 1;
+}
+
+.tuan_attr .discount_price {
+    height: 102px;
+    right: -20px;
+    top: 0;
+    width: 286px;
+}
+.tuan_attr .discount_price .price_bg {
+    background: url("http://imgcache.qq.com/vipstyle/tuan_v2/img/tuangou/bg_miaosha_sprite.png?max_age=19830211&d=0908191051") no-repeat scroll 0 0 transparent;
+}
+.tuan_attr .discount_price p {
+    color: #FFFFFF;
+    font-family: "微软雅黑";
+    left: 60px;
+    line-height: 1;
+    text-align: left;
+    top: 23px;
+    width: 112px;
+}
+
+.tuan_attr .discount_price .txt_price {
+    font-size: 20px;
+    font-weight: bold;
+    margin-right: 3px;
+}
+.tuan_attr .discount_price .num_price {
+    font-size: 30px;
+    font-weight: bold;
+}
+.tuan_detail .beginning .discount_price .price_bg {
+    background-position: -61px -572px;
+}
+.tuan_attr .discount_price .price_bg {
+    background-position: -100000px 0;
+    height: 102px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 39px;
+}
+.tuan_attr .discount_price .btns_bg {
+    background-color: #FFFFFF;
+    background-position: 75px -515px;
+    height: 8px;
+    line-height: 0;
+    position: absolute;
+    right: 10px;
+    top: 85px;
+    width: 229px;
+}
+.tuan_attr .discount_price .btns_bg{
+    background: url("http://imgcache.qq.com/vipstyle/tuan_v2/img/tuangou/bg_miaosha_sprite.png?max_age=19830211&d=0908191051") no-repeat scroll 0 0 transparent;
+}
+
+.tuan_countdown h4 {
+    font-size: 12px;
+    font-weight: normal;
+    height: 25px;
+    line-height: 24px;
+    margin: 5px 0 2px 7px;
+}
+.tuan_countdown p {
+	margin:0px;
+    margin-left: 7px;
+}
+.tuan_countdown .item {
+    display: inline;
+    float: left;
+    margin-right: 5px;
+    text-align: center;
+}
+.tuan_countdown .item .day, .tuan_countdown .item .hour_num, .tuan_countdown .item .minute_num, .tuan_countdown .item .second_num {
+    background: url("http://imgcache.qq.com/vipstyle/tuan_v2/img/tuangou/bg_miaosha_sprite.png?max_age=19830211&d=0908191051") no-repeat scroll -82px -526px transparent;
+    color: #FFFFFF;
+    display: block;
+    font-family: Arial;
+    font-size: 24px;
+    font-weight: bold;
+    height: 44px;
+    line-height: 44px;
+    width: 40px;
+}
+.tuan_countdown .item .second_num {
+    background-position: -21px -526px;
+    width: 61px;
+	*width: 60px;
+}
+.tuan_attr .tuan_countdown, .tuan_attr .buy_info, .tuan_attr .price_all {
+    background-color: #FEF7FA;
+    border: 1px solid #F3ACC4;
+    margin-left: 9px;
+    width: 210px;
+}
+.tuan_attr .tuan_countdown {
+    border-bottom: medium none;
+    color: #000000;
+    height: 103px;
+    position: relative;
+}
+.tuan_countdown h4.end {
+    margin-top: 25px;
+    text-align: center;
+}
+.tuan_countdown .end_time {
+    text-align: center;
+}
+.tuan_attr .buy_info {
+    border-bottom:medium none;
+    height: 65px;
+}
+.buy_info .tuan_result {
+    color: #000000;
+    text-align: center;
+}
+.buy_info .tuan_result .has_tuan_people {
+	margin:0px;
+    font-size: 14px;
+    line-height: 25px;
+    padding: 10px 0 0;
+    text-align: center;
+    vertical-align: middle;
+}
+.buy_info .tuan_result .has_tuan_people span {
+    color: #D8275B;
+    font-family: Arial;
+    font-size: 30px;
+    font-weight: bold;
+}
+ul, ol {
+    list-style: none outside none;
+}
+.tuan_attr .price_all {
+	margin-top:0px;
+	width:210px;
+    height: 48px;
+    padding-top: 5px;
+}
+.tuan_attr .price_all li {
+    border-left: 1px solid #FFFFFF;
+    border-right: 1px solid #FCCFE0;
+	padding:0px;
+	margin:0px;
+    color: #878787;
+    display: inline;
+    float: left;
+    text-align: center;
+}
+.tuan_attr .price_all .tit {
+    color: #000000;
+    display: inline-block;
+    line-height: 24px;
+    width: 100%;
+}
+.price_all li.discount_all {
+    border-left: medium none;
+    width: 56px;
+}
+.price_all li.original_price {
+    width: 74px;
+}
+.price_all li.save_price {
+    border-right: medium none;
+    width: 66px;
+	*width: 74px;
+}
+fieldset, img, button, input {
+    border: 0 none;
+}
+.tuan_attr .btns_buy a, .miao_today_go li {
+    background: url(../images/bg_details.png) no-repeat scroll 0 0 transparent;
+}
+</style>
+
+<!-- {if $gb_list} 如果有团购活动 -->
+<!-- {foreach from=$gb_list item=seckill} 循环团购活动开始 -->
+<div id="v:deals_div" class="miaosha_wrap" style="margin:5px auto;">
+<div class="tuan_detail last">
+
+<div class="index_tuan_tit">
+<h3 class="act_1">【{$seckill.start_day}，本场{$seckill.number}个名额】{$seckill.seckill_price}元秒杀原价{$seckill.market_price}元{$seckill.goods_name|escape:html}</h3>
+</div>
+
+<div id="v:details_193146" class="tuan_details_info beginning">
+
+<div class="tuan_photo ab_pos">
+<div class="large_img">
+<a target="_blank" href="{$seckill.url}" pgv="[PAGE].17:30_DEAL1_IMG">
+<img alt="【{$seckill.start_day}，本场{$seckill.number}个名额】{$seckill.seckill_price}元秒杀原价{$seckill.market_price}元{$seckill.goods_name|escape:html}~赶快行动吧~" src="{$seckill.seckill_img}"></a>
+</div>
+</div>
+
+
+<div class="tuan_attr">
+<p class="btns_buy"><a target="_blank"  href="{$seckill.url}" style=" ">立即购买</a></p>
+
+<div class="discount_price ab_pos">
+<p class="ab_pos"><span class="txt_price">￥</span><span class="num_price">{$seckill.seckill_price}</span></p>
+<div class="price_bg"></div>
+<div class="btns_bg"></div>
+</div>
+
+<div class="tuan_countdown">
+{if $seckill.cur_status eq 0}
+<h4 id="v:endtitle_193146">秒杀开始时间</h4>
+<p class="end_time" id="v:endtime_193146" style="display:none"></p>
+<p id="v:lefttime_193146" style="">
+<span class="item"><span id="v:leftday_193146" class="day">{$seckill.surplus_day}</span>天</span>
+<span class="item"><span id="v:lefthour_193146" class="hour_num">{$seckill.surplus_hour}</span>时</span>
+<span class="item"><span id="v:leftminute_193146" class="minute_num">{$seckill.surplus_minute}</span>分</span>
+<span class="item"><span class="second_num" ><span id="v:leftsecond_193146" class="bg_millisecond">{$seckill.surplus_seconds}</span></span>秒</span>
+</p>
+{elseif $seckill.cur_status eq 1}
+<p style="font-weight:bold; height:100px; line-height:100px; font-size:14px; text-align:center;">秒杀活动正在进行...</p>
+{else $seckill.cur_status eq 2}
+<h4 id="v:endtitle_193026" class="end">秒杀结束时间</h4>
+<p class="end_time" id="v:endtime_193026" style="">{$seckill.formated_end_date}</p>
+{/if}
+</div>
+
+<div class="buy_info">
+<div class="tuan_result">
+<p id="v:tuan_count_193146" style="" class="has_tuan_people">限量<span>{$seckill.number}</span>份</p>
+<p id="v:end_p_193146" style="display:none" class="tuan_info"><span class="icon_alert">秒杀已结束，下次早点来哦</span></p>
+</div>
+</div>
+
+<ul class="price_all">
+<li class="discount_all"><span class="tit">折扣</span><span class="num_discount">{$seckill.discount}折</span></li>
+<li class="original_price"><span class="tit">原价</span><del>￥{$seckill.market_price}</del></li>
+<li class="save_price"><span class="tit">节省</span><span class="num_save">￥{$seckill.surplus}</span></li>
+</ul>
+
+</div>
+
+
+
+
+</div>
+
+</div>
+</div>
+<!--{/foreach}-->
+<!-- {else} -->
+ <span style="margin:2px 10px; font-size:14px; line-height:36px;">{$lang.group_goods_empty}</span>
+<!-- {/if} -->
+<!--end秒杀结束-->
+
+   </div>
+  </div>
+  <div class="blank5"></div>
+  <!-- #BeginLibraryItem "/library/pages.lbi" --><!-- #EndLibraryItem -->
+  </div>
+  <!--right end-->
+</div>
+<div class="blank5"></div>
+<!--帮助-->
+<div class="block">
+  <div class="box">
+   <div class="helpTitBg clearfix">
+    <!-- #BeginLibraryItem "/library/help.lbi" --><!-- #EndLibraryItem -->
+   </div>
+  </div>
+</div>
+<div class="blank"></div>
+<!--帮助-->
+<!--友情链接 start-->
+<!--{if $img_links  or $txt_links }-->
+<div id="bottomNav" class="box">
+ <div class="box_1">
+  <div class="links clearfix">
+    <!--开始图片类型的友情链接{foreach from=$img_links item=link}-->
+    <a href="{$link.url}" target="_blank" title="{$link.name}"><img src="{$link.logo}" alt="{$link.name}" border="0" /></a>
+    <!--结束图片类型的友情链接{/foreach}-->
+    <!-- {if $txt_links} -->
+    <!--开始文字类型的友情链接{foreach from=$txt_links item=link}-->
+    [<a href="{$link.url}" target="_blank" title="{$link.name}">{$link.name}</a>]
+    <!--结束文字类型的友情链接{/foreach}-->
+    <!-- {/if} -->
+  </div>
+ </div>
+</div>
+<!--{/if}-->
+<!--友情链接 end-->
+<div class="blank"></div>
+<!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
+</body>
+</html>

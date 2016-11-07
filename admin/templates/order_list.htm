@@ -38,7 +38,10 @@
   <tr>
   {foreach from=$order_list item=order key=okey}
   <tr>
-    <td valign="top" nowrap="nowrap"><input type="checkbox" name="checkboxes" value="{$order.order_sn}" /><a href="order.php?act=info&order_id={$order.order_id}" id="order_{$okey}">{$order.order_sn}{if $order.extension_code eq "group_buy"}<br /><div align="center">{$lang.group_buy}</div>{elseif $order.extension_code eq "exchange_goods"}<br /><div align="center">{$lang.exchange_goods}</div>{/if}</a></td>
+   <!-- <td valign="top" nowrap="nowrap"><input type="checkbox" name="checkboxes" value="{$order.order_sn}" /><a href="order.php?act=info&order_id={$order.order_id}" id="order_{$okey}">{$order.order_sn}{if $order.extension_code eq "group_buy"}<br /><div align="center">{$lang.group_buy}</div>{elseif $order.extension_code eq "exchange_goods"}<br /><div align="center">{$lang.exchange_goods}</div>{/if}</a></td>-->
+
+    <td valign="top" nowrap="nowrap"><input type="checkbox" name="checkboxes" value="{$order.order_sn}" /><a href="order.php?act=info&order_id={$order.order_id}" id="order_{$okey}">{$order.order_sn}{if $order.extension_code eq "group_buy"}<br /><div align="center">{$lang.group_buy}</div>{elseif $order.extension_code eq "exchange_goods"}<br /><div align="center">{$lang.exchange_goods}</div>
+        {elseif $order.extension_code eq "seckill"}<br /><div align="center">£®√Î…±£©</div>{/if}</a></td>
     <td>{$order.buyer|escape}<br />{$order.short_order_time}</td>
     <td align="left" valign="top"><a href="mailto:{$order.email}"> {$order.consignee|escape}</a>{if $order.tel} [TEL: {$order.tel|escape}]{/if} <br />{$order.address|escape}</td>
     <td align="right" valign="top" nowrap="nowrap">{$order.formated_total_fee}</td>
@@ -167,19 +170,19 @@ listTable.filter.{$key} = '{$item}';
             }
         }
     }
-    listTable.listCallback = function(result, txt) 
+    listTable.listCallback = function(result, txt)
     {
-        if (result.error > 0) 
+        if (result.error > 0)
         {
             alert(result.message);
         }
-        else 
+        else
         {
-            try 
+            try
             {
                 document.getElementById('listDiv').innerHTML = result.content;
                 bind_order_event();
-                if (typeof result.filter == "object") 
+                if (typeof result.filter == "object")
                 {
                     listTable.filter = result.filter;
                 }

@@ -1732,6 +1732,18 @@ function build_uri($app, $params, $append = '', $page = 0, $keywords = '', $size
             }
 
             break;
+
+        case 'seckill':
+            if (empty($msid))
+            {
+                return false;
+            }
+            else
+            {
+                $uri = $rewrite ? 'seckill-' . $msid : 'seckill.php?act=view&amp;id=' . $msid;
+            }
+
+            break;
         case 'auction':
             if (empty($auid))
             {

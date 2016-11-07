@@ -1647,6 +1647,7 @@ elseif ($_REQUEST['step'] == 'done')
 
     $new_order_id = $db->insert_id();
     $order['order_id'] = $new_order_id;
+    //print_r($order);
 
     /* 插入订单商品 */
     $sql = "INSERT INTO " . $ecs->table('order_goods') . "( " .
@@ -1774,6 +1775,7 @@ elseif ($_REQUEST['step'] == 'done')
     /* 插入支付日志 */
     $order['log_id'] = insert_pay_log($new_order_id, $order['order_amount'], PAY_ORDER);
 
+    //print_r($order);
     /* 取得支付信息，生成支付代码 */
     if ($order['order_amount'] > 0)
     {
@@ -1786,7 +1788,7 @@ elseif ($_REQUEST['step'] == 'done')
         $pay_online = $pay_obj->get_code($order, unserialize_config($payment['pay_config']));
 
         $order['pay_desc'] = $payment['pay_desc'];
-
+        //print_r($pay_online);
         $smarty->assign('pay_online', $pay_online);
     }
     if(!empty($order['shipping_name']))

@@ -1774,17 +1774,19 @@ elseif ($_REQUEST['step'] == 'done')
     /* 插入支付日志 */
     $order['log_id'] = insert_pay_log($new_order_id, $order['order_amount'], PAY_ORDER);
 
+
     /* 取得支付信息，生成支付代码 */
     if ($order['order_amount'] > 0)
     {
-        $payment = payment_info($order['pay_id']);
 
+        $payment = payment_info($order['pay_id']);
         include_once('includes/modules/payment/' . $payment['pay_code'] . '.php');
 
         $pay_obj    = new $payment['pay_code'];
         $pay_online= 1;
-        if($payment['pay_code'] != 'weixin'){
+        if($payment['pay_code'] == 'weixin'){
             $pay_online = $pay_obj->get_code($order, unserialize_config($payment['pay_config']));
+            //var_dump($pay_online);
         }
 
 

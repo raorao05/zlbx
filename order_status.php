@@ -21,6 +21,7 @@ if($order_sn){
     $data = $db->getRow($sql);
     //print_r($data);
     if($data){
+        $ret['err'] = 0;
         $ret['order_status'] = $data['pay_status'];
         $ret['order_id'] = $data['order_id'];
     }

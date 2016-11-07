@@ -535,14 +535,16 @@ var flow_no_shipping = "{$lang.flow_no_shipping}";
               </td>
             </tr>
             <tr>
-              <td align="center" bgcolor="#FFFFFF">{$order.pay_desc}</td>
+              <!--<td align="center" bgcolor="#FFFFFF">{$order.pay_desc}</td>-->
             </tr>
             <!-- {if $pay_online} -->
             <!-- 如果是线上支付则显示支付按钮 -->
             <tr>
               <td align="center" bgcolor="#FFFFFF">
-				  {if $order.pay_name eq "微信支付"}<a href="./weixinpay.php?out_trade_no={$order.log_id}" class=" sub_btn" style="color:#FFF;">微信支付</a> {else}
-				  {$pay_online}{/if}</td>
+				  <!-- {if $order.pay_name eq "微信支付"}<a href="./weixinpay.php?out_trade_no={$order.log_id}" class=" sub_btn" style="color:#FFF;">微信支付</a> {else}
+				  {$pay_online}{/if}</td> -->
+
+				  {if $order.pay_name eq "微信支付"}  {$pay_online}{/if}</td>
             </tr>
             <!-- {/if} -->
           </table>

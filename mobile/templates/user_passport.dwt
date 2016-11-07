@@ -69,6 +69,10 @@
 						</span>
 					<input type="hidden" name="act" value="act_login" />
 					<input type="hidden" name="back_act" value="{$back_act}" />
+					<input type="hidden" name="openid" value="{$openid}" />
+					<input type="hidden" name="sex" value="{$sex}" />
+					<input type="hidden" name="nickname" value="{$nickname}" />
+					<input type="hidden" name="avatar" value="{$avatar}" />
 				  </form>
 				  </ul>
 			</div>
@@ -183,6 +187,10 @@ function lx_type(){
 			   <div class="izl-but"><input class="btn btn-warning"  type="Submit" value="同意协议并注册" ></div>
              <input name="act" type="hidden" value="act_register" >
              <input type="hidden" name="back_act" value="{$back_act}" />
+             <input type="hidden" name="openid" value="{$openid}" />
+             <input type="hidden" name="sex" value="{$sex}" />
+             <input type="hidden" name="nickname" value="{$nickname}" />
+             <input type="hidden" name="avatar" value="{$avatar}" />
            </form>
 				</ul>
 			</div>

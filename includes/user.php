@@ -377,7 +377,7 @@ elseif ($action =='sendsms_zc'){
 				$url = "http://14.23.153.70:9999/smshttp";
 				$psw = md5("weixiang");
 				$params = array('act'=>"sendmsg",'unitid'=>"114101",'username'=>"weixiang",'passwd'=>$psw,'msg'=>$msg,'phone'=>$mobile); 
-				$pageContents = HttpClient::quickPost($url, $params);*/
+				$pageContents = HttpClient::quickPost($url, $params);
                 $url = "http://14.23.153.70:9999/smshttp";
                 $msg = '您正在注册中联保险商城会员，验证码：'.$code.'，请勿泄露，请填写验证码并完成注册。';
                 $url=iconv("GBK", "UTF-8", $url);
@@ -387,6 +387,23 @@ elseif ($action =='sendsms_zc'){
 				setcookie($mobile, $code, time()+600);
 				setcookie($mobile.'num',$sendnum,time()+3600);
 				$result['content']=' 短信验证码已发送至手机！';
+				*/
+
+                $url = "http://14.23.153.70:9999/smshttp";
+                $msg = '您正在注册中联保险商城会员，验证码：'.$code.'，请勿泄露，请填写验证码并完成注册。';
+                $url=iconv("GBK", "UTF-8", $url);
+                $data = array('act'=>"sendmsg",'unitid'=>"120301",'username'=>"zlbx",
+                    'passwd'=>md5('abcd@@1234'),'msg'=>$msg,'phone'=>$mobile,'sendtime'=>'');
+                $ret = curlPost($url, $data);
+                if($ret != 0){
+                    $msg = explode(',',$ret);
+                    $result['error'] = 0;
+                    $result['content'] = $msg[2];
+                }else{
+                    setcookie($mobile, $code, time()+600);
+                    setcookie($mobile.'num',$sendnum,time()+3600);
+                    $result['content']=' 短信验证码已发送至手机！';
+                }
 			}else{    
 				//手机号码格式不对
 				$result['error']=0;

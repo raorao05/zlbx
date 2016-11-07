@@ -331,7 +331,7 @@ $(document).ready(function(){
           </tr>
           <tr>
             <td style=" text-align:right;">保障期限</td>
-            <td>2016-01-17 00时   ――  2017-01-16 24时</td>
+            <td>2016-01-17 00时   ?D?D  2017-01-16 24时</td>
            </tr>
           <tr>
             <td style=" text-align:right;">投保计划</td>

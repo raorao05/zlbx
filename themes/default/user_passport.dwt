@@ -115,7 +115,7 @@ function lx_type(){
            <form action="user.php" method="post" name="formUser" enctype="multipart/form-data" onsubmit="return register();">
 		     <li>
 			  <label>注册类型</label>
-              <select id="lx" class="w_dl_in1" onchange="lx_type();">
+              <select id="lx" class="w_dl_in1" onchange="lx_type();" name="type">
                 <option value="0">普通用户</option>
                 <option value="1">代理人</option>
              </select>

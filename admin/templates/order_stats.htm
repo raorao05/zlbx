@@ -2,6 +2,7 @@
 {include file="pageheader.htm"}
 <script type="text/javascript" src="../js/calendar.php?lang={$cfg_lang}"></script>
 <link href="../js/calendar/calendar.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../js/jquery-1.9.1.min.js"></script>
 <div class="main-div">
   <p style="margin: 10px">
     <strong>{$lang.overall_sum}</strong>:&nbsp;&nbsp;{$total_turnover}&nbsp;&nbsp;&nbsp;
@@ -17,18 +18,29 @@
     <input name="start_date" value="{$start_date}" style="width:80px;" onclick="return showCalendar(this, '%Y-%m-%d', false, false, this);" />
     {$lang.end_date}&nbsp;&nbsp;
     <input name="end_date" value="{$end_date}" style="width:80px;" onclick="return showCalendar(this, '%Y-%m-%d', false, false, this);" />
+    查询账号&nbsp;&nbsp;
+    <input name="user_name" value="" id="user_name" style="width:80px;"/>
     <input type="submit" name="submit" value="{$lang.query}" class="button" />
+      <span>(注:不填账号代表查询全部用户)</span>
   </form>
-    <form action="" method="post" id="selectForm" name="selectForm">
+
+
+  <!--
+  <form action="" method="post" id="selectForm" name="selectForm">
     {$lang.select_year_month}&nbsp;&nbsp;
     <!--{foreach from=$start_date_arr item=start_date key=k}-->
+    <!--
     {if $k > 0}
     &nbsp;+&nbsp;
     {/if}
     <input name="year_month[]" value="{$start_date}" style="width:60px;" onclick="return showCalendar(this, '%Y-%m', false, false, this);" /> 
-    <!--{/foreach}--><input type="hidden" name="is_multi" value="1" />
+    <!--{/foreach}<input type="hidden" name="is_multi" value="1" />
+    <!--
+    查询账号&nbsp;&nbsp;
+    <input name="user_name" value="" style="width:80px;" />
     <input type="submit" name="submit" value="{$lang.query}" class="button" />
   </form>
+  -->
 </div>
 <div class="tab-div">
  <div id="tabbar-div">
@@ -127,5 +139,40 @@ onload = function()
     // 开始检查订单
   startCheckOrder();
 }
+</script>
+
+<script>
+    var submit = true;
+    $(function(){
+        $('#user_name').bind('focus',function(){
+            submit = true;
+        })
+        $('#user_name').bind('blur',function(){
+            var user_name = $('#user_name').val();
+            is_registered(user_name);
+
+            $('#selectForm').click(function(){
+                if(!submit){
+                    return false;
+                }
+            })
+        })
+
+    })
+
+    function is_registered( username ) {
+        if ( username == '' ) {
+            return ;
+        }
+        Ajax.call( '../user.php?act=is_registered', 'username=' + username, registed_callback , 'GET', 'TEXT', true, true );
+    }
+
+    function registed_callback(result) {
+        if ( result == "true" ) {
+            alert('账号不存在');
+            submit = false;
+        }
+    }
+
 </script>
 {include file="pagefooter.htm"}

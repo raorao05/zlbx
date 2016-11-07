@@ -34,10 +34,12 @@ if ($_REQUEST['act'] == 'list')
         $ranks[$row['rank_id']] = $row['rank_name'];
     }
 
+
     $smarty->assign('user_ranks',   $ranks);
     $smarty->assign('ur_here',      $_LANG['03_users_list']);
     $smarty->assign('action_link',  array('text' => $_LANG['04_users_add'], 'href'=>'users.php?act=add'));
-	  $smarty->assign('action_link2',  array('text' => '导出列表', 'href'=>'users.php?act=export'));
+    $smarty->assign('action_link2',  array('text' => '导出列表', 'href'=>'users.php?act=export'));
+    $smarty->assign('action_link3',  array('text' => '批量导入', 'href'=>'users.php?act=import'));
 
     $user_list = user_list();
 
@@ -135,7 +137,7 @@ if ($_REQUEST['act'] == 'export')
 
 
 /*------------------------------------------------------ */
-//-- 用户列表导入
+//-- 用户列表批量excel导入
 /*------------------------------------------------------ */
 elseif ($_REQUEST['act'] == 'import')
 {
@@ -144,73 +146,109 @@ elseif ($_REQUEST['act'] == 'import')
     $sql = "SELECT rank_id, rank_name, min_points FROM ".$ecs->table('user_rank')." ORDER BY min_points ASC ";
     $rs = $db->query($sql);
 
-    $ranks = array();
-    while ($row = $db->FetchRow($rs))
-    {
-        $ranks[$row['rank_id']] = $row['rank_name'];
+    if(isset($_REQUEST['submit'])){ //导入
+        require(dirname(__FILE__) . '/includes/imgUpload.config.php');
+        $upimg = new imgupload();
+        if(!empty($_FILES['uploadFile']['tmp_name']))
+        {
+            $upimg->get_ph_tmpname($_FILES['uploadFile']['tmp_name']);
+            $upimg->get_ph_type($_FILES['uploadFile']['type']);
+            $upimg->get_ph_size($_FILES['uploadFile']['size']);
+            $upimg->get_ph_name($_FILES['uploadFile']['name']);
+            $upimg->save();
+            $imgpath = $upimg->get_ph_name($_FILES['uploadFile']['name']);
+            $excelname = $imgpath;
+            require(dirname(__FILE__) . '/phpexcel/Classes/PHPExcel.php');
+
+            $reader = PHPExcel_IOFactory::createReaderForFile($excelname);
+            $PHPExcel = $reader->load($excelname); // 文件名称
+            $sheet1 = $PHPExcel->getSheet(0); // 读取第一个工作表从0读起
+
+            $highestRowsheet1 = $sheet1->getHighestRow(); // 取得总行数
+
+            for ($row = 2; $row <= $highestRowsheet1; $row++) {
+                //判断系统是否存在会员,存在则忽略,否则insert
+                $user_name = iconv("utf-8//IGNORE","gbk",$sheet1->getCellByColumnAndRow(0, $row)->getValue());
+
+                if(!$user_name){
+                    continue;
+                }else{
+                    $sql = "SELECT user_id FROM " . $ecs->table('users') . " WHERE user_name = '$user_name' LIMIT 1";
+                    $ret = $db->getOne($sql);
+                    if($ret){
+                        continue;
+                    }
+                }
+
+                //用户基本信息
+                $sex          = iconv("utf-8//IGNORE","gbk",$sheet1->getCellByColumnAndRow(1, $row)->getValue());
+                $birthday     = iconv("utf-8//IGNORE","gbk",$sheet1->getCellByColumnAndRow(2, $row)->getValue());
+                $zj_number    = iconv("utf-8//IGNORE","gbk",$sheet1->getCellByColumnAndRow(3, $row)->getValue());
+                $alias        = iconv("utf-8//IGNORE","gbk",$sheet1->getCellByColumnAndRow(4, $row)->getValue());
+                $mobile_phone = iconv("utf-8//IGNORE","gbk",$sheet1->getCellByColumnAndRow(5, $row)->getValue());
+                $reg_time     = local_strtotime(local_date('Y-m-d H:i:s'));
+                $user_rank    = 0;
+                $password     = md5('123456');
+
+                $sql = "INSERT INTO " . $ecs->table('users') . "(user_name,password,sex,birthday,zj_number,mobile_phone,user_rank,reg_time,alias) VALUES ('$user_name','$password','$sex','$birthday','$zj_number','$mobile_phone','$user_rank','$reg_time','$alias')";
+                $db->query($sql);
+                $user_id = $db->insert_id();
+                if(!$user_id){
+                    continue;
+                }
+
+                //地址
+                $address = iconv("utf-8//IGNORE","gbk",$sheet1->getCellByColumnAndRow(7, $row)->getValue());
+                if($address){
+                    $sql1 = "INSERT INTO " . $ecs->table('user_address') . "(user_id,address,mobile) VALUES($user_id,'$address','$mobile_phone')";
+                    $db->query($sql1);
+                    $address_id = $db->insert_id();
+                    if($address){
+                        $sql_update = "UPDATE " . $ecs->table('users') . "SET address_id=$address_id WHERE user_id = $user_id";
+                        $db->query($sql_update);
+                    }
+
+                }
+
+                //用户扩展信息
+                $job_address = iconv("utf-8//IGNORE","gbk",$sheet1->getCellByColumnAndRow(6, $row)->getValue());
+                $car_card = iconv("utf-8//IGNORE","gbk",$sheet1->getCellByColumnAndRow(8, $row)->getValue());
+                $car_type = iconv("utf-8//IGNORE","gbk",$sheet1->getCellByColumnAndRow(9, $row)->getValue());
+                $car_owner = iconv("utf-8//IGNORE","gbk",$sheet1->getCellByColumnAndRow(10, $row)->getValue());
+                $car_frame_num = iconv("utf-8//IGNORE","gbk",$sheet1->getCellByColumnAndRow(11, $row)->getValue());
+                $engine_num = iconv("utf-8//IGNORE","gbk",$sheet1->getCellByColumnAndRow(12, $row)->getValue());
+                $first_register_time = iconv("utf-8//IGNORE","gbk",$sheet1->getCellByColumnAndRow(13, $row)->getValue());
+                $buy_time = iconv("utf-8//IGNORE","gbk",$sheet1->getCellByColumnAndRow(14, $row)->getValue());
+                $insurance_num = iconv("utf-8//IGNORE","gbk",$sheet1->getCellByColumnAndRow(15, $row)->getValue());
+                $insurance_type = iconv("utf-8//IGNORE","gbk",$sheet1->getCellByColumnAndRow(16, $row)->getValue());
+                $insurance_type_1     = iconv("utf-8//IGNORE","gbk",$sheet1->getCellByColumnAndRow(17, $row)->getValue());
+                $product_name         = iconv("utf-8//IGNORE","gbk",$sheet1->getCellByColumnAndRow(18, $row)->getValue());
+                $insurance_company    = iconv("utf-8//IGNORE","gbk",$sheet1->getCellByColumnAndRow(19, $row)->getValue());
+                $insurance_begin_time = iconv("utf-8//IGNORE","gbk",$sheet1->getCellByColumnAndRow(20, $row)->getValue());
+                $insurance_end_time   = iconv("utf-8//IGNORE","gbk",$sheet1->getCellByColumnAndRow(21, $row)->getValue());
+                $insurance_money      = iconv("utf-8//IGNORE","gbk",$sheet1->getCellByColumnAndRow(22, $row)->getValue());
+                $remarks              = iconv("utf-8//IGNORE","gbk",$sheet1->getCellByColumnAndRow(23, $row)->getValue());
+
+                $sql2 =  "INSERT INTO " . $ecs->table('order_from_excel') . "(job_address,car_card,car_type,car_owner,car_frame_num,engine_num,first_register_time,buy_time,insurance_num,insurance_type,insurance_type_1,product_name,insurance_company,insurance_begin_time,insurance_end_time,insurance_money,remarks) VALUES " .
+                         "('$job_address','$car_card','$car_type','$car_owner','$car_frame_num','$engine_num','$first_register_time','$buy_time','$insurance_num','$insurance_type','$insurance_type_1','$product_name','$insurance_company','$insurance_begin_time','$insurance_end_time','$insurance_money','$remarks')";
+                $db->query($sql2);
+
+                /* 记录管理员操作 */
+                admin_log($_FILES['uploadFile']['tmp_name'], 'implode', 'users');
+            }
+            /* 提示信息 */
+            $link[] = array('text' => $_LANG['go_back'], 'href'=>'users.php?act=list');
+            sys_msg(sprintf('批量账号导入成功'), 0, $link);
+        }else{
+            /* 提示信息 */
+            $link[] = array('text' => $_LANG['go_back'], 'href'=>'users.php?act=list');
+            sys_msg(sprintf('请上传正确格式的文件'), 0, $link);
+        }
+
+    }else{ //页面展示
+        assign_query_info();
+        $smarty->display('user_import.htm');
     }
-
-    require(dirname(__FILE__) . '/phpexcel/Classes/PHPExcel.php');
-
-    //创建对象
-    $excel = new PHPExcel();
-    //Excel表格式,8列
-    $letter = array('A','B1','C1','D1','E1','F1','G1','H1');
-    //表头数组
-    $tableheader = array('会员名称','手机号','邮件地址','可用资金','冻结资金','等级积分','消费积分','注册日期');
-    //填充表头信息
-
-    $excel->getActiveSheet()->setCellValue("A1",iconv("gbk","utf-8//IGNORE",'会员名称'));
-    $excel->getActiveSheet()->setCellValue("B1",iconv("gbk","utf-8//IGNORE",'手机号'));
-    $excel->getActiveSheet()->setCellValue("C1",iconv("gbk","utf-8//IGNORE",'邮件地址'));
-    $excel->getActiveSheet()->setCellValue("D1",iconv("gbk","utf-8//IGNORE",'账户余额'));
-    $excel->getActiveSheet()->setCellValue("E1",iconv("gbk","utf-8//IGNORE",'冻结资金'));
-    $excel->getActiveSheet()->setCellValue("F1",iconv("gbk","utf-8//IGNORE",'等级积分'));
-    $excel->getActiveSheet()->setCellValue("G1",iconv("gbk","utf-8//IGNORE",'消费积分'));
-    $excel->getActiveSheet()->setCellValue("H1",iconv("gbk","utf-8//IGNORE",'注册日期'));
-
-    //表格宽度
-    $excel->getActiveSheet()->getColumnDimension('A')->setWidth(30);
-    $excel->getActiveSheet()->getColumnDimension('B')->setWidth(30);
-    $excel->getActiveSheet()->getColumnDimension('C')->setWidth(30);
-    $excel->getActiveSheet()->getColumnDimension('D')->setWidth(30);
-    $excel->getActiveSheet()->getColumnDimension('E')->setWidth(30);
-    $excel->getActiveSheet()->getColumnDimension('F')->setWidth(30);
-    $excel->getActiveSheet()->getColumnDimension('G')->setWidth(30);
-    $excel->getActiveSheet()->getColumnDimension('H')->setWidth(30);
-    //查?值
-    $user_list = user_list();
-    $user_list = $user_list['user_list'];
-    //填充表格信息
-    $hang = 2;
-    $shuliang   = 0;
-    $chanpin    = $hang;
-    foreach ($user_list as $key=>$value) {
-        // $shuliang = $shuliang + 1;
-
-        $excel->getActiveSheet()->setCellValue('A' . $hang,iconv("gbk","utf-8//IGNORE", $value['user_name'])." ");//加个空格，防止时间戳被转换
-        $excel->getActiveSheet()->setCellValue('B' . $hang, $value['mobile_phone']." ");
-        $excel->getActiveSheet()->setCellValue('C' . $hang, $value['email']);
-        $excel->getActiveSheet()->setCellValue('D' . $hang, $value['user_money']." ");
-        $excel->getActiveSheet()->setCellValue('E' . $hang, $value['frozen_money']." ");
-        $excel->getActiveSheet()->setCellValue('F' . $hang, $value['rank_points']." ");
-        $excel->getActiveSheet()->setCellValue('G' . $hang, $value['pay_points']." ");
-        $excel->getActiveSheet()->setCellValue('H' . $hang, $value['reg_time']." ");
-        $hang = $hang + 1;
-    }
-    //创建Excel输入对象
-    $write = new PHPExcel_Writer_Excel5($excel);
-    header("Pragma: public");
-    header("Expires: 0");
-    header("Cache-Control:must-revalidate, post-check=0, pre-check=0");
-    header("Content-Type:application/force-download");
-    header("Content-Type:application/vnd.ms-execl");
-    header("Content-Type:application/octet-stream");
-    header("Content-Type:application/download");;
-    header('Content-Disposition:attachment;filename=会员列表'.date('Y-m-d',time()).'.xls');
-    header("Content-Transfer-Encoding:binary");
-    $write->save('php://output');
-
 }
 
 /*------------------------------------------------------ */

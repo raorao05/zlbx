@@ -347,9 +347,11 @@ var Transport =
     }
     else if (typeof(params) === "object")
     {
+
       try
       {
-        legalParams = "JSON=" + $.toJSON(params);
+        //legalParams = "JSON=" + $.toJSON(params);
+        legalParams = "JSON=" + JSON.stringify(params);
       }
       catch (ex)
       {
@@ -405,7 +407,8 @@ var Transport =
         result = this.preFilter(xhr.responseText);
         try
         {
-          result = $.evalJSON(result);
+          //result = $.evalJSON(result);
+            result = JSON.parse(result);
         }
         catch (ex)
         {

@@ -436,6 +436,9 @@ function register()
   var username  = Utils.trim(frm.elements['username'].value);
   var password  = Utils.trim(frm.elements['password'].value);
   var confirm_password = Utils.trim(frm.elements['confirm_password'].value);
+  var register_type = Utils.trim(frm.elements['type'].value);
+  var sfz_pic = Utils.trim(frm.elements['sfz_pic'].value);
+
 
   var msg = "";
   // 检查输入
@@ -452,6 +455,12 @@ function register()
   {
     msg += '用户名不能少于6位数！\n';
   }
+
+  if(register_type == 1 && !sfz_pic){ //代理人注册
+    alert('请上传身份证照片');
+    return false;
+  }
+
 
   if (password.length == 0)
   {

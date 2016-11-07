@@ -48,7 +48,11 @@ $modules['03_promotion']['08_group_buy']            = 'group_buy.php?act=list';
 $modules['03_promotion']['12_favourable']           = 'favourable.php?act=list';
 $modules['03_promotion']['16_favourable']           = 'weixin_egg.php?act=list';
 $modules['03_promotion']['17_favourable']           = 'weixin_egg.php?act=log';
-/*$modules['03_promotion']['13_wholesale']            = 'wholesale.php?act=list';
+//$modules['03_promotion']['16_seckill']              = 'seckill_goods.php?act=list';
+$modules['03_promotion']['16_seckill']              = 'seckill.php?act=list';
+//print_r($modules);exit;
+
+/*$modules['03_promotion']['13_wholesale']          = 'wholesale.php?act=list';
 $modules['03_promotion']['14_package_list']         = 'package.php?act=list';
 $modules['03_promotion']['ebao_commend']            = 'ebao_commend.php?act=list';
 $modules['03_promotion']['15_exchange_goods']       = 'exchange_goods.php?act=list';*/
@@ -120,8 +124,9 @@ $modules['11_system']['ucenter_setup']              = 'integrate.php?act=setup&c
 //$modules['11_system']['021_reg_fields']             = 'reg_fields.php?act=list';
 
 
-$modules['12_template']['02_template_select']       = 'template.php?act=list';
-$modules['12_template']['03_template_setup']        = 'template.php?act=setup';
+//模板设置
+//$modules['12_template']['02_template_select']       = 'template.php?act=list';
+//$modules['12_template']['03_template_setup']        = 'template.php?act=setup';
 //$modules['12_template']['04_template_library']      = 'template.php?act=library';
 //$modules['12_template']['05_edit_languages']        = 'edit_languages.php?act=list';
 //$modules['12_template']['06_template_backup']       = 'template.php?act=backup_setting';
@@ -141,8 +146,9 @@ $modules['12_template']['03_template_setup']        = 'template.php?act=setup';
 //$modules['14_sms']['05_sms_send_history']           = 'sms.php?act=display_send_history_ui';
 //$modules['14_sms']['06_sms_charge_history']         = 'sms.php?act=display_charge_history_ui';
 
-$modules['15_rec']['affiliate']                     = 'affiliate.php?act=list';
-$modules['15_rec']['affiliate_ck']                  = 'affiliate_ck.php?act=list';
+//推荐设置
+//$modules['15_rec']['affiliate']                     = 'affiliate.php?act=list';
+//$modules['15_rec']['affiliate_ck']                  = 'affiliate_ck.php?act=list';
 
 //$modules['16_email_manage']['email_list']           = 'email_list.php?act=list';
 //$modules['16_email_manage']['magazine_list']        = 'magazine_list.php?act=list';

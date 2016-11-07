@@ -133,12 +133,14 @@ if ($_REQUEST['act'] == 'list')
     $smarty->assign('all_order',          $user_all_order);    //所有订单总数以及所有购物总额
     $smarty->assign('ur_here',            $_LANG['report_guest']);
     $smarty->assign('lang',               $_LANG);
+    
 
     $smarty->assign('action_link',  array('text' => $_LANG['down_guest_stats'],
           'href'=>'guest_stats.php?flag=download'));
 
     assign_query_info();
     $smarty->display('guest_stats.htm');
+    
 }
 
 ?>
