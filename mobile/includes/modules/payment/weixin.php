@@ -113,7 +113,8 @@ class weixin
 		$this->setParameter("body", $order['order_sn']);
 
 		//商户订单号
-		$this->setParameter("out_trade_no", $order['order_sn'] .'O'. $order['log_id']);
+        //$this->setParameter("out_trade_no", $order['order_sn'] .'O'. $order['log_id']);
+        $this->setParameter("out_trade_no", $order['log_id'].'-'.$order['order_amount']*100);
 		//订单总金额
 		$this->setParameter("total_fee", $order['order_amount'] * 100);
 		//支付币种
@@ -137,7 +138,19 @@ class weixin
 		//echo $jsapi;exit;
 		//wxjsbridge
 		$js = '<script language="javascript">
-			function callpay(){WeixinJSBridge.invoke("getBrandWCPayRequest",'.$jsapi.',function(res){if(res.err_msg == "get_brand_wcpay_request:ok"){location.href="respond.php?code=wxpay&status=1"}else{location.href="respond.php?code=wxpay&status=0"}});}
+			function callpay(){
+			    WeixinJSBridge.invoke("getBrandWCPayRequest",'.$jsapi.',function(res){
+			        if(res.err_msg == "get_brand_wcpay_request:ok"){
+			            location.href="respond.php?code=weixin&status=1"
+			        }else if(res.err_msg == "get_brand_wcpay_request:cancel"){
+			            location.href="respond.php?code=weixin&status=2"
+			        } else if (res.err_msg == "get_brand_wcpay_request:fail") {
+						location.href="respond.php?code=weixin&status=3"
+					} else {
+						location.href="respond.php?code=weixin&status=4&errmsg=" + encodeURIComponent(res.err_msg);
+					}
+			     });
+			}
 			</script>';
 
 		$button = '<div style="text-align:center"><button class="c-btn4" type="button" onclick="callpay()">点击支付</button></div>'.$js;
