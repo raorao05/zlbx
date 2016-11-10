@@ -392,7 +392,7 @@ class weixinapi{
 	//统计剩余抽奖次数
 	function getAwardNum($aid){
 		$act = self::checkAward($aid);
-		print_r($act);
+		//print_r($act);
 		if(!$act) return 0;
 		$uid = $_SESSION['user_id'];
 		if($act['type'] == 1){

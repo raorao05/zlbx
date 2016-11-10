@@ -1,13 +1,13 @@
 <?php
 
 /**
- * ECSHOP ÉÌÆ·¹ÜÀí³ÌÐò
+ * ECSHOP ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  * ============================================================================
- * * °æÈ¨ËùÓÐ 2005-2012 ÉÏº£ÉÌÅÉÍøÂç¿Æ¼¼ÓÐÏÞ¹«Ë¾£¬²¢±£ÁôËùÓÐÈ¨Àû¡£
- * ÍøÕ¾µØÖ·: http://www.ecshop.com£»
+ * * ï¿½ï¿½È¨ï¿½ï¿½ï¿½ï¿½ 2005-2012 ï¿½Ïºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¼ï¿½ï¿½ï¿½ï¿½Þ¹ï¿½Ë¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¨ï¿½ï¿½ï¿½ï¿½
+ * ï¿½ï¿½Õ¾ï¿½ï¿½Ö·: http://www.ecshop.comï¿½ï¿½
  * ----------------------------------------------------------------------------
- * Õâ²»ÊÇÒ»¸ö×ÔÓÉÈí¼þ£¡ÄúÖ»ÄÜÔÚ²»ÓÃÓÚÉÌÒµÄ¿µÄµÄÇ°ÌáÏÂ¶Ô³ÌÐò´úÂë½øÐÐÐÞ¸ÄºÍ
- * Ê¹ÓÃ£»²»ÔÊÐí¶Ô³ÌÐò´úÂëÒÔÈÎºÎÐÎÊ½ÈÎºÎÄ¿µÄµÄÔÙ·¢²¼¡£
+ * ï¿½â²»ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö»ï¿½ï¿½ï¿½Ú²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÒµÄ¿ï¿½Äµï¿½Ç°ï¿½ï¿½ï¿½Â¶Ô³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Þ¸Äºï¿½
+ * Ê¹ï¿½Ã£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½Ê½ï¿½Îºï¿½Ä¿ï¿½Äµï¿½ï¿½Ù·ï¿½ï¿½ï¿½ï¿½ï¿½
  * ============================================================================
  * $Author: liubo $
  * $Id: goods.php 17217 2011-01-19 06:29:08Z liubo $
@@ -22,7 +22,7 @@ $image = new cls_image($_CFG['bgcolor']);
 $exc = new exchange($ecs->table('goods'), $db, 'goods_id', 'goods_name');
 
 /*------------------------------------------------------ */
-//-- ÉÌÆ·ÁÐ±í£¬ÉÌÆ·»ØÊÕÕ¾
+//-- ï¿½ï¿½Æ·ï¿½Ð±ï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½Õ¾
 /*------------------------------------------------------ */
 
 if ($_REQUEST['act'] == 'list' || $_REQUEST['act'] == 'trash')
@@ -44,7 +44,9 @@ if ($_REQUEST['act'] == 'list' || $_REQUEST['act'] == 'trash')
         $smarty->assign('add_handler',      $handler_list[$code]);
     }
 
-    /* ¹©»õÉÌÃû */
+    
+
+    /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
     $suppliers_list_name = suppliers_list_name();
     $suppliers_exists = 1;
     if (empty($suppliers_list_name))
@@ -57,7 +59,7 @@ if ($_REQUEST['act'] == 'list' || $_REQUEST['act'] == 'trash')
     $smarty->assign('suppliers_list_name', $suppliers_list_name);
     unset($suppliers_list_name, $suppliers_exists);
 
-    /* Ä£°å¸³Öµ */
+    /* Ä£ï¿½å¸³Öµ */
     $goods_ur = array('' => $_LANG['01_goods_list'], 'virtual_card'=>$_LANG['50_virtual_card_list']);
     $ur_here = ($_REQUEST['act'] == 'list') ? $goods_ur[$code] : $_LANG['11_goods_trash'];
     $smarty->assign('ur_here', $ur_here);
@@ -74,7 +76,7 @@ if ($_REQUEST['act'] == 'list' || $_REQUEST['act'] == 'trash')
 
     $suppliers_list = suppliers_list_info(' is_check = 1 ');
     $suppliers_list_count = count($suppliers_list);
-    $smarty->assign('suppliers_list', ($suppliers_list_count == 0 ? 0 : $suppliers_list)); // È¡¹©»õÉÌÁÐ±í
+    $smarty->assign('suppliers_list', ($suppliers_list_count == 0 ? 0 : $suppliers_list)); // È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
 
     $goods_list = goods_list($_REQUEST['act'] == 'list' ? 0 : 1, ($_REQUEST['act'] == 'list') ? (($code == '') ? 1 : 0) : -1);
     $smarty->assign('goods_list',   $goods_list['goods']);
@@ -83,15 +85,15 @@ if ($_REQUEST['act'] == 'list' || $_REQUEST['act'] == 'trash')
     $smarty->assign('page_count',   $goods_list['page_count']);
     $smarty->assign('full_page',    1);
 
-    /* ÅÅÐò±ê¼Ç */
+    /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
     $sort_flag  = sort_flag($goods_list['filter']);
     $smarty->assign($sort_flag['tag'], $sort_flag['img']);
 
-    /* »ñÈ¡ÉÌÆ·ÀàÐÍ´æÔÚ¹æ¸ñµÄÀàÐÍ */
+    /* ï¿½ï¿½È¡ï¿½ï¿½Æ·ï¿½ï¿½ï¿½Í´ï¿½ï¿½Ú¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
     $specifications = get_goods_type_specifications();
     $smarty->assign('specifications', $specifications);
 
-    /* ÏÔÊ¾ÉÌÆ·ÁÐ±íÒ³Ãæ */
+    /* ï¿½ï¿½Ê¾ï¿½ï¿½Æ·ï¿½Ð±ï¿½Ò³ï¿½ï¿½ */
     assign_query_info();
     $htm_file = ($_REQUEST['act'] == 'list') ?
         'goods_list.htm' : (($_REQUEST['act'] == 'trash') ? 'goods_trash.htm' : 'group_list.htm');
@@ -99,28 +101,28 @@ if ($_REQUEST['act'] == 'list' || $_REQUEST['act'] == 'trash')
 }
 
 /*------------------------------------------------------ */
-//-- Ìí¼ÓÐÂÉÌÆ· ±à¼­ÉÌÆ·
+//-- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ· ï¿½à¼­ï¿½ï¿½Æ·
 /*------------------------------------------------------ */
 
 elseif ($_REQUEST['act'] == 'add' || $_REQUEST['act'] == 'edit' || $_REQUEST['act'] == 'copy')
 {
-    include_once(ROOT_PATH . 'includes/fckeditor/fckeditor.php'); // °üº¬ html editor ÀàÎÄ¼þ
+    include_once(ROOT_PATH . 'includes/fckeditor/fckeditor.php'); // ï¿½ï¿½ï¿½ï¿½ html editor ï¿½ï¿½ï¿½Ä¼ï¿½
 	
 
-    $is_add = $_REQUEST['act'] == 'add'; // Ìí¼Ó»¹ÊÇ±à¼­µÄ±êÊ¶
-    $is_copy = $_REQUEST['act'] == 'copy'; //ÊÇ·ñ¸´ÖÆ
+    $is_add = $_REQUEST['act'] == 'add'; // ï¿½ï¿½Ó»ï¿½ï¿½Ç±à¼­ï¿½Ä±ï¿½Ê¶
+    $is_copy = $_REQUEST['act'] == 'copy'; //ï¿½Ç·ï¿½ï¿½ï¿½
     $code = empty($_REQUEST['extension_code']) ? '' : trim($_REQUEST['extension_code']);
     $code=$code=='virual_card' ? 'virual_card': '';
     if ($code == 'virual_card')
     {
-        admin_priv('virualcard'); // ¼ì²éÈ¨ÏÞ
+        admin_priv('virualcard'); // ï¿½ï¿½ï¿½È¨ï¿½ï¿½
     }
     else
     {
-        admin_priv('goods_manage'); // ¼ì²éÈ¨ÏÞ
+        admin_priv('goods_manage'); // ï¿½ï¿½ï¿½È¨ï¿½ï¿½
     }
 
-    /* ¹©»õÉÌÃû */
+    /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
     $suppliers_list_name = suppliers_list_name();
     $suppliers_exists = 1;
     if (empty($suppliers_list_name))
@@ -131,7 +133,7 @@ elseif ($_REQUEST['act'] == 'add' || $_REQUEST['act'] == 'edit' || $_REQUEST['ac
     $smarty->assign('suppliers_list_name', $suppliers_list_name);
     unset($suppliers_list_name, $suppliers_exists);
 
-    /* Èç¹ûÊÇ°²È«Ä£Ê½£¬¼ì²éÄ¿Â¼ÊÇ·ñ´æÔÚ */
+    /* ï¿½ï¿½ï¿½ï¿½Ç°ï¿½È«Ä£Ê½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿Â¼ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ */
     if (ini_get('safe_mode') == 1 && (!file_exists('../' . IMAGE_DIR . '/'.date('Ym')) || !is_dir('../' . IMAGE_DIR . '/'.date('Ym'))))
     {
         if (@!mkdir('../' . IMAGE_DIR . '/'.date('Ym'), 0777))
@@ -141,17 +143,17 @@ elseif ($_REQUEST['act'] == 'add' || $_REQUEST['act'] == 'edit' || $_REQUEST['ac
         }
     }
 
-    /* Èç¹ûÄ¿Â¼´æÔÚµ«²»¿ÉÐ´£¬ÌáÊ¾ÓÃ»§ */
+    /* ï¿½ï¿½ï¿½Ä¿Â¼ï¿½ï¿½ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½Ã»ï¿½ */
     elseif (file_exists('../' . IMAGE_DIR . '/'.date('Ym')) && file_mode_info('../' . IMAGE_DIR . '/'.date('Ym')) < 2)
     {
         $warning = sprintf($_LANG['not_writable_warning'], '../' . IMAGE_DIR . '/'.date('Ym'));
         $smarty->assign('warning', $warning);
     }
 
-    /* È¡µÃÉÌÆ·ÐÅÏ¢ */
+    /* È¡ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½Ï¢ */
     if ($is_add)
     {
-        /* Ä¬ÈÏÖµ */
+        /* Ä¬ï¿½ï¿½Öµ */
         $last_choose = array(0, 0);
         if (!empty($_COOKIE['ECSCP']['last_choose']))
         {
@@ -166,8 +168,8 @@ elseif ($_REQUEST['act'] == 'add' || $_REQUEST['act'] == 'edit' || $_REQUEST['ac
             'is_on_sale'    => '1',
             'is_alone_sale' => '1',
             'is_shipping' => '0',
-            'other_cat'     => array(), // À©Õ¹·ÖÀà
-            'goods_type'    => 0,       // ÉÌÆ·ÀàÐÍ
+            'other_cat'     => array(), // ï¿½ï¿½Õ¹ï¿½ï¿½ï¿½ï¿½
+            'goods_type'    => 0,       // ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½
             'shop_price'    => 0,
             'promote_price' => 0,
             'market_price'  => 0,
@@ -186,39 +188,39 @@ elseif ($_REQUEST['act'] == 'add' || $_REQUEST['act'] == 'edit' || $_REQUEST['ac
             $goods['goods_number'] = 0;
         }
 
-        /* ¹ØÁªÉÌÆ· */
+        /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ· */
         $link_goods_list = array();
         $sql = "DELETE FROM " . $ecs->table('link_goods') .
                 " WHERE (goods_id = 0 OR link_goods_id = 0)" .
                 " AND admin_id = '$_SESSION[admin_id]'";
         $db->query($sql);
 
-        /* ×éºÏÉÌÆ· */
+        /* ï¿½ï¿½ï¿½ï¿½ï¿½Æ· */
         $group_goods_list = array();
         $sql = "DELETE FROM " . $ecs->table('group_goods') .
                 " WHERE parent_id = 0 AND admin_id = '$_SESSION[admin_id]'";
         $db->query($sql);
 
-        /* ¹ØÁªÎÄÕÂ */
+        /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
         $goods_article_list = array();
         $sql = "DELETE FROM " . $ecs->table('goods_article') .
                 " WHERE goods_id = 0 AND admin_id = '$_SESSION[admin_id]'";
         $db->query($sql);
 
-        /* ÊôÐÔ */
+        /* ï¿½ï¿½ï¿½ï¿½ */
         $sql = "DELETE FROM " . $ecs->table('goods_attr') . " WHERE goods_id = 0";
         $db->query($sql);
 
-        /* Í¼Æ¬ÁÐ±í */
+        /* Í¼Æ¬ï¿½Ð±ï¿½ */
         $img_list = array();
     }
     else
     {
-        /* ÉÌÆ·ÐÅÏ¢ */
+        /* ï¿½ï¿½Æ·ï¿½ï¿½Ï¢ */
         $sql = "SELECT * FROM " . $ecs->table('goods') . " WHERE goods_id = '$_REQUEST[goods_id]'";
         $goods = $db->getRow($sql);
 
-        /* ÐéÄâ¿¨ÉÌÆ·¸´ÖÆÊ±, ½«Æä¿â´æÖÃÎª0*/
+        /* ï¿½ï¿½ï¿½â¿¨ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½Ê±, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îª0*/
         if ($is_copy && $code != '')
         {
             $goods['goods_number'] = 0;
@@ -226,7 +228,7 @@ elseif ($_REQUEST['act'] == 'add' || $_REQUEST['act'] == 'edit' || $_REQUEST['ac
 
         if (empty($goods) === true)
         {
-            /* Ä¬ÈÏÖµ */
+            /* Ä¬ï¿½ï¿½Öµ */
             $goods = array(
                 'goods_id'      => 0,
                 'goods_desc'    => '',
@@ -235,8 +237,8 @@ elseif ($_REQUEST['act'] == 'add' || $_REQUEST['act'] == 'edit' || $_REQUEST['ac
                 'is_on_sale'    => '1',
                 'is_alone_sale' => '1',
                 'is_shipping' => '0',
-                'other_cat'     => array(), // À©Õ¹·ÖÀà
-                'goods_type'    => 0,       // ÉÌÆ·ÀàÐÍ
+                'other_cat'     => array(), // ï¿½ï¿½Õ¹ï¿½ï¿½ï¿½ï¿½
+                'goods_type'    => 0,       // ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½
                 'shop_price'    => 0,
                 'promote_price' => 0,
                 'market_price'  => 0,
@@ -251,13 +253,13 @@ elseif ($_REQUEST['act'] == 'add' || $_REQUEST['act'] == 'edit' || $_REQUEST['ac
             );
         }
 
-        /* »ñÈ¡ÉÌÆ·ÀàÐÍ´æÔÚ¹æ¸ñµÄÀàÐÍ */
+        /* ï¿½ï¿½È¡ï¿½ï¿½Æ·ï¿½ï¿½ï¿½Í´ï¿½ï¿½Ú¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
         $specifications = get_goods_type_specifications();
         $goods['specifications_id'] = $specifications[$goods['goods_type']];
         $_attribute = get_goods_specifications_list($goods['goods_id']);
         $goods['_attribute'] = empty($_attribute) ? '' : 1;
 
-        /* ¸ù¾ÝÉÌÆ·ÖØÁ¿µÄµ¥Î»ÖØÐÂ¼ÆËã */
+        /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½Î»ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ */
         if ($goods['goods_weight'] > 0)
         {
             $goods['goods_weight_by_unit'] = ($goods['goods_weight'] >= 1) ? $goods['goods_weight'] : ($goods['goods_weight'] / 0.001);
@@ -274,7 +276,7 @@ elseif ($_REQUEST['act'] == 'add' || $_REQUEST['act'] == 'edit' || $_REQUEST['ac
             $goods['keywords']    = $goods['keywords'];
         }
 
-        /* Èç¹û²»ÊÇ´ÙÏú£¬´¦Àí´ÙÏúÈÕÆÚ */
+        /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
         if (isset($goods['is_promote']) && $goods['is_promote'] == '0')
         {
             unset($goods['promote_start_date']);
@@ -286,10 +288,10 @@ elseif ($_REQUEST['act'] == 'add' || $_REQUEST['act'] == 'edit' || $_REQUEST['ac
             $goods['promote_end_date'] = local_date('Y-m-d', $goods['promote_end_date']);
         }
 
-        /* Èç¹ûÊÇ¸´ÖÆÉÌÆ·£¬´¦Àí */
+        /* ï¿½ï¿½ï¿½ï¿½Ç¸ï¿½ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
         if ($_REQUEST['act'] == 'copy')
         {
-            // ÉÌÆ·ÐÅÏ¢
+            // ï¿½ï¿½Æ·ï¿½ï¿½Ï¢
             $goods['goods_id'] = 0;
             $goods['goods_sn'] = '';
             $goods['goods_name'] = '';
@@ -297,9 +299,9 @@ elseif ($_REQUEST['act'] == 'add' || $_REQUEST['act'] == 'edit' || $_REQUEST['ac
             $goods['goods_thumb'] = '';
             $goods['original_img'] = '';
 
-            // À©Õ¹·ÖÀà²»±ä
+            // ï¿½ï¿½Õ¹ï¿½ï¿½ï¿½à²»ï¿½ï¿½
 
-            // ¹ØÁªÉÌÆ·
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ·
             $sql = "DELETE FROM " . $ecs->table('link_goods') .
                     " WHERE (goods_id = 0 OR link_goods_id = 0)" .
                     " AND admin_id = '$_SESSION[admin_id]'";
@@ -323,7 +325,7 @@ elseif ($_REQUEST['act'] == 'add' || $_REQUEST['act'] == 'edit' || $_REQUEST['ac
                 $db->autoExecute($ecs->table('link_goods'), $row, 'INSERT');
             }
 
-            // Åä¼þ
+            // ï¿½ï¿½ï¿½
             $sql = "DELETE FROM " . $ecs->table('group_goods') .
                     " WHERE parent_id = 0 AND admin_id = '$_SESSION[admin_id]'";
             $db->query($sql);
@@ -337,7 +339,7 @@ elseif ($_REQUEST['act'] == 'add' || $_REQUEST['act'] == 'edit' || $_REQUEST['ac
                 $db->autoExecute($ecs->table('group_goods'), $row, 'INSERT');
             }
 
-            // ¹ØÁªÎÄÕÂ
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             $sql = "DELETE FROM " . $ecs->table('goods_article') .
                     " WHERE goods_id = 0 AND admin_id = '$_SESSION[admin_id]'";
             $db->query($sql);
@@ -351,9 +353,9 @@ elseif ($_REQUEST['act'] == 'add' || $_REQUEST['act'] == 'edit' || $_REQUEST['ac
                 $db->autoExecute($ecs->table('goods_article'), $row, 'INSERT');
             }
 
-            // Í¼Æ¬²»±ä
+            // Í¼Æ¬ï¿½ï¿½ï¿½ï¿½
 
-            // ÉÌÆ·ÊôÐÔ
+            // ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½
             $sql = "DELETE FROM " . $ecs->table('goods_attr') . " WHERE goods_id = 0";
             $db->query($sql);
 
@@ -367,7 +369,7 @@ elseif ($_REQUEST['act'] == 'add' || $_REQUEST['act'] == 'edit' || $_REQUEST['ac
             }
         }
 
-        // À©Õ¹·ÖÀà
+        // ï¿½ï¿½Õ¹ï¿½ï¿½ï¿½ï¿½
         $other_cat_list = array();
         $sql = "SELECT cat_id FROM " . $ecs->table('goods_cat') . " WHERE goods_id = '$_REQUEST[goods_id]'";
         $goods['other_cat'] = $db->getCol($sql);
@@ -377,22 +379,22 @@ elseif ($_REQUEST['act'] == 'add' || $_REQUEST['act'] == 'edit' || $_REQUEST['ac
         }
         $smarty->assign('other_cat_list', $other_cat_list);
 
-        $link_goods_list    = get_linked_goods($goods['goods_id']); // ¹ØÁªÉÌÆ·
-        $group_goods_list   = get_group_goods($goods['goods_id']); // Åä¼þ
-        $goods_article_list = get_goods_articles($goods['goods_id']);   // ¹ØÁªÎÄÕÂ
+        $link_goods_list    = get_linked_goods($goods['goods_id']); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ·
+        $group_goods_list   = get_group_goods($goods['goods_id']); // ï¿½ï¿½ï¿½
+        $goods_article_list = get_goods_articles($goods['goods_id']);   // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-        /* ÉÌÆ·Í¼Æ¬Â·¾¶ */
+        /* ï¿½ï¿½Æ·Í¼Æ¬Â·ï¿½ï¿½ */
         if (isset($GLOBALS['shop_id']) && ($GLOBALS['shop_id'] > 10) && !empty($goods['original_img']))
         {
             $goods['goods_img'] = get_image_path($_REQUEST['goods_id'], $goods['goods_img']);
             $goods['goods_thumb'] = get_image_path($_REQUEST['goods_id'], $goods['goods_thumb'], true);
         }
 
-        /* Í¼Æ¬ÁÐ±í */
+        /* Í¼Æ¬ï¿½Ð±ï¿½ */
         $sql = "SELECT * FROM " . $ecs->table('goods_gallery') . " WHERE goods_id = '$goods[goods_id]'";
         $img_list = $db->getAll($sql);
 
-        /* ¸ñÊ½»¯Ïà²áÍ¼Æ¬Â·¾¶ */
+        /* ï¿½ï¿½Ê½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼Æ¬Â·ï¿½ï¿½ */
         if (isset($GLOBALS['shop_id']) && ($GLOBALS['shop_id'] > 0))
         {
             foreach ($img_list as $key => $gallery_img)
@@ -410,15 +412,15 @@ elseif ($_REQUEST['act'] == 'add' || $_REQUEST['act'] == 'edit' || $_REQUEST['ac
         }
     }
 
-    /* ²ð·ÖÉÌÆ·Ãû³ÆÑùÊ½ */
+    /* ï¿½ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê½ */
     $goods_name_style = explode('+', empty($goods['goods_name_style']) ? '+' : $goods['goods_name_style']);
 
-    /* ´´½¨ html editor */
+    /* ï¿½ï¿½ï¿½ï¿½ html editor */
     create_html_editor('goods_desc', $goods['goods_desc']);
 	create_html_editor3('list_desc',  $goods['list_desc']);
 	create_html_editor4('goods_jd',  $goods['goods_jd']); 
 
-    /* Ä£°å¸³Öµ */
+    /* Ä£ï¿½å¸³Öµ */
     $smarty->assign('code',    $code);
     $smarty->assign('ur_here', $is_add ? (empty($code) ? $_LANG['02_goods_add'] : $_LANG['51_virtual_card_add']) : ($_REQUEST['act'] == 'edit' ? $_LANG['edit_goods'] : $_LANG['copy_goods']));
     $smarty->assign('action_link', list_link($is_add, $code));
@@ -461,32 +463,32 @@ elseif ($_REQUEST['act'] == 'add' || $_REQUEST['act'] == 'edit' || $_REQUEST['ac
         $volume_price_list = array('0'=>array('number'=>'','price'=>''));
     }
     $smarty->assign('volume_price_list', $volume_price_list);
-    /* ÏÔÊ¾ÉÌÆ·ÐÅÏ¢Ò³Ãæ */
+    /* ï¿½ï¿½Ê¾ï¿½ï¿½Æ·ï¿½ï¿½Ï¢Ò³ï¿½ï¿½ */
     assign_query_info();
     $smarty->display('goods_info.htm');
 }
 
 /*------------------------------------------------------ */
-//-- ²åÈëÉÌÆ· ¸üÐÂÉÌÆ·
+//-- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ· ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ·
 /*------------------------------------------------------ */
 
 elseif ($_REQUEST['act'] == 'insert' || $_REQUEST['act'] == 'update')
 {
     $code = empty($_REQUEST['extension_code']) ? '' : trim($_REQUEST['extension_code']);
 
-    /* ÊÇ·ñ´¦ÀíËõÂÔÍ¼ */
+    /* ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ */
     $proc_thumb = (isset($GLOBALS['shop_id']) && $GLOBALS['shop_id'] > 0)? false : true;
     if ($code == 'virtual_card')
     {
-        admin_priv('virualcard'); // ¼ì²éÈ¨ÏÞ
+        admin_priv('virualcard'); // ï¿½ï¿½ï¿½È¨ï¿½ï¿½
     }
     else
     {
-        admin_priv('goods_manage'); // ¼ì²éÈ¨ÏÞ
+        admin_priv('goods_manage'); // ï¿½ï¿½ï¿½È¨ï¿½ï¿½
     }
 	
 
-    /* ¼ì²é»õºÅÊÇ·ñÖØ¸´ */
+    /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½Ø¸ï¿½ */
     if ($_POST['goods_sn'])
     {
         $sql = "SELECT COUNT(*) FROM " . $ecs->table('goods') .
@@ -497,14 +499,14 @@ elseif ($_REQUEST['act'] == 'insert' || $_REQUEST['act'] == 'update')
         }
     }
 
-    /* ¼ì²éÍ¼Æ¬£ºÈç¹ûÓÐ´íÎó£¬¼ì²é³ß´çÊÇ·ñ³¬¹ý×î´óÖµ£»·ñÔò£¬¼ì²éÎÄ¼þÀàÐÍ */
-    if (isset($_FILES['goods_img']['error'])) // php 4.2 °æ±¾²ÅÖ§³Ö error
+    /* ï¿½ï¿½ï¿½Í¼Æ¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ï¿½ó£¬¼ï¿½ï¿½ß´ï¿½ï¿½Ç·ñ³¬¹ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ò£¬¼ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ */
+    if (isset($_FILES['goods_img']['error'])) // php 4.2 ï¿½æ±¾ï¿½ï¿½Ö§ï¿½ï¿½ error
     {
-        // ×î´óÉÏ´«ÎÄ¼þ´óÐ¡
+        // ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½Ð¡
         $php_maxsize = ini_get('upload_max_filesize');
         $htm_maxsize = '2M';
 
-        // ÉÌÆ·Í¼Æ¬
+        // ï¿½ï¿½Æ·Í¼Æ¬
         if ($_FILES['goods_img']['error'] == 0)
         {
             if (!$image->check_img_type($_FILES['goods_img']['type']))
@@ -521,7 +523,7 @@ elseif ($_REQUEST['act'] == 'insert' || $_REQUEST['act'] == 'update')
             sys_msg(sprintf($_LANG['goods_img_too_big'], $htm_maxsize), 1, array(), false);
         }
 
-        // ÉÌÆ·ËõÂÔÍ¼
+        // ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½Í¼
         if (isset($_FILES['goods_thumb']))
         {
             if ($_FILES['goods_thumb']['error'] == 0)
@@ -541,7 +543,7 @@ elseif ($_REQUEST['act'] == 'insert' || $_REQUEST['act'] == 'update')
             }
         }
 
-        // Ïà²áÍ¼Æ¬
+        // ï¿½ï¿½ï¿½Í¼Æ¬
         foreach ($_FILES['img_url']['error'] AS $key => $value)
         {
             if ($value == 0)
@@ -561,10 +563,10 @@ elseif ($_REQUEST['act'] == 'insert' || $_REQUEST['act'] == 'update')
             }
         }
     }
-    /* 4.1°æ±¾ */
+    /* 4.1ï¿½æ±¾ */
     else
     {
-        // ÉÌÆ·Í¼Æ¬
+        // ï¿½ï¿½Æ·Í¼Æ¬
         if ($_FILES['goods_img']['tmp_name'] != 'none')
         {
             if (!$image->check_img_type($_FILES['goods_img']['type']))
@@ -574,7 +576,7 @@ elseif ($_REQUEST['act'] == 'insert' || $_REQUEST['act'] == 'update')
             }
         }
 
-        // ÉÌÆ·ËõÂÔÍ¼
+        // ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½Í¼
         if (isset($_FILES['goods_thumb']))
         {
             if ($_FILES['goods_thumb']['tmp_name'] != 'none')
@@ -586,7 +588,7 @@ elseif ($_REQUEST['act'] == 'insert' || $_REQUEST['act'] == 'update')
             }
         }
 
-        // Ïà²áÍ¼Æ¬
+        // ï¿½ï¿½ï¿½Í¼Æ¬
         foreach ($_FILES['img_url']['tmp_name'] AS $key => $value)
         {
             if ($value != 'none')
@@ -599,21 +601,21 @@ elseif ($_REQUEST['act'] == 'insert' || $_REQUEST['act'] == 'update')
         }
     }
 
-    /* ²åÈë»¹ÊÇ¸üÐÂµÄ±êÊ¶ */
+    /* ï¿½ï¿½ï¿½ë»¹ï¿½Ç¸ï¿½ï¿½ÂµÄ±ï¿½Ê¶ */
     $is_insert = $_REQUEST['act'] == 'insert';
 
-    /* ´¦ÀíÉÌÆ·Í¼Æ¬ */
-    $goods_img        = '';  // ³õÊ¼»¯ÉÌÆ·Í¼Æ¬
-    $goods_thumb      = '';  // ³õÊ¼»¯ÉÌÆ·ËõÂÔÍ¼
-    $original_img     = '';  // ³õÊ¼»¯Ô­Ê¼Í¼Æ¬
-    $old_original_img = '';  // ³õÊ¼»¯Ô­Ê¼Í¼Æ¬¾ÉÍ¼
+    /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ·Í¼Æ¬ */
+    $goods_img        = '';  // ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Æ·Í¼Æ¬
+    $goods_thumb      = '';  // ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½Í¼
+    $original_img     = '';  // ï¿½ï¿½Ê¼ï¿½ï¿½Ô­Ê¼Í¼Æ¬
+    $old_original_img = '';  // ï¿½ï¿½Ê¼ï¿½ï¿½Ô­Ê¼Í¼Æ¬ï¿½ï¿½Í¼
 
-    // Èç¹ûÉÏ´«ÁËÉÌÆ·Í¼Æ¬£¬ÏàÓ¦´¦Àí
+    // ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ï¿½ï¿½ï¿½ï¿½Æ·Í¼Æ¬ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½
     if (($_FILES['goods_img']['tmp_name'] != '' && $_FILES['goods_img']['tmp_name'] != 'none') or (($_POST['goods_img_url'] != $_LANG['lab_picture_url'] && $_POST['goods_img_url'] != 'http://') && $is_url_goods_img = 1))
     {
         if ($_REQUEST['goods_id'] > 0)
         {
-            /* É¾³ýÔ­À´µÄÍ¼Æ¬ÎÄ¼þ */
+            /* É¾ï¿½ï¿½Ô­ï¿½ï¿½ï¿½ï¿½Í¼Æ¬ï¿½Ä¼ï¿½ */
             $sql = "SELECT goods_thumb, goods_img, original_img " .
                     " FROM " . $ecs->table('goods') .
                     " WHERE goods_id = '$_REQUEST[goods_id]'";
@@ -628,10 +630,10 @@ elseif ($_REQUEST['act'] == 'insert' || $_REQUEST['act'] == 'update')
             }
             if ($row['original_img'] != '' && is_file('../' . $row['original_img']))
             {
-                /* ÏÈ²»´¦Àí£¬ÒÔ·ÀÖ¹³ÌÐòÖÐÍ¾³ö´íÍ£Ö¹ */
-                //$old_original_img = $row['original_img']; //¼ÇÂ¼¾ÉÍ¼Â·¾¶
+                /* ï¿½È²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô·ï¿½Ö¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¾ï¿½ï¿½ï¿½ï¿½Í£Ö¹ */
+                //$old_original_img = $row['original_img']; //ï¿½ï¿½Â¼ï¿½ï¿½Í¼Â·ï¿½ï¿½
             }
-            /* Çå³ýÔ­À´ÉÌÆ·Í¼Æ¬ */
+            /* ï¿½ï¿½ï¿½Ô­ï¿½ï¿½ï¿½ï¿½Æ·Í¼Æ¬ */
             if ($proc_thumb === false)
             {
                 get_image_path($_REQUEST[goods_id], $row['goods_img'], false, 'goods', true);
@@ -652,13 +654,13 @@ elseif ($_REQUEST['act'] == 'insert' || $_REQUEST['act'] == 'update')
         {
             sys_msg($image->error_msg(), 1, array(), false);
         }
-        $goods_img      = $original_img;   // ÉÌÆ·Í¼Æ¬
+        $goods_img      = $original_img;   // ï¿½ï¿½Æ·Í¼Æ¬
 
-        /* ¸´ÖÆÒ»·ÝÏà²áÍ¼Æ¬ */
-        /* Ìí¼ÓÅÐ¶ÏÊÇ·ñ×Ô¶¯Éú³ÉÏà²áÍ¼Æ¬ */
+        /* ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Í¼Æ¬ */
+        /* ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½ï¿½Ç·ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼Æ¬ */
         if ($_CFG['auto_generate_gallery'])
         {
-            $img        = $original_img;   // Ïà²áÍ¼Æ¬
+            $img        = $original_img;   // ï¿½ï¿½ï¿½Í¼Æ¬
             $pos        = strpos(basename($img), '.');
             $newname    = dirname($img) . '/' . $image->random_filename() . substr(basename($img), $pos);
             if (!copy('../' . $img, '../' . $newname))
@@ -671,13 +673,13 @@ elseif ($_REQUEST['act'] == 'insert' || $_REQUEST['act'] == 'update')
             $gallery_thumb  = $img;
         }
 
-        // Èç¹ûÏµÍ³Ö§³ÖGD£¬Ëõ·ÅÉÌÆ·Í¼Æ¬£¬ÇÒ¸øÉÌÆ·Í¼Æ¬ºÍÏà²áÍ¼Æ¬¼ÓË®Ó¡
+        // ï¿½ï¿½ï¿½ÏµÍ³Ö§ï¿½ï¿½GDï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ·Í¼Æ¬ï¿½ï¿½ï¿½Ò¸ï¿½ï¿½ï¿½Æ·Í¼Æ¬ï¿½ï¿½ï¿½ï¿½ï¿½Í¼Æ¬ï¿½ï¿½Ë®Ó¡
         if ($proc_thumb && $image->gd_version() > 0 && $image->check_img_function($_FILES['goods_img']['type']) || $is_url_goods_img)
         {
 
             if (empty($is_url_goods_img))
             {
-                // Èç¹ûÉèÖÃ´óÐ¡²»Îª0£¬Ëõ·ÅÍ¼Æ¬
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã´ï¿½Ð¡ï¿½ï¿½Îª0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼Æ¬
                 if ($_CFG['image_width'] != 0 || $_CFG['image_height'] != 0)
                 {
                     $goods_img = $image->make_thumb('../'. $goods_img , $GLOBALS['_CFG']['image_width'],  $GLOBALS['_CFG']['image_height']);
@@ -687,7 +689,7 @@ elseif ($_REQUEST['act'] == 'insert' || $_REQUEST['act'] == 'update')
                     }
                 }
 
-                /* Ìí¼ÓÅÐ¶ÏÊÇ·ñ×Ô¶¯Éú³ÉÏà²áÍ¼Æ¬ */
+                /* ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½ï¿½Ç·ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼Æ¬ */
                 if ($_CFG['auto_generate_gallery'])
                 {
                     $newname    = dirname($img) . '/' . $image->random_filename() . substr(basename($img), $pos);
@@ -698,14 +700,14 @@ elseif ($_REQUEST['act'] == 'insert' || $_REQUEST['act'] == 'update')
                     $gallery_img        = $newname;
                 }
 
-                // ¼ÓË®Ó¡
+                // ï¿½ï¿½Ë®Ó¡
                 if (intval($_CFG['watermark_place']) > 0 && !empty($GLOBALS['_CFG']['watermark']))
                 {
                     if ($image->add_watermark('../'.$goods_img,'',$GLOBALS['_CFG']['watermark'], $GLOBALS['_CFG']['watermark_place'], $GLOBALS['_CFG']['watermark_alpha']) === false)
                     {
                         sys_msg($image->error_msg(), 1, array(), false);
                     }
-                    /* Ìí¼ÓÅÐ¶ÏÊÇ·ñ×Ô¶¯Éú³ÉÏà²áÍ¼Æ¬ */
+                    /* ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½ï¿½Ç·ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼Æ¬ */
                     if ($_CFG['auto_generate_gallery'])
                     {
                         if ($image->add_watermark('../'. $gallery_img,'',$GLOBALS['_CFG']['watermark'], $GLOBALS['_CFG']['watermark_place'], $GLOBALS['_CFG']['watermark_alpha']) === false)
@@ -716,8 +718,8 @@ elseif ($_REQUEST['act'] == 'insert' || $_REQUEST['act'] == 'update')
                 }
             }
 
-            // Ïà²áËõÂÔÍ¼
-            /* Ìí¼ÓÅÐ¶ÏÊÇ·ñ×Ô¶¯Éú³ÉÏà²áÍ¼Æ¬ */
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼
+            /* ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½ï¿½Ç·ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼Æ¬ */
             if ($_CFG['auto_generate_gallery'])
             {
                 if ($_CFG['thumb_width'] != 0 || $_CFG['thumb_height'] != 0)
@@ -730,10 +732,10 @@ elseif ($_REQUEST['act'] == 'insert' || $_REQUEST['act'] == 'update')
                 }
             }
         }
-        /* È¡Ïû¸ÃÔ­Í¼¸´ÖÆÁ÷³Ì */
+        /* È¡ï¿½ï¿½ï¿½ï¿½Ô­Í¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
         // else
         // {
-        //     /* ¸´ÖÆÒ»·ÝÔ­Í¼ */
+        //     /* ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Ô­Í¼ */
         //     $pos        = strpos(basename($img), '.');
         //     $gallery_img = dirname($img) . '/' . $image->random_filename() . // substr(basename($img), $pos);
         //     if (!copy('../' . $img, '../' . $gallery_img))
@@ -745,11 +747,11 @@ elseif ($_REQUEST['act'] == 'insert' || $_REQUEST['act'] == 'update')
     }
 
 
-    // ÊÇ·ñÉÏ´«ÉÌÆ·ËõÂÔÍ¼
+    // ï¿½Ç·ï¿½ï¿½Ï´ï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½Í¼
     if (isset($_FILES['goods_thumb']) && $_FILES['goods_thumb']['tmp_name'] != '' &&
         isset($_FILES['goods_thumb']['tmp_name']) &&$_FILES['goods_thumb']['tmp_name'] != 'none')
     {
-        // ÉÏ´«ÁË£¬Ö±½ÓÊ¹ÓÃ£¬Ô­Ê¼´óÐ¡
+        // ï¿½Ï´ï¿½ï¿½Ë£ï¿½Ö±ï¿½ï¿½Ê¹ï¿½Ã£ï¿½Ô­Ê¼ï¿½ï¿½Ð¡
         $goods_thumb = $image->upload_image($_FILES['goods_thumb']);
         if ($goods_thumb === false)
         {
@@ -758,10 +760,10 @@ elseif ($_REQUEST['act'] == 'insert' || $_REQUEST['act'] == 'update')
     }
     else
     {
-        // Î´ÉÏ´«£¬Èç¹û×Ô¶¯Ñ¡ÔñÉú³É£¬ÇÒÉÏ´«ÁËÉÌÆ·Í¼Æ¬£¬Éú³ÉËùÂÔÍ¼
+        // Î´ï¿½Ï´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¶ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½É£ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ï¿½ï¿½ï¿½ï¿½Æ·Í¼Æ¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼
         if ($proc_thumb && isset($_POST['auto_thumb']) && !empty($original_img))
         {
-            // Èç¹ûÉèÖÃËõÂÔÍ¼´óÐ¡²»Îª0£¬Éú³ÉËõÂÔÍ¼
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½Ð¡ï¿½ï¿½Îª0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼
             if ($_CFG['thumb_width'] != 0 || $_CFG['thumb_height'] != 0)
             {
                 $goods_thumb = $image->make_thumb('../' . $original_img, $GLOBALS['_CFG']['thumb_width'],  $GLOBALS['_CFG']['thumb_height']);
@@ -778,7 +780,7 @@ elseif ($_REQUEST['act'] == 'insert' || $_REQUEST['act'] == 'update')
     }
 
 
-    /* É¾³ýÏÂÔØµÄÍâÁ´Ô­Í¼ */
+    /* É¾ï¿½ï¿½ï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½ï¿½ï¿½Ô­Í¼ */
     if (!empty($is_url_goods_img))
     {
         unlink(ROOT_PATH . $original_img);
@@ -787,7 +789,7 @@ elseif ($_REQUEST['act'] == 'insert' || $_REQUEST['act'] == 'update')
     }
 
 
-    /* Èç¹ûÃ»ÓÐÊäÈëÉÌÆ·»õºÅÔò×Ô¶¯Éú³ÉÒ»¸öÉÌÆ·»õºÅ */
+    /* ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½ */
     if (empty($_POST['goods_sn']))
     {
         $max_id     = $is_insert ? $db->getOne("SELECT MAX(goods_id) + 1 FROM ".$ecs->table('goods')) : $_REQUEST['goods_id'];
@@ -798,7 +800,7 @@ elseif ($_REQUEST['act'] == 'insert' || $_REQUEST['act'] == 'update')
         $goods_sn   = $_POST['goods_sn'];
     }
 
-    /* ´¦ÀíÉÌÆ·Êý¾Ý */
+    /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½ */
     $shop_price = !empty($_POST['shop_price']) ? $_POST['shop_price'] : 0;
     $market_price = !empty($_POST['market_price']) ? $_POST['market_price'] : 0;
     $promote_price = !empty($_POST['promote_price']) ? floatval($_POST['promote_price'] ) : 0;
@@ -844,7 +846,7 @@ elseif ($_REQUEST['act'] == 'insert' || $_REQUEST['act'] == 'update')
 	}
 	
 	 
-    /* Èë¿â */
+    /* ï¿½ï¿½ï¿½ */
     if ($is_insert)
     {
         if ($code == '')
@@ -880,7 +882,7 @@ elseif ($_REQUEST['act'] == 'insert' || $_REQUEST['act'] == 'update')
     }
     else
     {
-        /* Èç¹ûÓÐÉÏ´«Í¼Æ¬£¬É¾³ýÔ­À´µÄÉÌÆ·Í¼ */
+        /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½Í¼Æ¬ï¿½ï¿½É¾ï¿½ï¿½Ô­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ·Í¼ */
         $sql = "SELECT goods_thumb, goods_img, original_img " .
                     " FROM " . $ecs->table('goods') .
                     " WHERE goods_id = '$_REQUEST[goods_id]'";
@@ -910,7 +912,7 @@ elseif ($_REQUEST['act'] == 'insert' || $_REQUEST['act'] == 'update')
                 "suppliers_id = '$suppliers_id', " .
                 "promote_end_date = '$promote_end_date', ";
 
-        /* Èç¹ûÓÐÉÏ´«Í¼Æ¬£¬ÐèÒª¸üÐÂÊý¾Ý¿â */
+        /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½Í¼Æ¬ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¿ï¿½ */
         if ($goods_img)
         {
             $sql .= "goods_img = '$goods_img', original_img = '$original_img', ";
@@ -955,10 +957,10 @@ elseif ($_REQUEST['act'] == 'insert' || $_REQUEST['act'] == 'update')
     }
     $db->query($sql);
 
-    /* ÉÌÆ·±àºÅ */
+    /* ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ */
     $goods_id = $is_insert ? $db->insert_id() : $_REQUEST['goods_id'];
 
-    /* ¼ÇÂ¼ÈÕÖ¾ */
+    /* ï¿½ï¿½Â¼ï¿½ï¿½Ö¾ */
     if ($is_insert)
     {
         admin_log($_POST['goods_name'], 'add', 'goods');
@@ -968,10 +970,10 @@ elseif ($_REQUEST['act'] == 'insert' || $_REQUEST['act'] == 'update')
         admin_log($_POST['goods_name'], 'edit', 'goods');
     }
 
-    /* ´¦ÀíÊôÐÔ */
+    /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
     if ((isset($_POST['attr_id_list']) && isset($_POST['attr_value_list'])) || (empty($_POST['attr_id_list']) && empty($_POST['attr_value_list'])))
     {
-        // È¡µÃÔ­ÓÐµÄÊôÐÔÖµ
+        // È¡ï¿½ï¿½Ô­ï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½Öµ
         $goods_attr_list = array();
 
         $keywords_arr = explode(" ", $_POST['keywords']);
@@ -1005,7 +1007,7 @@ elseif ($_REQUEST['act'] == 'insert' || $_REQUEST['act'] == 'update')
         {
             $goods_attr_list[$row['attr_id']][$row['attr_value']] = array('sign' => 'delete', 'goods_attr_id' => $row['goods_attr_id']);
         }
-        // Ñ­»·ÏÖÓÐµÄ£¬¸ù¾ÝÔ­ÓÐµÄ×öÏàÓ¦´¦Àí
+        // Ñ­ï¿½ï¿½ï¿½ï¿½ï¿½ÐµÄ£ï¿½ï¿½ï¿½ï¿½ï¿½Ô­ï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½
         if(isset($_POST['attr_id_list']))
         {
             foreach ($_POST['attr_id_list'] AS $key => $attr_id)
@@ -1016,13 +1018,13 @@ elseif ($_REQUEST['act'] == 'insert' || $_REQUEST['act'] == 'update')
                 {
                     if (isset($goods_attr_list[$attr_id][$attr_value]))
                     {
-                        // Èç¹ûÔ­À´ÓÐ£¬±ê¼ÇÎª¸üÐÂ
+                        // ï¿½ï¿½ï¿½Ô­ï¿½ï¿½ï¿½Ð£ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½
                         $goods_attr_list[$attr_id][$attr_value]['sign'] = 'update';
                         $goods_attr_list[$attr_id][$attr_value]['attr_price'] = $attr_price;
                     }
                     else
                     {
-                        // Èç¹ûÔ­À´Ã»ÓÐ£¬±ê¼ÇÎªÐÂÔö
+                        // ï¿½ï¿½ï¿½Ô­ï¿½ï¿½Ã»ï¿½Ð£ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½
                         $goods_attr_list[$attr_id][$attr_value]['sign'] = 'insert';
                         $goods_attr_list[$attr_id][$attr_value]['attr_price'] = $attr_price;
                     }
@@ -1043,7 +1045,7 @@ elseif ($_REQUEST['act'] == 'insert' || $_REQUEST['act'] == 'update')
 
         $db->query($sql);
 
-        /* ²åÈë¡¢¸üÐÂ¡¢É¾³ýÊý¾Ý */
+        /* ï¿½ï¿½ï¿½ë¡¢ï¿½ï¿½ï¿½Â¡ï¿½É¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
         foreach ($goods_attr_list as $attr_id => $attr_value_list)
         {
             foreach ($attr_value_list as $attr_value => $info)
@@ -1066,13 +1068,13 @@ elseif ($_REQUEST['act'] == 'insert' || $_REQUEST['act'] == 'update')
         }
     }
 
-    /* ´¦Àí»áÔ±¼Û¸ñ */
+    /* ï¿½ï¿½ï¿½ï¿½ï¿½Ô±ï¿½Û¸ï¿½ */
     if (isset($_POST['user_rank']) && isset($_POST['user_price']))
     {
         handle_member_price($goods_id, $_POST['user_rank'], $_POST['user_price']);
     }
 
-    /* ´¦ÀíÓÅ»Ý¼Û¸ñ */
+    /* ï¿½ï¿½ï¿½ï¿½ï¿½Å»Ý¼Û¸ï¿½ */
     if (isset($_POST['volume_number']) && isset($_POST['volume_price']))
     {
         $temp_num = array_count_values($_POST['volume_number']);
@@ -1087,7 +1089,7 @@ elseif ($_REQUEST['act'] == 'insert' || $_REQUEST['act'] == 'update')
         handle_volume_price($goods_id, $_POST['volume_number'], $_POST['volume_price']);
     }
 
-    /* ´¦ÀíÀ©Õ¹·ÖÀà */
+    /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ¹ï¿½ï¿½ï¿½ï¿½ */
     if (isset($_POST['other_cat']))
     {
         handle_other_cat($goods_id, array_unique($_POST['other_cat']));
@@ -1095,17 +1097,17 @@ elseif ($_REQUEST['act'] == 'insert' || $_REQUEST['act'] == 'update')
 
     if ($is_insert)
     {
-        /* ´¦Àí¹ØÁªÉÌÆ· */
+        /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ· */
         handle_link_goods($goods_id);
 
-        /* ´¦Àí×éºÏÉÌÆ· */
+        /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ· */
         handle_group_goods($goods_id);
 
-        /* ´¦Àí¹ØÁªÎÄÕÂ */
+        /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
         handle_goods_article($goods_id);
     }
 
-    /* ÖØÐÂ¸ñÊ½»¯Í¼Æ¬Ãû³Æ */
+    /* ï¿½ï¿½ï¿½Â¸ï¿½Ê½ï¿½ï¿½Í¼Æ¬ï¿½ï¿½ï¿½ï¿½ */
     $original_img = reformat_image_name('goods', $goods_id, $original_img, 'source');
     $goods_img = reformat_image_name('goods', $goods_id, $goods_img, 'goods');
     $goods_thumb = reformat_image_name('goods_thumb', $goods_id, $goods_thumb, 'thumb');
@@ -1124,10 +1126,10 @@ elseif ($_REQUEST['act'] == 'insert' || $_REQUEST['act'] == 'update')
         $db->query("UPDATE " . $ecs->table('goods') . " SET goods_thumb = '$goods_thumb' WHERE goods_id='$goods_id'");
     }
 
-    /* Èç¹ûÓÐÍ¼Æ¬£¬°ÑÉÌÆ·Í¼Æ¬¼ÓÈëÍ¼Æ¬Ïà²á */
+    /* ï¿½ï¿½ï¿½ï¿½ï¿½Í¼Æ¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ·Í¼Æ¬ï¿½ï¿½ï¿½ï¿½Í¼Æ¬ï¿½ï¿½ï¿½ */
     if (isset($img))
     {
-        /* ÖØÐÂ¸ñÊ½»¯Í¼Æ¬Ãû³Æ */
+        /* ï¿½ï¿½ï¿½Â¸ï¿½Ê½ï¿½ï¿½Í¼Æ¬ï¿½ï¿½ï¿½ï¿½ */
         if (empty($is_url_goods_img))
         {
             $img = reformat_image_name('gallery', $goods_id, $img, 'source');
@@ -1145,10 +1147,10 @@ elseif ($_REQUEST['act'] == 'insert' || $_REQUEST['act'] == 'update')
         $db->query($sql);
     }
 
-    /* ´¦ÀíÏà²áÍ¼Æ¬ */
+    /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼Æ¬ */
     handle_gallery_image($goods_id, $_FILES['img_url'], $_POST['img_desc'], $_POST['img_file']);
 
-    /* ±à¼­Ê±´¦ÀíÏà²áÍ¼Æ¬ÃèÊö */
+    /* ï¿½à¼­Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼Æ¬ï¿½ï¿½ï¿½ï¿½ */
     if (!$is_insert && isset($_POST['old_img_desc']))
     {
         foreach ($_POST['old_img_desc'] AS $img_id => $img_desc)
@@ -1158,7 +1160,7 @@ elseif ($_REQUEST['act'] == 'insert' || $_REQUEST['act'] == 'update')
         }
     }
 
-    /* ²»±£ÁôÉÌÆ·Ô­Í¼µÄÊ±ºòÉ¾³ýÔ­Í¼ */
+    /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ·Ô­Í¼ï¿½ï¿½Ê±ï¿½ï¿½É¾ï¿½ï¿½Ô­Í¼ */
     if ($proc_thumb && !$_CFG['retain_original_img'] && !empty($original_img))
     {
         $db->query("UPDATE " . $ecs->table('goods') . " SET original_img='' WHERE `goods_id`='{$goods_id}'");
@@ -1167,12 +1169,12 @@ elseif ($_REQUEST['act'] == 'insert' || $_REQUEST['act'] == 'update')
         @unlink('../' . $img);
     }
 
-    /* ¼ÇÂ¼ÉÏÒ»´ÎÑ¡ÔñµÄ·ÖÀàºÍÆ·ÅÆ */
+    /* ï¿½ï¿½Â¼ï¿½ï¿½Ò»ï¿½ï¿½Ñ¡ï¿½ï¿½Ä·ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½ */
     setcookie('ECSCP[last_choose]', $catgory_id . '|' . $brand_id, gmtime() + 86400);
-    /* Çå¿Õ»º´æ */
+    /* ï¿½ï¿½Õ»ï¿½ï¿½ï¿½ */
     clear_cache_files();
 
-    /* ÌáÊ¾Ò³Ãæ */
+    /* ï¿½ï¿½Ê¾Ò³ï¿½ï¿½ */
     $link = array();
     if (check_goods_specifications_exist($goods_id))
     {
@@ -1202,134 +1204,134 @@ elseif ($_REQUEST['act'] == 'insert' || $_REQUEST['act'] == 'update')
 }
 
 /*------------------------------------------------------ */
-//-- ÅúÁ¿²Ù×÷
+//-- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 /*------------------------------------------------------ */
 
 elseif ($_REQUEST['act'] == 'batch')
 {
     $code = empty($_REQUEST['extension_code'])? '' : trim($_REQUEST['extension_code']);
 
-    /* È¡µÃÒª²Ù×÷µÄÉÌÆ·±àºÅ */
+    /* È¡ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ */
     $goods_id = !empty($_POST['checkboxes']) ? join(',', $_POST['checkboxes']) : 0;
 
     if (isset($_POST['type']))
     {
-        /* ·ÅÈë»ØÊÕÕ¾ */
+        /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ¾ */
         if ($_POST['type'] == 'trash')
         {
-            /* ¼ì²éÈ¨ÏÞ */
+            /* ï¿½ï¿½ï¿½È¨ï¿½ï¿½ */
             admin_priv('remove_back');
 
             update_goods($goods_id, 'is_delete', '1');
 
-            /* ¼ÇÂ¼ÈÕÖ¾ */
+            /* ï¿½ï¿½Â¼ï¿½ï¿½Ö¾ */
             admin_log('', 'batch_trash', 'goods');
         }
-        /* ÉÏ¼Ü */
+        /* ï¿½Ï¼ï¿½ */
         elseif ($_POST['type'] == 'on_sale')
         {
-            /* ¼ì²éÈ¨ÏÞ */
+            /* ï¿½ï¿½ï¿½È¨ï¿½ï¿½ */
             admin_priv('goods_manage');
             update_goods($goods_id, 'is_on_sale', '1');
         }
 
-        /* ÏÂ¼Ü */
+        /* ï¿½Â¼ï¿½ */
         elseif ($_POST['type'] == 'not_on_sale')
         {
-            /* ¼ì²éÈ¨ÏÞ */
+            /* ï¿½ï¿½ï¿½È¨ï¿½ï¿½ */
             admin_priv('goods_manage');
             update_goods($goods_id, 'is_on_sale', '0');
         }
 
-        /* ÉèÎª¾«Æ· */
+        /* ï¿½ï¿½Îªï¿½ï¿½Æ· */
         elseif ($_POST['type'] == 'best')
         {
-            /* ¼ì²éÈ¨ÏÞ */
+            /* ï¿½ï¿½ï¿½È¨ï¿½ï¿½ */
             admin_priv('goods_manage');
             update_goods($goods_id, 'is_best', '1');
         }
 
-        /* È¡Ïû¾«Æ· */
+        /* È¡ï¿½ï¿½ï¿½ï¿½Æ· */
         elseif ($_POST['type'] == 'not_best')
         {
-            /* ¼ì²éÈ¨ÏÞ */
+            /* ï¿½ï¿½ï¿½È¨ï¿½ï¿½ */
             admin_priv('goods_manage');
             update_goods($goods_id, 'is_best', '0');
         }
 
-        /* ÉèÎªÐÂÆ· */
+        /* ï¿½ï¿½Îªï¿½ï¿½Æ· */
         elseif ($_POST['type'] == 'new')
         {
-            /* ¼ì²éÈ¨ÏÞ */
+            /* ï¿½ï¿½ï¿½È¨ï¿½ï¿½ */
             admin_priv('goods_manage');
             update_goods($goods_id, 'is_new', '1');
         }
 
-        /* È¡ÏûÐÂÆ· */
+        /* È¡ï¿½ï¿½ï¿½ï¿½Æ· */
         elseif ($_POST['type'] == 'not_new')
         {
-            /* ¼ì²éÈ¨ÏÞ */
+            /* ï¿½ï¿½ï¿½È¨ï¿½ï¿½ */
             admin_priv('goods_manage');
             update_goods($goods_id, 'is_new', '0');
         }
 
-        /* ÉèÎªÈÈÏú */
+        /* ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ */
         elseif ($_POST['type'] == 'hot')
         {
-            /* ¼ì²éÈ¨ÏÞ */
+            /* ï¿½ï¿½ï¿½È¨ï¿½ï¿½ */
             admin_priv('goods_manage');
             update_goods($goods_id, 'is_hot', '1');
         }
 
-        /* È¡ÏûÈÈÏú */
+        /* È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
         elseif ($_POST['type'] == 'not_hot')
         {
-            /* ¼ì²éÈ¨ÏÞ */
+            /* ï¿½ï¿½ï¿½È¨ï¿½ï¿½ */
             admin_priv('goods_manage');
             update_goods($goods_id, 'is_hot', '0');
         }
 
-        /* ×ªÒÆµ½·ÖÀà */
+        /* ×ªï¿½Æµï¿½ï¿½ï¿½ï¿½ï¿½ */
         elseif ($_POST['type'] == 'move_to')
         {
-            /* ¼ì²éÈ¨ÏÞ */
+            /* ï¿½ï¿½ï¿½È¨ï¿½ï¿½ */
             admin_priv('goods_manage');
             update_goods($goods_id, 'cat_id', $_POST['target_cat']);
         }
 
-        /* ×ªÒÆµ½¹©»õÉÌ */
+        /* ×ªï¿½Æµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
         elseif ($_POST['type'] == 'suppliers_move_to')
         {
-            /* ¼ì²éÈ¨ÏÞ */
+            /* ï¿½ï¿½ï¿½È¨ï¿½ï¿½ */
             admin_priv('goods_manage');
             update_goods($goods_id, 'suppliers_id', $_POST['suppliers_id']);
         }
 
-        /* »¹Ô­ */
+        /* ï¿½ï¿½Ô­ */
         elseif ($_POST['type'] == 'restore')
         {
-            /* ¼ì²éÈ¨ÏÞ */
+            /* ï¿½ï¿½ï¿½È¨ï¿½ï¿½ */
             admin_priv('remove_back');
 
             update_goods($goods_id, 'is_delete', '0');
 
-            /* ¼ÇÂ¼ÈÕÖ¾ */
+            /* ï¿½ï¿½Â¼ï¿½ï¿½Ö¾ */
             admin_log('', 'batch_restore', 'goods');
         }
-        /* É¾³ý */
+        /* É¾ï¿½ï¿½ */
         elseif ($_POST['type'] == 'drop')
         {
-            /* ¼ì²éÈ¨ÏÞ */
+            /* ï¿½ï¿½ï¿½È¨ï¿½ï¿½ */
             admin_priv('remove_back');
 
             delete_goods($goods_id);
 
-            /* ¼ÇÂ¼ÈÕÖ¾ */
+            /* ï¿½ï¿½Â¼ï¿½ï¿½Ö¾ */
             admin_log('', 'batch_remove', 'goods');
         }
     }
 
-    /* Çå³ý»º´æ */
+    /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
     clear_cache_files();
 
     if ($_POST['type'] == 'drop' || $_POST['type'] == 'restore')
@@ -1344,7 +1346,7 @@ elseif ($_REQUEST['act'] == 'batch')
 }
 
 /*------------------------------------------------------ */
-//-- ÏÔÊ¾Í¼Æ¬
+//-- ï¿½ï¿½Ê¾Í¼Æ¬
 /*------------------------------------------------------ */
 
 elseif ($_REQUEST['act'] == 'show_image')
@@ -1370,7 +1372,7 @@ elseif ($_REQUEST['act'] == 'show_image')
 }
 
 /*------------------------------------------------------ */
-//-- ÐÞ¸ÄÉÌÆ·Ãû³Æ
+//-- ï¿½Þ¸ï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½
 /*------------------------------------------------------ */
 elseif ($_REQUEST['act'] == 'edit_goods_name')
 {
@@ -1387,7 +1389,7 @@ elseif ($_REQUEST['act'] == 'edit_goods_name')
 }
 
 /*------------------------------------------------------ */
-//-- ÐÞ¸ÄÉÌÆ·»õºÅ
+//-- ï¿½Þ¸ï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½
 /*------------------------------------------------------ */
 elseif ($_REQUEST['act'] == 'edit_goods_sn')
 {
@@ -1396,7 +1398,7 @@ elseif ($_REQUEST['act'] == 'edit_goods_sn')
     $goods_id = intval($_POST['id']);
     $goods_sn = json_str_iconv(trim($_POST['val']));
 
-    /* ¼ì²éÊÇ·ñÖØ¸´ */
+    /* ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½Ø¸ï¿½ */
     if (!$exc->is_only('goods_sn', $goods_sn, $goods_id))
     {
         make_json_error($_LANG['goods_sn_exists']);
@@ -1420,7 +1422,7 @@ elseif ($_REQUEST['act'] == 'check_goods_sn')
     $goods_id = intval($_REQUEST['goods_id']);
     $goods_sn = htmlspecialchars(json_str_iconv(trim($_REQUEST['goods_sn'])));
 
-    /* ¼ì²éÊÇ·ñÖØ¸´ */
+    /* ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½Ø¸ï¿½ */
     if (!$exc->is_only('goods_sn', $goods_sn, $goods_id))
     {
         make_json_error($_LANG['goods_sn_exists']);
@@ -1473,12 +1475,12 @@ elseif ($_REQUEST['act'] == 'check_products_goods_sn')
             }
         }
     }
-    /* ¼ì²éÊÇ·ñÖØ¸´ */
+    /* ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½Ø¸ï¿½ */
     make_json_result('');
 }
 
 /*------------------------------------------------------ */
-//-- ÐÞ¸ÄÉÌÆ·¼Û¸ñ
+//-- ï¿½Þ¸ï¿½ï¿½ï¿½Æ·ï¿½Û¸ï¿½
 /*------------------------------------------------------ */
 elseif ($_REQUEST['act'] == 'edit_goods_price')
 {
@@ -1503,7 +1505,7 @@ elseif ($_REQUEST['act'] == 'edit_goods_price')
 }
 
 /*------------------------------------------------------ */
-//-- ÐÞ¸ÄÉÌÆ·¿â´æÊýÁ¿
+//-- ï¿½Þ¸ï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 /*------------------------------------------------------ */
 elseif ($_REQUEST['act'] == 'edit_goods_number')
 {
@@ -1530,7 +1532,7 @@ elseif ($_REQUEST['act'] == 'edit_goods_number')
 }
 
 /*------------------------------------------------------ */
-//-- ÐÞ¸ÄÉÏ¼Ü×´Ì¬
+//-- ï¿½Þ¸ï¿½ï¿½Ï¼ï¿½×´Ì¬
 /*------------------------------------------------------ */
 elseif ($_REQUEST['act'] == 'toggle_on_sale')
 {
@@ -1547,7 +1549,7 @@ elseif ($_REQUEST['act'] == 'toggle_on_sale')
 }
 
 /*------------------------------------------------------ */
-//-- ÐÞ¸Ä¾«Æ·ÍÆ¼ö×´Ì¬
+//-- ï¿½Þ¸Ä¾ï¿½Æ·ï¿½Æ¼ï¿½×´Ì¬
 /*------------------------------------------------------ */
 elseif ($_REQUEST['act'] == 'toggle_best')
 {
@@ -1564,7 +1566,7 @@ elseif ($_REQUEST['act'] == 'toggle_best')
 }
 
 /*------------------------------------------------------ */
-//-- ÐÞ¸ÄÐÂÆ·ÍÆ¼ö×´Ì¬
+//-- ï¿½Þ¸ï¿½ï¿½ï¿½Æ·ï¿½Æ¼ï¿½×´Ì¬
 /*------------------------------------------------------ */
 elseif ($_REQUEST['act'] == 'toggle_new')
 {
@@ -1581,7 +1583,7 @@ elseif ($_REQUEST['act'] == 'toggle_new')
 }
 
 /*------------------------------------------------------ */
-//-- ÐÞ¸ÄÈÈÏúÍÆ¼ö×´Ì¬
+//-- ï¿½Þ¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¼ï¿½×´Ì¬
 /*------------------------------------------------------ */
 elseif ($_REQUEST['act'] == 'toggle_hot')
 {
@@ -1598,7 +1600,7 @@ elseif ($_REQUEST['act'] == 'toggle_hot')
 }
 
 /*------------------------------------------------------ */
-//-- ÐÞ¸ÄÉÌÆ·ÅÅÐò
+//-- ï¿½Þ¸ï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½
 /*------------------------------------------------------ */
 elseif ($_REQUEST['act'] == 'edit_sort_order')
 {
@@ -1615,7 +1617,7 @@ elseif ($_REQUEST['act'] == 'edit_sort_order')
 }
 
 /*------------------------------------------------------ */
-//-- ÅÅÐò¡¢·ÖÒ³¡¢²éÑ¯
+//-- ï¿½ï¿½ï¿½ò¡¢·ï¿½Ò³ï¿½ï¿½ï¿½ï¿½Ñ¯
 /*------------------------------------------------------ */
 elseif ($_REQUEST['act'] == 'query')
 {
@@ -1640,11 +1642,11 @@ elseif ($_REQUEST['act'] == 'query')
     $smarty->assign('list_type',    $is_delete ? 'trash' : 'goods');
     $smarty->assign('use_storage',  empty($_CFG['use_storage']) ? 0 : 1);
 
-    /* ÅÅÐò±ê¼Ç */
+    /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
     $sort_flag  = sort_flag($goods_list['filter']);
     $smarty->assign($sort_flag['tag'], $sort_flag['img']);
 
-    /* »ñÈ¡ÉÌÆ·ÀàÐÍ´æÔÚ¹æ¸ñµÄÀàÐÍ */
+    /* ï¿½ï¿½È¡ï¿½ï¿½Æ·ï¿½ï¿½ï¿½Í´ï¿½ï¿½Ú¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
     $specifications = get_goods_type_specifications();
     $smarty->assign('specifications', $specifications);
 
@@ -1655,13 +1657,13 @@ elseif ($_REQUEST['act'] == 'query')
 }
 
 /*------------------------------------------------------ */
-//-- ·ÅÈë»ØÊÕÕ¾
+//-- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ¾
 /*------------------------------------------------------ */
 elseif ($_REQUEST['act'] == 'remove')
 {
     $goods_id = intval($_REQUEST['id']);
 
-    /* ¼ì²éÈ¨ÏÞ */
+    /* ï¿½ï¿½ï¿½È¨ï¿½ï¿½ */
     check_authz_json('remove_back');
 
     if ($exc->edit("is_delete = 1", $goods_id))
@@ -1669,7 +1671,7 @@ elseif ($_REQUEST['act'] == 'remove')
         clear_cache_files();
         $goods_name = $exc->get_name($goods_id);
 
-        admin_log(addslashes($goods_name), 'trash', 'goods'); // ¼ÇÂ¼ÈÕÖ¾
+        admin_log(addslashes($goods_name), 'trash', 'goods'); // ï¿½ï¿½Â¼ï¿½ï¿½Ö¾
 
         $url = 'goods.php?act=query&' . str_replace('act=remove', '', $_SERVER['QUERY_STRING']);
 
@@ -1679,21 +1681,21 @@ elseif ($_REQUEST['act'] == 'remove')
 }
 
 /*------------------------------------------------------ */
-//-- »¹Ô­»ØÊÕÕ¾ÖÐµÄÉÌÆ·
+//-- ï¿½ï¿½Ô­ï¿½ï¿½ï¿½ï¿½Õ¾ï¿½Ðµï¿½ï¿½ï¿½Æ·
 /*------------------------------------------------------ */
 
 elseif ($_REQUEST['act'] == 'restore_goods')
 {
     $goods_id = intval($_REQUEST['id']);
 
-    check_authz_json('remove_back'); // ¼ì²éÈ¨ÏÞ
+    check_authz_json('remove_back'); // ï¿½ï¿½ï¿½È¨ï¿½ï¿½
 
     $exc->edit("is_delete = 0, add_time = '" . gmtime() . "'", $goods_id);
     clear_cache_files();
 
     $goods_name = $exc->get_name($goods_id);
 
-    admin_log(addslashes($goods_name), 'restore', 'goods'); // ¼ÇÂ¼ÈÕÖ¾
+    admin_log(addslashes($goods_name), 'restore', 'goods'); // ï¿½ï¿½Â¼ï¿½ï¿½Ö¾
 
     $url = 'goods.php?act=query&' . str_replace('act=restore_goods', '', $_SERVER['QUERY_STRING']);
 
@@ -1702,21 +1704,21 @@ elseif ($_REQUEST['act'] == 'restore_goods')
 }
 
 /*------------------------------------------------------ */
-//-- ³¹µ×É¾³ýÉÌÆ·
+//-- ï¿½ï¿½ï¿½ï¿½É¾ï¿½ï¿½ï¿½ï¿½Æ·
 /*------------------------------------------------------ */
 elseif ($_REQUEST['act'] == 'drop_goods')
 {
-    // ¼ì²éÈ¨ÏÞ
+    // ï¿½ï¿½ï¿½È¨ï¿½ï¿½
     check_authz_json('remove_back');
 
-    // È¡µÃ²ÎÊý
+    // È¡ï¿½Ã²ï¿½ï¿½ï¿½
     $goods_id = intval($_REQUEST['id']);
     if ($goods_id <= 0)
     {
         make_json_error('invalid params');
     }
 
-    /* È¡µÃÉÌÆ·ÐÅÏ¢ */
+    /* È¡ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½Ï¢ */
     $sql = "SELECT goods_id, goods_name, is_delete, is_real, goods_thumb, " .
                 "goods_img, original_img " .
             "FROM " . $ecs->table('goods') .
@@ -1732,7 +1734,7 @@ elseif ($_REQUEST['act'] == 'drop_goods')
         make_json_error($_LANG['goods_not_in_recycle_bin']);
     }
 
-    /* É¾³ýÉÌÆ·Í¼Æ¬ºÍÂÖ²¥Í¼Æ¬ */
+    /* É¾ï¿½ï¿½ï¿½ï¿½Æ·Í¼Æ¬ï¿½ï¿½ï¿½Ö²ï¿½Í¼Æ¬ */
     if (!empty($goods['goods_thumb']))
     {
         @unlink('../' . $goods['goods_thumb']);
@@ -1745,18 +1747,18 @@ elseif ($_REQUEST['act'] == 'drop_goods')
     {
         @unlink('../' . $goods['original_img']);
     }
-    /* É¾³ýÉÌÆ· */
+    /* É¾ï¿½ï¿½ï¿½ï¿½Æ· */
     $exc->drop($goods_id);
 
-    /* É¾³ýÉÌÆ·µÄ»õÆ·¼ÇÂ¼ */
+    /* É¾ï¿½ï¿½ï¿½ï¿½Æ·ï¿½Ä»ï¿½Æ·ï¿½ï¿½Â¼ */
     $sql = "DELETE FROM " . $ecs->table('products') .
             " WHERE goods_id = '$goods_id'";
     $db->query($sql);
 
-    /* ¼ÇÂ¼ÈÕÖ¾ */
+    /* ï¿½ï¿½Â¼ï¿½ï¿½Ö¾ */
     admin_log(addslashes($goods['goods_name']), 'remove', 'goods');
 
-    /* É¾³ýÉÌÆ·Ïà²á */
+    /* É¾ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ */
     $sql = "SELECT img_url, thumb_url, img_original " .
             "FROM " . $ecs->table('goods_gallery') .
             " WHERE goods_id = '$goods_id'";
@@ -1780,7 +1782,7 @@ elseif ($_REQUEST['act'] == 'drop_goods')
     $sql = "DELETE FROM " . $ecs->table('goods_gallery') . " WHERE goods_id = '$goods_id'";
     $db->query($sql);
 
-    /* É¾³ýÏà¹Ø±í¼ÇÂ¼ */
+    /* É¾ï¿½ï¿½ï¿½ï¿½Ø±ï¿½ï¿½Â¼ */
     $sql = "DELETE FROM " . $ecs->table('collect_goods') . " WHERE goods_id = '$goods_id'";
     $db->query($sql);
     $sql = "DELETE FROM " . $ecs->table('goods_article') . " WHERE goods_id = '$goods_id'";
@@ -1810,7 +1812,7 @@ elseif ($_REQUEST['act'] == 'drop_goods')
     $sql = "DELETE FROM " . $ecs->table('goods_activity') . " WHERE goods_id = '$goods_id'";
     $db->query($sql);
 
-    /* Èç¹û²»ÊÇÊµÌåÉÌÆ·£¬É¾³ýÏàÓ¦ÐéÄâÉÌÆ·¼ÇÂ¼ */
+    /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½É¾ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½Â¼ */
     if ($goods['is_real'] != 1)
     {
         $sql = "DELETE FROM " . $ecs->table('virtual_card') . " WHERE goods_id = '$goods_id'";
@@ -1829,7 +1831,7 @@ elseif ($_REQUEST['act'] == 'drop_goods')
 }
 
 /*------------------------------------------------------ */
-//-- ÇÐ»»ÉÌÆ·ÀàÐÍ
+//-- ï¿½Ð»ï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½
 /*------------------------------------------------------ */
 elseif ($_REQUEST['act'] == 'get_attr')
 {
@@ -1844,7 +1846,7 @@ elseif ($_REQUEST['act'] == 'get_attr')
 }
 
 /*------------------------------------------------------ */
-//-- É¾³ýÍ¼Æ¬
+//-- É¾ï¿½ï¿½Í¼Æ¬
 /*------------------------------------------------------ */
 elseif ($_REQUEST['act'] == 'drop_image')
 {
@@ -1852,7 +1854,7 @@ elseif ($_REQUEST['act'] == 'drop_image')
 
     $img_id = empty($_REQUEST['img_id']) ? 0 : intval($_REQUEST['img_id']);
 
-    /* É¾³ýÍ¼Æ¬ÎÄ¼þ */
+    /* É¾ï¿½ï¿½Í¼Æ¬ï¿½Ä¼ï¿½ */
     $sql = "SELECT img_url, thumb_url, img_original " .
             " FROM " . $GLOBALS['ecs']->table('goods_gallery') .
             " WHERE img_id = '$img_id'";
@@ -1871,7 +1873,7 @@ elseif ($_REQUEST['act'] == 'drop_image')
         @unlink('../' . $row['img_original']);
     }
 
-    /* É¾³ýÊý¾Ý */
+    /* É¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
     $sql = "DELETE FROM " . $GLOBALS['ecs']->table('goods_gallery') . " WHERE img_id = '$img_id' LIMIT 1";
     $GLOBALS['db']->query($sql);
 
@@ -1880,7 +1882,7 @@ elseif ($_REQUEST['act'] == 'drop_image')
 }
 
 /*------------------------------------------------------ */
-//-- ËÑË÷ÉÌÆ·£¬½ö·µ»ØÃû³Æ¼°ID
+//-- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¼ï¿½ID
 /*------------------------------------------------------ */
 elseif ($_REQUEST['act'] == 'get_goods_list')
 {
@@ -1903,7 +1905,7 @@ elseif ($_REQUEST['act'] == 'get_goods_list')
 }
 
 /*------------------------------------------------------ */
-//-- °ÑÉÌÆ·¼ÓÈë¹ØÁª
+//-- ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 /*------------------------------------------------------ */
 elseif ($_REQUEST['act'] == 'add_link_goods')
 {
@@ -1921,7 +1923,7 @@ elseif ($_REQUEST['act'] == 'add_link_goods')
     {
         if ($is_double)
         {
-            /* Ë«Ïò¹ØÁª */
+            /* Ë«ï¿½ï¿½ï¿½ï¿½ï¿½ */
             $sql = "INSERT INTO " . $ecs->table('link_goods') . " (goods_id, link_goods_id, is_double, admin_id) " .
                     "VALUES ('$val', '$goods_id', '$is_double', '$_SESSION[admin_id]')";
             $db->query($sql, 'SILENT');
@@ -1947,7 +1949,7 @@ elseif ($_REQUEST['act'] == 'add_link_goods')
 }
 
 /*------------------------------------------------------ */
-//-- É¾³ý¹ØÁªÉÌÆ·
+//-- É¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ·
 /*------------------------------------------------------ */
 elseif ($_REQUEST['act'] == 'drop_link_goods')
 {
@@ -2002,7 +2004,7 @@ elseif ($_REQUEST['act'] == 'drop_link_goods')
 }
 
 /*------------------------------------------------------ */
-//-- Ôö¼ÓÒ»¸öÅä¼þ
+//-- ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½
 /*------------------------------------------------------ */
 
 elseif ($_REQUEST['act'] == 'add_group_goods')
@@ -2039,7 +2041,7 @@ elseif ($_REQUEST['act'] == 'add_group_goods')
 }
 
 /*------------------------------------------------------ */
-//-- É¾³ýÒ»¸öÅä¼þ
+//-- É¾ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½
 /*------------------------------------------------------ */
 
 elseif ($_REQUEST['act'] == 'drop_group_goods')
@@ -2077,7 +2079,7 @@ elseif ($_REQUEST['act'] == 'drop_group_goods')
 }
 
 /*------------------------------------------------------ */
-//-- ËÑË÷ÎÄÕÂ
+//-- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 /*------------------------------------------------------ */
 
 elseif ($_REQUEST['act'] == 'get_article_list')
@@ -2108,7 +2110,7 @@ elseif ($_REQUEST['act'] == 'get_article_list')
 }
 
 /*------------------------------------------------------ */
-//-- Ìí¼Ó¹ØÁªÎÄÕÂ
+//-- ï¿½ï¿½Ó¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 /*------------------------------------------------------ */
 
 elseif ($_REQUEST['act'] == 'add_goods_article')
@@ -2144,7 +2146,7 @@ elseif ($_REQUEST['act'] == 'add_goods_article')
 }
 
 /*------------------------------------------------------ */
-//-- É¾³ý¹ØÁªÎÄÕÂ
+//-- É¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 /*------------------------------------------------------ */
 elseif ($_REQUEST['act'] == 'drop_goods_article')
 {
@@ -2175,13 +2177,13 @@ elseif ($_REQUEST['act'] == 'drop_goods_article')
 }
 
 /*------------------------------------------------------ */
-//-- »õÆ·ÁÐ±í
+//-- ï¿½ï¿½Æ·ï¿½Ð±ï¿½
 /*------------------------------------------------------ */
 elseif ($_REQUEST['act'] == 'product_list')
 {
     admin_priv('goods_manage');
 
-    /* ÊÇ·ñ´æÔÚÉÌÆ·id */
+    /* ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ·id */
     if (empty($_GET['goods_id']))
     {
         $link[] = array('href' => 'goods.php?act=list', 'text' => $_LANG['cannot_found_goods']);
@@ -2192,7 +2194,7 @@ elseif ($_REQUEST['act'] == 'product_list')
         $goods_id = intval($_GET['goods_id']);
     }
 
-    /* È¡³öÉÌÆ·ÐÅÏ¢ */
+    /* È¡ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½Ï¢ */
     $sql = "SELECT goods_sn, goods_name, goods_type, shop_price FROM " . $ecs->table('goods') . " WHERE goods_id = '$goods_id'";
     $goods = $db->getRow($sql);
     if (empty($goods))
@@ -2206,7 +2208,7 @@ elseif ($_REQUEST['act'] == 'product_list')
     $smarty->assign('goods_sn', sprintf($_LANG['products_title_2'], $goods['goods_sn']));
 
 
-    /* »ñÈ¡ÉÌÆ·¹æ¸ñÁÐ±í */
+    /* ï¿½ï¿½È¡ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ */
     $attribute = get_goods_specifications_list($goods_id);
     if (empty($attribute))
     {
@@ -2215,7 +2217,7 @@ elseif ($_REQUEST['act'] == 'product_list')
     }
     foreach ($attribute as $attribute_value)
     {
-        //×ª»»³ÉÊý×é
+        //×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         $_attribute[$attribute_value['attr_id']]['attr_values'][] = $attribute_value['attr_value'];
         $_attribute[$attribute_value['attr_id']]['attr_id'] = $attribute_value['attr_id'];
         $_attribute[$attribute_value['attr_id']]['attr_name'] = $attribute_value['attr_name'];
@@ -2228,7 +2230,7 @@ elseif ($_REQUEST['act'] == 'product_list')
     $smarty->assign('product_sn',               $goods['goods_sn'] . '_');
     $smarty->assign('product_number',           $_CFG['default_storage']);
 
-    /* È¡ÉÌÆ·µÄ»õÆ· */
+    /* È¡ï¿½ï¿½Æ·ï¿½Ä»ï¿½Æ· */
     $product = product_list($goods_id, '');
 
     $smarty->assign('ur_here',      $_LANG['18_product_list']);
@@ -2240,18 +2242,18 @@ elseif ($_REQUEST['act'] == 'product_list')
     $smarty->assign('filter',       $product['filter']);
     $smarty->assign('full_page',    1);
 
-    /* ÏÔÊ¾ÉÌÆ·ÁÐ±íÒ³Ãæ */
+    /* ï¿½ï¿½Ê¾ï¿½ï¿½Æ·ï¿½Ð±ï¿½Ò³ï¿½ï¿½ */
     assign_query_info();
 
     $smarty->display('product_info.htm');
 }
 
 /*------------------------------------------------------ */
-//-- »õÆ·ÅÅÐò¡¢·ÖÒ³¡¢²éÑ¯
+//-- ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ò¡¢·ï¿½Ò³ï¿½ï¿½ï¿½ï¿½Ñ¯
 /*------------------------------------------------------ */
 elseif ($_REQUEST['act'] == 'product_query')
 {
-    /* ÊÇ·ñ´æÔÚÉÌÆ·id */
+    /* ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ·id */
     if (empty($_REQUEST['goods_id']))
     {
         make_json_error($_LANG['sys']['wrong'] . $_LANG['cannot_found_goods']);
@@ -2261,7 +2263,7 @@ elseif ($_REQUEST['act'] == 'product_query')
         $goods_id = intval($_REQUEST['goods_id']);
     }
 
-    /* È¡³öÉÌÆ·ÐÅÏ¢ */
+    /* È¡ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½Ï¢ */
     $sql = "SELECT goods_sn, goods_name, goods_type, shop_price FROM " . $ecs->table('goods') . " WHERE goods_id = '$goods_id'";
     $goods = $db->getRow($sql);
     if (empty($goods))
@@ -2274,7 +2276,7 @@ elseif ($_REQUEST['act'] == 'product_query')
     $smarty->assign('goods_sn', sprintf($_LANG['products_title_2'], $goods['goods_sn']));
 
 
-    /* »ñÈ¡ÉÌÆ·¹æ¸ñÁÐ±í */
+    /* ï¿½ï¿½È¡ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ */
     $attribute = get_goods_specifications_list($goods_id);
     if (empty($attribute))
     {
@@ -2282,7 +2284,7 @@ elseif ($_REQUEST['act'] == 'product_query')
     }
     foreach ($attribute as $attribute_value)
     {
-        //×ª»»³ÉÊý×é
+        //×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         $_attribute[$attribute_value['attr_id']]['attr_values'][] = $attribute_value['attr_value'];
         $_attribute[$attribute_value['attr_id']]['attr_id'] = $attribute_value['attr_id'];
         $_attribute[$attribute_value['attr_id']]['attr_name'] = $attribute_value['attr_name'];
@@ -2295,7 +2297,7 @@ elseif ($_REQUEST['act'] == 'product_query')
     $smarty->assign('product_sn',               $goods['goods_sn'] . '_');
     $smarty->assign('product_number',           $_CFG['default_storage']);
 
-    /* È¡ÉÌÆ·µÄ»õÆ· */
+    /* È¡ï¿½ï¿½Æ·ï¿½Ä»ï¿½Æ· */
     $product = product_list($goods_id, '');
 
     $smarty->assign('ur_here', $_LANG['18_product_list']);
@@ -2305,7 +2307,7 @@ elseif ($_REQUEST['act'] == 'product_query')
     $smarty->assign('goods_id',    $goods_id);
     $smarty->assign('filter',       $product['filter']);
 
-    /* ÅÅÐò±ê¼Ç */
+    /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
     $sort_flag  = sort_flag($product['filter']);
     $smarty->assign($sort_flag['tag'], $sort_flag['img']);
 
@@ -2314,14 +2316,14 @@ elseif ($_REQUEST['act'] == 'product_query')
 }
 
 /*------------------------------------------------------ */
-//-- »õÆ·É¾³ý
+//-- ï¿½ï¿½Æ·É¾ï¿½ï¿½
 /*------------------------------------------------------ */
 elseif ($_REQUEST['act'] == 'product_remove')
 {
-    /* ¼ì²éÈ¨ÏÞ */
+    /* ï¿½ï¿½ï¿½È¨ï¿½ï¿½ */
     check_authz_json('remove_back');
 
-    /* ÊÇ·ñ´æÔÚÉÌÆ·id */
+    /* ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ·id */
     if (empty($_REQUEST['id']))
     {
         make_json_error($_LANG['product_id_null']);
@@ -2331,22 +2333,22 @@ elseif ($_REQUEST['act'] == 'product_remove')
         $product_id = intval($_REQUEST['id']);
     }
 
-    /* »õÆ·¿â´æ */
+    /* ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ */
     $product = get_product_info($product_id, 'product_number, goods_id');
 
-    /* É¾³ý»õÆ· */
+    /* É¾ï¿½ï¿½ï¿½ï¿½Æ· */
     $sql = "DELETE FROM " . $ecs->table('products') . " WHERE product_id = '$product_id'";
     $result = $db->query($sql);
     if ($result)
     {
-        /* ÐÞ¸ÄÉÌÆ·¿â´æ */
+        /* ï¿½Þ¸ï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ */
         if (update_goods_stock($product['goods_id'], $product_number - $product['product_number']))
         {
-            //¼ÇÂ¼ÈÕÖ¾
+            //ï¿½ï¿½Â¼ï¿½ï¿½Ö¾
             admin_log('', 'update', 'goods');
         }
 
-        //¼ÇÂ¼ÈÕÖ¾
+        //ï¿½ï¿½Â¼ï¿½ï¿½Ö¾
         admin_log('', 'trash', 'products');
 
         $url = 'goods.php?act=product_query&' . str_replace('act=product_remove', '', $_SERVER['QUERY_STRING']);
@@ -2357,7 +2359,7 @@ elseif ($_REQUEST['act'] == 'product_remove')
 }
 
 /*------------------------------------------------------ */
-//-- ÐÞ¸Ä»õÆ·¼Û¸ñ
+//-- ï¿½Þ¸Ä»ï¿½Æ·ï¿½Û¸ï¿½
 /*------------------------------------------------------ */
 elseif ($_REQUEST['act'] == 'edit_product_sn')
 {
@@ -2372,7 +2374,7 @@ elseif ($_REQUEST['act'] == 'edit_product_sn')
         make_json_error($_LANG['sys']['wrong'] . $_LANG['exist_same_product_sn']);
     }
 
-    /* ÐÞ¸Ä */
+    /* ï¿½Þ¸ï¿½ */
     $sql = "UPDATE " . $ecs->table('products') . " SET product_sn = '$product_sn' WHERE product_id = '$product_id'";
     $result = $db->query($sql);
     if ($result)
@@ -2383,7 +2385,7 @@ elseif ($_REQUEST['act'] == 'edit_product_sn')
 }
 
 /*------------------------------------------------------ */
-//-- ÐÞ¸Ä»õÆ·¿â´æ
+//-- ï¿½Þ¸Ä»ï¿½Æ·ï¿½ï¿½ï¿½
 /*------------------------------------------------------ */
 elseif ($_REQUEST['act'] == 'edit_product_number')
 {
@@ -2392,15 +2394,15 @@ elseif ($_REQUEST['act'] == 'edit_product_number')
     $product_id       = intval($_POST['id']);
     $product_number       = intval($_POST['val']);
 
-    /* »õÆ·¿â´æ */
+    /* ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ */
     $product = get_product_info($product_id, 'product_number, goods_id');
 
-    /* ÐÞ¸Ä»õÆ·¿â´æ */
+    /* ï¿½Þ¸Ä»ï¿½Æ·ï¿½ï¿½ï¿½ */
     $sql = "UPDATE " . $ecs->table('products') . " SET product_number = '$product_number' WHERE product_id = '$product_id'";
     $result = $db->query($sql);
     if ($result)
     {
-        /* ÐÞ¸ÄÉÌÆ·¿â´æ */
+        /* ï¿½Þ¸ï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ */
         if (update_goods_stock($product['goods_id'], $product_number - $product['product_number']))
         {
             clear_cache_files();
@@ -2410,7 +2412,7 @@ elseif ($_REQUEST['act'] == 'edit_product_number')
 }
 
 /*------------------------------------------------------ */
-//-- »õÆ·Ìí¼Ó Ö´ÐÐ
+//-- ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ Ö´ï¿½ï¿½
 /*------------------------------------------------------ */
 elseif ($_REQUEST['act'] == 'product_add_execute')
 {
@@ -2421,20 +2423,20 @@ elseif ($_REQUEST['act'] == 'product_add_execute')
     $product['product_sn']      = $_POST['product_sn'];
     $product['product_number']  = $_POST['product_number'];
 
-    /* ÊÇ·ñ´æÔÚÉÌÆ·id */
+    /* ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ·id */
     if (empty($product['goods_id']))
     {
         sys_msg($_LANG['sys']['wrong'] . $_LANG['cannot_found_goods'], 1, array(), false);
     }
 
-    /* ÅÐ¶ÏÊÇ·ñÎª³õ´ÎÌí¼Ó */
+    /* ï¿½Ð¶ï¿½ï¿½Ç·ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
     $insert = true;
     if (product_number_count($product['goods_id']) > 0)
     {
         $insert = false;
     }
 
-    /* È¡³öÉÌÆ·ÐÅÏ¢ */
+    /* È¡ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½Ï¢ */
     $sql = "SELECT goods_sn, goods_name, goods_type, shop_price FROM " . $ecs->table('goods') . " WHERE goods_id = '" . $product['goods_id'] . "'";
     $goods = $db->getRow($sql);
     if (empty($goods))
@@ -2445,13 +2447,13 @@ elseif ($_REQUEST['act'] == 'product_add_execute')
     /*  */
     foreach($product['product_sn'] as $key => $value)
     {
-        //¹ýÂË
-        $product['product_number'][$key] = empty($product['product_number'][$key]) ? (empty($_CFG['use_storage']) ? 0 : $_CFG['default_storage']) : trim($product['product_number'][$key]); //¿â´æ
+        //ï¿½ï¿½ï¿½ï¿½
+        $product['product_number'][$key] = empty($product['product_number'][$key]) ? (empty($_CFG['use_storage']) ? 0 : $_CFG['default_storage']) : trim($product['product_number'][$key]); //ï¿½ï¿½ï¿½
 
-        //»ñÈ¡¹æ¸ñÔÚÉÌÆ·ÊôÐÔ±íÖÐµÄid
+        //ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½Ô±ï¿½ï¿½Ðµï¿½id
         foreach($product['attr'] as $attr_key => $attr_value)
         {
-            /* ¼ì²â£ºÈç¹ûµ±Ç°ËùÌí¼ÓµÄ»õÆ·¹æ¸ñ´æÔÚ¿ÕÖµ»ò0 */
+            /* ï¿½ï¿½â£ºï¿½ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ÓµÄ»ï¿½Æ·ï¿½ï¿½ï¿½ï¿½ï¿½Ú¿ï¿½Öµï¿½ï¿½0 */
             if (empty($attr_value[$key]))
             {
                 continue 2;
@@ -2459,13 +2461,13 @@ elseif ($_REQUEST['act'] == 'product_add_execute')
 
             $is_spec_list[$attr_key] = 'true';
 
-            $value_price_list[$attr_key] = $attr_value[$key] . chr(9) . ''; //$key£¬µ±Ç°
+            $value_price_list[$attr_key] = $attr_value[$key] . chr(9) . ''; //$keyï¿½ï¿½ï¿½ï¿½Ç°
 
             $id_list[$attr_key] = $attr_key;
         }
         $goods_attr_id = handle_goods_attr($product['goods_id'], $id_list, $is_spec_list, $value_price_list);
 
-        /* ÊÇ·ñÎªÖØ¸´¹æ¸ñµÄ»õÆ· */
+        /* ï¿½Ç·ï¿½Îªï¿½Ø¸ï¿½ï¿½ï¿½ï¿½Ä»ï¿½Æ· */
         $goods_attr = sort_goods_attr_id_array($goods_attr_id);
         $goods_attr = implode('|', $goods_attr['sort']);
         if (check_goods_attr_exist($goods_attr, $product['goods_id']))
@@ -2473,10 +2475,10 @@ elseif ($_REQUEST['act'] == 'product_add_execute')
             continue;
             //sys_msg($_LANG['sys']['wrong'] . $_LANG['exist_same_goods_attr'], 1, array(), false);
         }
-        //»õÆ·ºÅ²»Îª¿Õ
+        //ï¿½ï¿½Æ·ï¿½Å²ï¿½Îªï¿½ï¿½
         if (!empty($value))
         {
-            /* ¼ì²â£º»õÆ·»õºÅÊÇ·ñÔÚÉÌÆ·±íºÍ»õÆ·±íÖÐÖØ¸´ */
+            /* ï¿½ï¿½â£ºï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½Í»ï¿½Æ·ï¿½ï¿½ï¿½ï¿½ï¿½Ø¸ï¿½ */
             if (check_goods_sn_exist($value))
             {
                 continue;
@@ -2489,7 +2491,7 @@ elseif ($_REQUEST['act'] == 'product_add_execute')
             }
         }
 
-        /* ²åÈë»õÆ·±í */
+        /* ï¿½ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½ */
         $sql = "INSERT INTO " . $GLOBALS['ecs']->table('products') . " (goods_id, goods_attr, product_sn, product_number)  VALUES ('" . $product['goods_id'] . "', '$goods_attr', '$value', '" . $product['product_number'][$key] . "')";
         if (!$GLOBALS['db']->query($sql))
         {
@@ -2497,7 +2499,7 @@ elseif ($_REQUEST['act'] == 'product_add_execute')
             //sys_msg($_LANG['sys']['wrong'] . $_LANG['cannot_add_products'], 1, array(), false);
         }
 
-        //»õÆ·ºÅÎª¿Õ ×Ô¶¯²¹»õÆ·ºÅ
+        //ï¿½ï¿½Æ·ï¿½ï¿½Îªï¿½ï¿½ ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½
         if (empty($value))
         {
             $sql = "UPDATE " . $GLOBALS['ecs']->table('products') . "
@@ -2506,18 +2508,18 @@ elseif ($_REQUEST['act'] == 'product_add_execute')
             $GLOBALS['db']->query($sql);
         }
 
-        /* ÐÞ¸ÄÉÌÆ·±í¿â´æ */
+        /* ï¿½Þ¸ï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½ */
         $product_count = product_number_count($product['goods_id']);
         if (update_goods($product['goods_id'], 'goods_number', $product_count))
         {
-            //¼ÇÂ¼ÈÕÖ¾
+            //ï¿½ï¿½Â¼ï¿½ï¿½Ö¾
             admin_log($product['goods_id'], 'update', 'goods');
         }
     }
 
     clear_cache_files();
 
-    /* ·µ»Ø */
+    /* ï¿½ï¿½ï¿½ï¿½ */
     if ($insert)
     {
          $link[] = array('href' => 'goods.php?act=add', 'text' => $_LANG['02_goods_add']);
@@ -2534,24 +2536,24 @@ elseif ($_REQUEST['act'] == 'product_add_execute')
 }
 
 /*------------------------------------------------------ */
-//-- »õÆ·ÅúÁ¿²Ù×÷
+//-- ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 /*------------------------------------------------------ */
 elseif ($_REQUEST['act'] == 'batch_product')
 {
-    /* ¶¨Òå·µ»Ø */
+    /* ï¿½ï¿½ï¿½å·µï¿½ï¿½ */
     $link[] = array('href' => 'goods.php?act=product_list&goods_id=' . $_POST['goods_id'], 'text' => $_LANG['item_list']);
 
-    /* ÅúÁ¿²Ù×÷ - ÅúÁ¿É¾³ý */
+    /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½É¾ï¿½ï¿½ */
     if ($_POST['type'] == 'drop')
     {
-        //¼ì²éÈ¨ÏÞ
+        //ï¿½ï¿½ï¿½È¨ï¿½ï¿½
         admin_priv('remove_back');
 
-        //È¡µÃÒª²Ù×÷µÄÉÌÆ·±àºÅ
+        //È¡ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½
         $product_id = !empty($_POST['checkboxes']) ? join(',', $_POST['checkboxes']) : 0;
         $product_bound = db_create_in($product_id);
 
-        //È¡³ö»õÆ·¿â´æ×ÜÊý
+        //È¡ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         $sum = 0;
         $goods_id = 0;
         $sql = "SELECT product_id, goods_id, product_number FROM  " . $GLOBALS['ecs']->table('products') . " WHERE product_id $product_bound";
@@ -2564,39 +2566,39 @@ elseif ($_REQUEST['act'] == 'batch_product')
             }
             $goods_id = $product_array[0]['goods_id'];
 
-            /* É¾³ý»õÆ· */
+            /* É¾ï¿½ï¿½ï¿½ï¿½Æ· */
             $sql = "DELETE FROM " . $ecs->table('products') . " WHERE product_id $product_bound";
             if ($db->query($sql))
             {
-                //¼ÇÂ¼ÈÕÖ¾
+                //ï¿½ï¿½Â¼ï¿½ï¿½Ö¾
                 admin_log('', 'delete', 'products');
             }
 
-            /* ÐÞ¸ÄÉÌÆ·¿â´æ */
+            /* ï¿½Þ¸ï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ */
             if (update_goods_stock($goods_id, -$sum))
             {
-                //¼ÇÂ¼ÈÕÖ¾
+                //ï¿½ï¿½Â¼ï¿½ï¿½Ö¾
                 admin_log('', 'update', 'goods');
             }
 
-            /* ·µ»Ø */
+            /* ï¿½ï¿½ï¿½ï¿½ */
             sys_msg($_LANG['product_batch_del_success'], 0, $link);
         }
         else
         {
-            /* ´íÎó */
+            /* ï¿½ï¿½ï¿½ï¿½ */
             sys_msg($_LANG['cannot_found_products'], 1, $link);
         }
     }
 
-    /* ·µ»Ø */
+    /* ï¿½ï¿½ï¿½ï¿½ */
     sys_msg($_LANG['no_operation'], 1, $link);
 }
 
 /**
- * ÁÐ±íÁ´½Ó
- * @param   bool    $is_add         ÊÇ·ñÌí¼Ó£¨²åÈë£©
- * @param   string  $extension_code ÐéÄâÉÌÆ·À©Õ¹´úÂë£¬ÊµÌåÉÌÆ·Îª¿Õ
+ * ï¿½Ð±ï¿½ï¿½ï¿½ï¿½ï¿½
+ * @param   bool    $is_add         ï¿½Ç·ï¿½ï¿½ï¿½Ó£ï¿½ï¿½ï¿½ï¿½ë£©
+ * @param   string  $extension_code ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½Õ¹ï¿½ï¿½ï¿½ë£¬Êµï¿½ï¿½ï¿½ï¿½Æ·Îªï¿½ï¿½
  * @return  array('href' => $href, 'text' => $text)
  */
 function list_link($is_add = true, $extension_code = '')
@@ -2624,8 +2626,8 @@ function list_link($is_add = true, $extension_code = '')
 }
 
 /**
- * Ìí¼ÓÁ´½Ó
- * @param   string  $extension_code ÐéÄâÉÌÆ·À©Õ¹´úÂë£¬ÊµÌåÉÌÆ·Îª¿Õ
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ * @param   string  $extension_code ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½Õ¹ï¿½ï¿½ï¿½ë£¬Êµï¿½ï¿½ï¿½ï¿½Æ·Îªï¿½ï¿½
  * @return  array('href' => $href, 'text' => $text)
  */
 function add_link($extension_code = '')
@@ -2649,9 +2651,9 @@ function add_link($extension_code = '')
 }
 
 /**
- * ¼ì²éÍ¼Æ¬ÍøÖ·ÊÇ·ñºÏ·¨
+ * ï¿½ï¿½ï¿½Í¼Æ¬ï¿½ï¿½Ö·ï¿½Ç·ï¿½Ï·ï¿½
  *
- * @param string $url ÍøÖ·
+ * @param string $url ï¿½ï¿½Ö·
  *
  * @return boolean
  */
@@ -2662,10 +2664,10 @@ function goods_parse_url($url)
 }
 
 /**
- * ±£´æÄ³ÉÌÆ·µÄÓÅ»Ý¼Û¸ñ
- * @param   int     $goods_id    ÉÌÆ·±àºÅ
- * @param   array   $number_list ÓÅ»ÝÊýÁ¿ÁÐ±í
- * @param   array   $price_list  ¼Û¸ñÁÐ±í
+ * ï¿½ï¿½ï¿½ï¿½Ä³ï¿½ï¿½Æ·ï¿½ï¿½ï¿½Å»Ý¼Û¸ï¿½
+ * @param   int     $goods_id    ï¿½ï¿½Æ·ï¿½ï¿½ï¿½
+ * @param   array   $number_list ï¿½Å»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
+ * @param   array   $price_list  ï¿½Û¸ï¿½ï¿½Ð±ï¿½
  * @return  void
  */
 function handle_volume_price($goods_id, $number_list, $price_list)
@@ -2675,10 +2677,10 @@ function handle_volume_price($goods_id, $number_list, $price_list)
     $GLOBALS['db']->query($sql);
 
 
-    /* Ñ­»·´¦ÀíÃ¿¸öÓÅ»Ý¼Û¸ñ */
+    /* Ñ­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¿ï¿½ï¿½ï¿½Å»Ý¼Û¸ï¿½ */
     foreach ($price_list AS $key => $price)
     {
-        /* ¼Û¸ñ¶ÔÓ¦µÄÊýÁ¿ÉÏÏÂÏÞ */
+        /* ï¿½Û¸ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
         $volume_number = $number_list[$key];
 
         if (!empty($price))
@@ -2692,9 +2694,9 @@ function handle_volume_price($goods_id, $number_list, $price_list)
 }
 
 /**
- * ÐÞ¸ÄÉÌÆ·¿â´æ
- * @param   string  $goods_id   ÉÌÆ·±àºÅ£¬¿ÉÒÔÎª¶à¸ö£¬ÓÃ ',' ¸ô¿ª
- * @param   string  $value      ×Ö¶ÎÖµ
+ * ï¿½Þ¸ï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½
+ * @param   string  $goods_id   ï¿½ï¿½Æ·ï¿½ï¿½Å£ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ',' ï¿½ï¿½ï¿½ï¿½
+ * @param   string  $value      ï¿½Ö¶ï¿½Öµ
  * @return  bool
  */
 function update_goods_stock($goods_id, $value)
@@ -2708,7 +2710,7 @@ function update_goods_stock($goods_id, $value)
                 WHERE goods_id = '$goods_id'";
         $result = $GLOBALS['db']->query($sql);
 
-        /* Çå³ý»º´æ */
+        /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
         clear_cache_files();
 
         return $result;

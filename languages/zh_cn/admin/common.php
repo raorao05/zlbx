@@ -225,6 +225,10 @@ $_LANG['report_guest'] = '客户统计';
 $_LANG['report_users'] = '会员排行';
 $_LANG['visit_buy_per'] = '访问购买率';
 $_LANG['z_clicks_stats'] = '站外投放JS';
+$_LANG['cx_stat'] = '车险统计';
+$_LANG['business_type_stat'] = '业务分类统计';
+$_LANG['business_brand_stat'] = '业务品牌统计';
+$_LANG['business_product_stat'] = '业务产品统计';
 
 /* 文章管理 */
 $_LANG['02_articlecat_list'] = '文章分类';

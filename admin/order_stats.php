@@ -243,7 +243,7 @@ if ($_REQUEST['act'] == 'list')
     else
     {
         /* 订单概况 */
-        $order_info = get_orderinfo($start_date, $end_date);
+        $order_info = get_orderinfo($start_date, $end_date,$user_id);
 
         $order_general_xml = "<graph caption='".$_LANG['order_circs']."' decimalPrecision='2' showPercentageValues='0' showNames='1' showValues='1' showPercentageInLabel='0' pieYScale='45' pieBorderAlpha='40' pieFillAlpha='70' pieSliceDepth='15' pieRadius='100' outCnvBaseFontSize='13' baseFontSize='12'>";
 
@@ -259,12 +259,21 @@ if ($_REQUEST['act'] == 'list')
         /* 支付方式 */
         $pay_xml = "<graph caption='" . $_LANG['pay_method'] . "' decimalPrecision='2' showPercentageValues='0' showNames='1' numberPrefix='' showValues='1' showPercentageInLabel='0' pieYScale='45' pieBorderAlpha='40' pieFillAlpha='70' pieSliceDepth='15' pieRadius='100' outCnvBaseFontSize='13' baseFontSize='12'>";
 
+        if($user_id){
+            $sql = 'SELECT i.pay_id, p.pay_name, COUNT(i.order_id) AS order_num ' .
+                'FROM ' .$ecs->table('payment'). ' AS p, ' .$ecs->table('order_info'). ' AS i '.
+                "WHERE p.pay_id = i.pay_id " . order_query_sql('finished') .
+                "AND i.add_time >= '$start_date' AND i.add_time <= '$end_date' AND i.user_id = '$user_id' ".
+                "GROUP BY i.pay_id ORDER BY order_num DESC";
+        }else{
+            $sql = 'SELECT i.pay_id, p.pay_name, COUNT(i.order_id) AS order_num ' .
+                'FROM ' .$ecs->table('payment'). ' AS p, ' .$ecs->table('order_info'). ' AS i '.
+                "WHERE p.pay_id = i.pay_id " . order_query_sql('finished') .
+                "AND i.add_time >= '$start_date' AND i.add_time <= '$end_date' ".
+                "GROUP BY i.pay_id ORDER BY order_num DESC";
+        }
 
-        $sql = 'SELECT i.pay_id, p.pay_name, COUNT(i.order_id) AS order_num ' .
-           'FROM ' .$ecs->table('payment'). ' AS p, ' .$ecs->table('order_info'). ' AS i '.
-           "WHERE p.pay_id = i.pay_id " . order_query_sql('finished') .
-           "AND i.add_time >= '$start_date' AND i.add_time <= '$end_date' ".
-           "GROUP BY i.pay_id ORDER BY order_num DESC";
+        //die($sql);
         $pay_res= $db->query($sql);
 
         while ($pay_item = $db->FetchRow($pay_res))
@@ -305,6 +314,7 @@ if ($_REQUEST['act'] == 'list')
     $smarty->assign('pay_xml',             $pay_xml);
 
     $smarty->assign('ur_here',             $_LANG['report_order']);
+    $smarty->assign('user_name',           $user_name);
     $smarty->assign('start_date',          local_date($_CFG['date_format'], $start_date));
     $smarty->assign('end_date',            local_date($_CFG['date_format'], $end_date));
 
@@ -395,33 +405,60 @@ elseif ($act = 'download')
   * @param       $end_date      查询的结束日期
   * @return      $order_info    订单概况数据
   */
- function get_orderinfo($start_date, $end_date,$user_name='')
+ function get_orderinfo($start_date, $end_date,$user_id='')
  {
     $order_info = array();
 
     /* 未确认订单数 */
-    $sql = 'SELECT COUNT(*) AS unconfirmed_num FROM ' .$GLOBALS['ecs']->table('order_info').
-           " WHERE order_status = '" .OS_UNCONFIRMED. "' AND add_time >= '$start_date'".
-           " AND add_time < '" . ($end_date + 86400) . "'";
+     if($user_id){
+         $sql = 'SELECT COUNT(*) AS unconfirmed_num FROM ' .$GLOBALS['ecs']->table('order_info').
+             " WHERE order_status = '" .OS_UNCONFIRMED. "' AND add_time >= '$start_date'".
+             " AND add_time < '" . ($end_date + 86400) . "' AND user_id = '$user_id'";
+     }else{
+         $sql = 'SELECT COUNT(*) AS unconfirmed_num FROM ' .$GLOBALS['ecs']->table('order_info').
+             " WHERE order_status = '" .OS_UNCONFIRMED. "' AND add_time >= '$start_date'".
+             " AND add_time < '" . ($end_date + 86400) . "'";
+     }
 
     $order_info['unconfirmed_num'] = $GLOBALS['db']->getOne($sql);
 
     /* 已确认订单数 */
-    $sql = 'SELECT COUNT(*) AS confirmed_num FROM ' .$GLOBALS['ecs']->table('order_info').
-           " WHERE order_status = '" .OS_CONFIRMED. "' AND shipping_status NOT ". db_create_in(array(SS_SHIPPED, SS_RECEIVED)) . " AND pay_status NOT" . db_create_in(array(PS_PAYED, PS_PAYING)) ." AND add_time >= '$start_date'".
-           " AND add_time < '" . ($end_date + 86400) . "'";
+     if($user_id){
+         $sql = 'SELECT COUNT(*) AS confirmed_num FROM ' .$GLOBALS['ecs']->table('order_info').
+             " WHERE order_status = '" .OS_CONFIRMED. "' AND shipping_status NOT ". db_create_in(array(SS_SHIPPED, SS_RECEIVED)) . " AND pay_status NOT" . db_create_in(array(PS_PAYED, PS_PAYING)) ." AND add_time >= '$start_date'".
+             " AND add_time < '" . ($end_date + 86400) . "' AND  user_id = '$user_id'";
+     }else{
+         $sql = 'SELECT COUNT(*) AS confirmed_num FROM ' .$GLOBALS['ecs']->table('order_info').
+             " WHERE order_status = '" .OS_CONFIRMED. "' AND shipping_status NOT ". db_create_in(array(SS_SHIPPED, SS_RECEIVED)) . " AND pay_status NOT" . db_create_in(array(PS_PAYED, PS_PAYING)) ." AND add_time >= '$start_date'".
+             " AND add_time < '" . ($end_date + 86400) . "'";
+     }
+
     $order_info['confirmed_num'] = $GLOBALS['db']->getOne($sql);
 
     /* 已成交订单数 */
-    $sql = 'SELECT COUNT(*) AS succeed_num FROM ' .$GLOBALS['ecs']->table('order_info').
-           " WHERE 1 " . order_query_sql('finished') .
-           " AND add_time >= '$start_date' AND add_time < '" . ($end_date + 86400) . "'";
+     if($user_id){
+         $sql = 'SELECT COUNT(*) AS succeed_num FROM ' .$GLOBALS['ecs']->table('order_info').
+             " WHERE 1 " . order_query_sql('finished') .
+             " AND add_time >= '$start_date' AND add_time < '" . ($end_date + 86400) . "' AND  user_id = '$user_id'";
+     }else{
+         $sql = 'SELECT COUNT(*) AS succeed_num FROM ' .$GLOBALS['ecs']->table('order_info').
+             " WHERE 1 " . order_query_sql('finished') .
+             " AND add_time >= '$start_date' AND add_time < '" . ($end_date + 86400) . "'";
+     }
+
     $order_info['succeed_num'] = $GLOBALS['db']->getOne($sql);
 
     /* 无效或已取消订单数 */
-    $sql = "SELECT COUNT(*) AS invalid_num FROM " .$GLOBALS['ecs']->table('order_info').
-           " WHERE order_status > '" .OS_CONFIRMED. "'".
-           " AND add_time >= '$start_date' AND add_time < '" . ($end_date + 86400) . "'";
+     if($user_id){
+         $sql = "SELECT COUNT(*) AS invalid_num FROM " .$GLOBALS['ecs']->table('order_info').
+             " WHERE order_status > '" .OS_CONFIRMED. "'".
+             " AND add_time >= '$start_date' AND add_time < '" . ($end_date + 86400) . "' AND  user_id = '$user_id'";
+     }else{
+         $sql = "SELECT COUNT(*) AS invalid_num FROM " .$GLOBALS['ecs']->table('order_info').
+             " WHERE order_status > '" .OS_CONFIRMED. "'".
+             " AND add_time >= '$start_date' AND add_time < '" . ($end_date + 86400) . "'";
+     }
+
     $order_info['invalid_num'] = $GLOBALS['db']->getOne($sql);
     return $order_info;
  }

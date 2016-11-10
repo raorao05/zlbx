@@ -122,6 +122,10 @@ if (!defined('IN_ECS'))
     $purview['report_sell']          = 'sale_order_stats';
     $purview['sale_list']            = 'sale_order_stats';
     $purview['sell_stats']           = 'sale_order_stats';
+    $purview['cx_stats']             = 'sale_order_stats';
+    $purview['business_type_stat']   = 'sale_order_stats';
+    $purview['business_brand_stat']  = 'sale_order_stats';
+    $purview['business_product_stat']= 'sale_order_stats';
 
 
 //Ä£°å¹ÜÀí

@@ -35,6 +35,11 @@ if ($_REQUEST['act'] == 'list')
 {
     /* 获取分类列表 */
     $cat_list = cat_list(0, 0, false);
+//    $cat_list = cat_list(1, 1, false);
+//    $cat_list = cat_list(1, 211, false);
+//    $cat_list = cat_list(0, 0, false,2);
+//
+//    print_r($cat_list);exit;
 
     /* 模板赋值 */
     $smarty->assign('ur_here',      $_LANG['03_category_list']);

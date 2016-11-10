@@ -74,7 +74,7 @@ setcookie('ECS[display]', $display, gmtime() + 86400 * 7);
 /* 页面的缓存ID */
 $cache_id = sprintf('%X', crc32($cat_id . '-' . $display . '-' . $sort  .'-' . $order  .'-' . $page . '-' . $size . '-' . $_SESSION['user_rank'] . '-' .
     $_CFG['lang'] .'-'. $brand. '-' . $price_max . '-' .$price_min . '-' . $filter_attr_str));
-
+//echo 'ddd';
 if (!$smarty->is_cached('category.dwt', $cache_id))
 {
     /* 如果页面没有被缓存则重新获取页面的内容 */
@@ -395,12 +395,14 @@ if (!$smarty->is_cached('category.dwt', $cache_id))
 
     assign_pager('category',            $cat_id, $count, $size, $sort, $order, $page, '', $brand, $price_min, $price_max, $display, $filter_attr_str); // 分页
     assign_dynamic('category'); // 动态内容
+
 }
 $cx=$db->getAll('SELECT cat_id,cat_name FROM ' . $ecs->table("category") . " WHERE parent_id=1 limit 16");
 foreach($cx as $key=>$v){
     $cx_list[($key+1)]=$v;
 }
 $smarty->assign('cx', $cx_list);
+
 if($cat['parent_id']==1){
     $pro_id = $_GET['pro_id']?$_GET['pro_id']:14;
     $reg_id = $_GET['reg_id']?$_GET['reg_id']:197;

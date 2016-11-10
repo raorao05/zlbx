@@ -158,6 +158,7 @@ elseif ($_REQUEST['act'] == 'import')
             $upimg->save();
             $imgpath = $upimg->get_ph_name($_FILES['uploadFile']['name']);
             $excelname = $imgpath;
+            //die($imgpath);
             require(dirname(__FILE__) . '/phpexcel/Classes/PHPExcel.php');
 
             $reader = PHPExcel_IOFactory::createReaderForFile($excelname);
@@ -182,7 +183,16 @@ elseif ($_REQUEST['act'] == 'import')
 
                 //用户基本信息
                 $sex          = iconv("utf-8//IGNORE","gbk",$sheet1->getCellByColumnAndRow(1, $row)->getValue());
-                $birthday     = iconv("utf-8//IGNORE","gbk",$sheet1->getCellByColumnAndRow(2, $row)->getValue());
+                if($sex == '男'){
+                    $sex = 1;
+                }else if($sex == '女'){
+                    $sex = 2;
+                }else{
+                    $sex = 0;
+                }
+                $age          = iconv("utf-8//IGNORE","gbk",$sheet1->getCellByColumnAndRow(2, $row)->getValue());
+                $birthday     = intval(date('Y',time())) - intval($age);
+
                 $zj_number    = iconv("utf-8//IGNORE","gbk",$sheet1->getCellByColumnAndRow(3, $row)->getValue());
                 $alias        = iconv("utf-8//IGNORE","gbk",$sheet1->getCellByColumnAndRow(4, $row)->getValue());
                 $mobile_phone = iconv("utf-8//IGNORE","gbk",$sheet1->getCellByColumnAndRow(5, $row)->getValue());
@@ -211,13 +221,15 @@ elseif ($_REQUEST['act'] == 'import')
                 }
 
                 //用户扩展信息
-                $job_address = iconv("utf-8//IGNORE","gbk",$sheet1->getCellByColumnAndRow(6, $row)->getValue());
+                //$job_address = iconv("utf-8//IGNORE","gbk",$sheet1->getCellByColumnAndRow(6, $row)->getValue());
                 $car_card = iconv("utf-8//IGNORE","gbk",$sheet1->getCellByColumnAndRow(8, $row)->getValue());
                 $car_type = iconv("utf-8//IGNORE","gbk",$sheet1->getCellByColumnAndRow(9, $row)->getValue());
                 $car_owner = iconv("utf-8//IGNORE","gbk",$sheet1->getCellByColumnAndRow(10, $row)->getValue());
                 $car_frame_num = iconv("utf-8//IGNORE","gbk",$sheet1->getCellByColumnAndRow(11, $row)->getValue());
                 $engine_num = iconv("utf-8//IGNORE","gbk",$sheet1->getCellByColumnAndRow(12, $row)->getValue());
                 $first_register_time = iconv("utf-8//IGNORE","gbk",$sheet1->getCellByColumnAndRow(13, $row)->getValue());
+
+                /*
                 $buy_time = iconv("utf-8//IGNORE","gbk",$sheet1->getCellByColumnAndRow(14, $row)->getValue());
                 $insurance_num = iconv("utf-8//IGNORE","gbk",$sheet1->getCellByColumnAndRow(15, $row)->getValue());
                 $insurance_type = iconv("utf-8//IGNORE","gbk",$sheet1->getCellByColumnAndRow(16, $row)->getValue());
@@ -228,9 +240,10 @@ elseif ($_REQUEST['act'] == 'import')
                 $insurance_end_time   = iconv("utf-8//IGNORE","gbk",$sheet1->getCellByColumnAndRow(21, $row)->getValue());
                 $insurance_money      = iconv("utf-8//IGNORE","gbk",$sheet1->getCellByColumnAndRow(22, $row)->getValue());
                 $remarks              = iconv("utf-8//IGNORE","gbk",$sheet1->getCellByColumnAndRow(23, $row)->getValue());
+                */
 
-                $sql2 =  "INSERT INTO " . $ecs->table('order_from_excel') . "(job_address,car_card,car_type,car_owner,car_frame_num,engine_num,first_register_time,buy_time,insurance_num,insurance_type,insurance_type_1,product_name,insurance_company,insurance_begin_time,insurance_end_time,insurance_money,remarks) VALUES " .
-                         "('$job_address','$car_card','$car_type','$car_owner','$car_frame_num','$engine_num','$first_register_time','$buy_time','$insurance_num','$insurance_type','$insurance_type_1','$product_name','$insurance_company','$insurance_begin_time','$insurance_end_time','$insurance_money','$remarks')";
+                $sql2 =  "INSERT INTO " . $ecs->table('insure_cx') . "(user_id,c_city,cp_number,brand,configure,cz_name,frame_number,engine_number,dj_time,sfz_number,mobile) VALUES " .
+                         "($user_id,'$address','$car_card','$car_type','$car_type','$car_owner','$car_frame_num','$engine_num','$first_register_time','$zj_number','$mobile_phone')";
                 $db->query($sql2);
 
                 /* 记录管理员操作 */

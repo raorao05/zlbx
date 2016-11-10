@@ -73,13 +73,17 @@ $modules['05_banner']['ad_list']                    = 'ads.php?act=list';
 //$modules['06_stats']['flow_stats']                  = 'flow_stats.php?act=view';
 //$modules['06_stats']['searchengine_stats']          = 'searchengine_stats.php?act=view';
 //$modules['06_stats']['z_clicks_stats']              = 'adsense.php?act=list';
-$modules['06_stats']['report_guest']                = 'guest_stats.php?act=list';
-$modules['06_stats']['report_order']                = 'order_stats.php?act=list';
-$modules['06_stats']['report_sell']                 = 'sale_general.php?act=list';
-$modules['06_stats']['sale_list']                   = 'sale_list.php?act=list';
-$modules['06_stats']['sell_stats']                  = 'sale_order.php?act=goods_num';
+//$modules['06_stats']['report_guest']                = 'guest_stats.php?act=list';
+//$modules['06_stats']['report_order']                = 'order_stats.php?act=list';
+//$modules['06_stats']['report_sell']                 = 'sale_general.php?act=list';
+//$modules['06_stats']['sale_list']                   = 'sale_list.php?act=list';
+//$modules['06_stats']['sell_stats']                  = 'sale_order.php?act=goods_num';
 //$modules['06_stats']['report_users']                = 'users_order.php?act=order_num';
 //$modules['06_stats']['visit_buy_per']               = 'visit_sold.php?act=list';
+$modules['06_stats']['cx_stat']                     = 'cx_stat.php?act=list';
+$modules['06_stats']['business_type_stat']          = 'business_type_stat.php?act=list';
+$modules['06_stats']['business_brand_stat']         = 'business_brand_stat.php?act=list';
+$modules['06_stats']['business_product_stat']       = 'business_product_stat.php?act=list';
 
 $modules['07_content']['03_article_list']           = 'article.php?act=list';
 $modules['07_content']['02_articlecat_list']        = 'articlecat.php?act=list';
@@ -147,8 +151,8 @@ $modules['11_system']['ucenter_setup']              = 'integrate.php?act=setup&c
 //$modules['14_sms']['06_sms_charge_history']         = 'sms.php?act=display_charge_history_ui';
 
 //Õ∆ºˆ…Ë÷√
-//$modules['15_rec']['affiliate']                     = 'affiliate.php?act=list';
-//$modules['15_rec']['affiliate_ck']                  = 'affiliate_ck.php?act=list';
+$modules['15_rec']['affiliate']                     = 'affiliate.php?act=list';
+$modules['15_rec']['affiliate_ck']                  = 'affiliate_ck.php?act=list';
 
 //$modules['16_email_manage']['email_list']           = 'email_list.php?act=list';
 //$modules['16_email_manage']['magazine_list']        = 'magazine_list.php?act=list';
