@@ -23,5 +23,16 @@ $uid = intval($_SESSION['user_id']);
 $api = new weixinapi();
 $awardNum = intval($api->getAwardNum($aid));
 
+// 查看积分是否足够
+$jifen = intval($act['jifen']);
+if($jifen > 0){
+    $sql = "SELECT pay_points FROM " . $GLOBALS['ecs']->table('users') . " WHERE user_id= '$uid'";
+    $user_jifen  = $GLOBALS['db']->getOne ( $sql );
+    $user_jifen = intval($user_jifen);
+    if($jifen > $user_jifen){
+        $awardNum = 0;
+    }
+}
+
 require("award_{$act['tpl']}.php");
 ?>

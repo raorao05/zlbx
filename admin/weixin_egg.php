@@ -11,6 +11,7 @@ switch ($act){
 			$isopen = intval($_POST ['isopen']);
 			$type = intval($_POST ['type']);
 			$num = intval($_POST ['num']);
+            $jifen = intval($_POST ['jifen']);
 			$overymd = getstr($_POST ['overymd']);
 			$tpl = intval($_POST ['tpl']) ? intval($_POST ['tpl']) : 1;
 			if($aid > 0){
@@ -22,7 +23,8 @@ switch ($act){
 					`type`='$type',
 					`tpl`='$tpl',
 					`overymd`='$overymd',
-					`num`='$num'
+					`num`='$num',
+					`jifen`='$jifen'
 					 WHERE `aid`=$aid;" );
 			}else{
 				$ret = $db->query (

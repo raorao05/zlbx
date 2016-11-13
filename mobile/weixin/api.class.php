@@ -216,6 +216,7 @@ class weixinapi{
 		$uid = $this->isBindUser($wxid);
 		if($uid){
 			if($key){
+
 				$sql = "SELECT * FROM ".$GLOBALS['ecs']->table('weixin_keywords')." where `key`='{$key}'";
 				$rs = $GLOBALS['db']->getRow($sql);
 				if($rs && $rs['jf_type']>0 && $rs['jf_num']>0){
@@ -392,7 +393,7 @@ class weixinapi{
 	//统计剩余抽奖次数
 	function getAwardNum($aid){
 		$act = self::checkAward($aid);
-		//print_r($act);
+		//print_r($act);exit;
 		if(!$act) return 0;
 		$uid = $_SESSION['user_id'];
 		if($act['type'] == 1){
@@ -401,18 +402,38 @@ class weixinapi{
 		}else{
 			$sql = "SELECT count(1) FROM " . $GLOBALS['ecs']->table('weixin_actlog') . " WHERE `uid` = '$uid' and aid = '$aid'";
 		}
+        //die($sql);
 		$useNum = $GLOBALS['db']->getOne ( $sql );
 		$num = $act['num']>$useNum ? $act['num']-$useNum : 0;
+        
 		return $num;
 	}
 	//抽奖
 	function doAward($aid){
+        //print_r($_SESSION);exit;
 		$act = self::checkAward($aid);
 		if(!$act) return array('num'=>0,'msg'=>2,'prize'=>"活动不存在！");;
 		$awardNum =$this->getAwardNum($aid);
 		if($awardNum<=0){
 			return array('num'=>0,'msg'=>2,'prize'=>"您的抽奖机会已经用完！");
 		}
+
+        // 查看积分是否足够
+        $jifen = intval($act['jifen']);
+        if($jifen > 0){
+            $uid = $_SESSION['user_id'];
+            $sql = "SELECT pay_points FROM " . $GLOBALS['ecs']->table('users') . " WHERE user_id= '$uid'";
+            $user_jifen  = $GLOBALS['db']->getOne ( $sql );
+            $user_jifen = intval($user_jifen);
+            if($jifen > $user_jifen){
+                return array('num'=>0,'msg'=>2,'prize'=>"积分不足,不能参与抽奖");
+            }else{
+                $user_jifen = $user_jifen - $jifen;
+                $sql = "UPDATE ". $GLOBALS['ecs']->table('users') . " SET pay_points = '$user_jifen' WHERE user_id = '$uid'";
+                $GLOBALS['db']->query($sql);
+            }
+        }
+
 		//$awardNum = $awardNum-1;
 		$time = time();
 		$ymd = date('Y-m-d',$time);
