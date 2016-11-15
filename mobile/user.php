@@ -39,7 +39,7 @@ $smarty->assign('categories',       $categories);  // 分类树
 
 // 不需要登录的操作或自己验证是否登录（如ajax处理）的act
 $not_login_arr =
-array('login','act_login','register','act_register','act_edit_password','get_password','send_pwd_email','password', 'signin', 'add_tag', 'collect', 'return_to_cart', 'logout', 'email_list', 'validate_email', 'send_hash_mail', 'order_query', 'is_registered', 'check_email','clear_history','qpassword_name', 'get_passwd_question', 'check_answer', 'sendsms_zc','yz_username','bangding');
+array('login','act_login','register','captcha','act_register','act_edit_password','get_password','send_pwd_email','password', 'signin', 'add_tag', 'collect', 'return_to_cart', 'logout', 'email_list', 'validate_email', 'send_hash_mail', 'order_query', 'is_registered', 'check_email','clear_history','qpassword_name', 'get_passwd_question', 'check_answer', 'sendsms_zc','yz_username','bangding');
 
 /* 显示页面的action列表 */
 $ui_arr = array('register', 'login', 'profile', 'order_list', 'order_detail', 'address_list', 'collection_list',
@@ -153,6 +153,7 @@ if ($action == 'register')
 
     /* 增加是否关闭注册 */
     $smarty->assign('shop_reg_closed', $_CFG['shop_reg_closed']);
+
 //    $smarty->assign('back_act', $back_act);
     $smarty->display('user_passport.dwt');
 }
@@ -332,68 +333,85 @@ elseif ($action == 'act_register')
 //注册验证码
 elseif ($action =='sendsms_zc'){
         include_once(ROOT_PATH . 'includes/cls_json.php');
-    	$json = new JSON;	
-		$mobile=$_POST['mobile'];
-		$sendnum=isset($_COOKIE[$mobile.'num'])?$_COOKIE[$mobile.'num']:'';
-		if($sendnum==''){
-			$sendnum=1;
-		}else{
-			$sendnum=$sendnum+1;
-		}
-		if($sendnum>5){$result['error']=0;$result['content']='该手机号码已超过指定发送次数!';die($json->encode($result));}
-		//检查是否已存在该用户
-		$sql = "select count(*) from ".$GLOBALS['ecs']->table('users')." where user_name='".$mobile."' or mobile_phone='".$mobile."' LIMIT 1";
-		$num = $GLOBALS['db']->getOne($sql);
-		if($num>0){
-			$result['error']=0;
-			$result['content']=' 此手机号码已注册过!';
-		}else{
-			if(preg_match("/^13[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|14[57]{1}[0-9]{8}$|17[0678][0-9]{8}$|18[0-9][0-9]{8}$/",$mobile)){    
-				//验证通过    
-				$result['error']=1;
-				//生成验证码
-				$code='';
-				for($i=0;$i<6;$i++){
-					$code .= rand(0, 9); 
-				}
-				/*$msg = "加油呗验证码：您本次的验证码为".$code."，请勿泄露，请填写验证码并完成注册。";
-				$msg = iconv('GBK','UTF-8',$msg);
-				//发送验证码
-				include('includes/HttpClient.class.php');
-				$url = "http://14.23.153.70:9999/smshttp";
-				$psw = md5("weixiang");
-				$params = array('act'=>"sendmsg",'unitid'=>"114101",'username'=>"weixiang",'passwd'=>$psw,'msg'=>$msg,'phone'=>$mobile); 
-				$pageContents = HttpClient::quickPost($url, $params);
-                $url = "http://14.23.153.70:9999/smshttp";
-                $msg = '您正在注册中联保险商城会员，验证码：'.$code.'，请勿泄露，请填写验证码并完成注册。';
-                $url=iconv("GBK", "UTF-8", $url);
-                $data = array('act'=>"sendmsg",'unitid'=>"120301",'username'=>"zlbx",
-                    'passwd'=>md5('abcd1234'),'msg'=>$msg,'phone'=>$mobile,'sendtime'=>'');
-                curlPost($url, $data);
-				setcookie($mobile, $code, time()+600);
-				setcookie($mobile.'num',$sendnum,time()+3600);
-				$result['content']=' 短信验证码已发送至手机！';
-                */
-                $url = "http://14.23.153.70:9999/smshttp";
-                $msg = '您正在注册中联保险商城会员，验证码：'.$code.'，请勿泄露，请填写验证码并完成注册。';
-                $url=iconv("GBK", "UTF-8", $url);
-                $data = array('act'=>"sendmsg",'unitid'=>"120301",'username'=>"zlbx",
-                    'passwd'=>md5('abcd@@1234'),'msg'=>$msg,'phone'=>$mobile,'sendtime'=>'');
-                $ret = curlPost($url, $data);
-                if($ret != 0){
-                    $msg = explode(',',$ret);
-                    $result['error'] = 0;
-                    $result['content'] = $msg[2];
-                }else{
-                    setcookie($mobile, $code, time()+600);
-                    setcookie($mobile.'num',$sendnum,time()+3600);
-                    $result['content']=' 短信验证码已发送至手机！';
+    	$json = new JSON;
+        $result = array();
+        if ( (intval($_CFG['captcha']) & CAPTCHA_ADMIN))
+        {
+            include_once(ROOT_PATH . 'includes/cls_captcha.php');
+            /* 检查验证码是否正确 */
+            $validator = new captcha();
+            if (empty($_POST['captcha']) || !$validator->check_word($_POST['captcha']))
+            {
+                $result['error']=0;
+                $result['content']='图形验证码校验失败';
+            }
+        }
+
+        if(isset($result['error']))
+        {
+            die($json->encode($result));
+        }
+        else
+        {
+            $mobile=$_POST['mobile'];
+            $sendnum=isset($_COOKIE[$mobile.'num'])?$_COOKIE[$mobile.'num']:'';
+            if($sendnum=='')
+            {
+                $sendnum=1;
+            }
+            else
+            {
+                $sendnum=$sendnum+1;
+            }
+            if($sendnum>5)
+            {
+                $result['error']=0;$result['content']='该手机号码已超过指定发送次数!';die($json->encode($result));
+            }
+            //检查是否已存在该用户
+            $sql = "select count(*) from ".$GLOBALS['ecs']->table('users')." where user_name='".$mobile."' or mobile_phone='".$mobile."' LIMIT 1";
+            $num = $GLOBALS['db']->getOne($sql);
+            if($num>0)
+            {
+                $result['error']=0;
+                $result['content']=' 此手机号码已注册过!';
+            }
+            else
+            {
+                if (preg_match("/^13[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|14[57]{1}[0-9]{8}$|17[0678][0-9]{8}$|18[0-9][0-9]{8}$/", $mobile))
+                {
+                    //验证通过
+                    $result['error'] = 1;
+                    //生成验证码
+                    $code = '';
+                    for ($i = 0; $i < 6; $i++) {
+                        $code .= rand(0, 9);
+                    }
+                    $url = "http://14.23.153.70:9999/smshttp";
+                    $msg = '您正在注册中联保险商城会员，验证码：' . $code . '，请勿泄露，请填写验证码并完成注册。';
+                    $url = iconv("GBK", "UTF-8", $url);
+                    $data = array('act' => "sendmsg", 'unitid' => "120301", 'username' => "zlbx",
+                        'passwd' => md5('abcd@@1234'), 'msg' => $msg, 'phone' => $mobile, 'sendtime' => '');
+                    $ret = curlPost($url, $data);
+                    if ($ret != 0)
+                    {
+                        $msg = explode(',', $ret);
+                        $result['error'] = 0;
+                        $result['content'] = $msg[2];
+                    }
+                    else
+                    {
+                        setcookie($mobile, $code, time() + 600);
+                        setcookie($mobile . 'num', $sendnum, time() + 3600);
+                        $result['content'] = ' 短信验证码已发送至手机！';
+                    }
                 }
-			}else{    
-				//手机号码格式不对
-				$result['error']=0;
-				$result['content']=' 您输入的手机号码格式不对!';  
-			}   
+                else
+                {
+                    //手机号码格式不对
+                    $result['error'] = 0;
+                    $result['content'] = ' 您输入的手机号码格式不对!';
+                }
+            }
 		}
 		die($json->encode($result));
 }
@@ -407,6 +425,18 @@ elseif ($action == 'yz_username')
 		echo "此登录名已注册！";
 	}
 	exit;
+}
+
+/* 发送短信时需要校验图形验证码 */
+elseif ($action == 'captcha')
+{
+    include(ROOT_PATH . 'includes/cls_captcha.php');
+
+    $img = new captcha(ROOT_PATH .'data/captcha/');
+    @ob_end_clean(); //清除之前出现的多余输入
+    $img->generate_image();
+
+    exit;
 }
 
 /* 验证用户注册邮件 */

@@ -134,7 +134,12 @@ class captcha
         $recorded = isset($_SESSION[$this->session_word]) ? base64_decode($_SESSION[$this->session_word]) : '';
         $given    = $this->encrypts_word(strtoupper($word));
 
-        return (preg_match("/$given/", $recorded));
+        $check = preg_match("/$given/", $recorded);
+        if($check){
+            $_SESSION[$this->session_word] = 'unset';
+        }
+        return $check;
+        //return (preg_match("/$given/", $recorded));
     }
 
     /**

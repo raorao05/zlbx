@@ -119,7 +119,7 @@ $modules['11_system']['08_friendlink_lists']         = 'hzhb.php?act=list';
 $modules['11_system']['08_friendlink_list']         = 'friend_link.php?act=list';
 //$modules['11_system']['sitemap']                    = 'sitemap.php';
 //$modules['11_system']['check_file_priv']            = 'check_file_priv.php?act=check';
-//$modules['11_system']['captcha_manage']             = 'captcha_manage.php?act=main';
+$modules['11_system']['captcha_manage']             = 'captcha_manage.php?act=main';
 $modules['11_system']['ucenter_setup']              = 'integrate.php?act=setup&code=ucenter';
 //$modules['11_system']['flashplay']                  = 'flashplay.php?act=list';
 //$modules['11_system']['navigator']                  = 'navigator.php?act=list';

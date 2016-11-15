@@ -1,19 +1,19 @@
 <!-- $Id: user_info.htm 16854 2009-12-07 06:20:09Z sxc_shop $ -->
 {include file="pageheader.htm"}
 <div class="main-div">
-<form method="post" enctype='multipart/form-data' action="users.php" name="theForm" onsubmit="return validate()">
+<form method="post" enctype='multipart/form-data'  accept=".xlsx" action="users.php" name="theForm" onsubmit="return validate()">
 <table width="100%" >
   <tr>
-    <td class="label">请上传文件:</td>
-    <td><input type="file" name="uploadFile" value="" /></td>
-  </tr>
-  <tr>
+    <td class="label">请上传文件(支持xls和xlsx格式):</td>
+    <td><input type="file" name="uploadFile" value="" onchange="fileChange(this);" /></td>
     <td colspan="2" align="center">
       <input type="submit" value="{$lang.button_submit}" class="button" />
       <input type="reset" value="{$lang.button_reset}" class="button" />
       <input type="hidden" name="act" value="import" />
-      <input type="hidden" name="submit" value="1" />    </td>
+      <input type="hidden" name="submit" value="1" />
+    </td>
   </tr>
+
 </table>
 </form>
 </div>
@@ -45,6 +45,7 @@ function validate()
 
     validator = new Validator("theForm");
     return validator.passed();
+    /*
     validator.isEmail("email", invalid_email, true);
 
     if (document.forms['theForm'].elements['act'].value == "insert")
@@ -80,9 +81,37 @@ function validate()
           }
         }
     }
-
     return validator.passed();
+    */
 }
+
+function fileChange(target) {
+    var fileSize = 0;
+    var isIE = /msie/i.test(navigator.userAgent) && !window.opera;
+    if (isIE && !target.files) {
+        var filePath = target.value;
+        var fileSystem = new ActiveXObject("Scripting.FileSystemObject");
+        var file = fileSystem.GetFile (filePath);
+        fileSize = file.Size;
+    } else {
+        fileSize = target.files[0].size;
+    }
+    var size = fileSize / 1024;
+    if(size>2000){
+        alert("附件不能大于2M");
+        target.value="";
+        return false
+    }
+    var name=target.value;
+    var fileName = name.substring(name.lastIndexOf(".")+1).toLowerCase();
+    if(fileName !="xls" && fileName !="xlsx"){
+        alert("请上传xls,xlsx格式文件");
+        target.value="";
+        return false;
+    }
+    return true;
+}
+
 //-->
 </script>
 {/literal}

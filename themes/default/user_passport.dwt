@@ -59,13 +59,28 @@
     </div>
     <!-- {else} -->
 <script type="text/javascript">
+ var need_captcha = false;
+ {if $enabled_captcha == 1}
+    need_captcha = true;
+ {/if}
 function g(element){return document.getElementById(element);}
 function ksmssend(){
+    if(need_captcha){
+        var captcha = g("captcha").value;
+        if(!captcha){
+            alert('请先输入图形验证码内容！');
+            return false;
+        }
+    }
 	if(!g('mobile').value){
 		alert('手机号码不能为空！');
 		return false;
 	}
-	Ajax.call('user.php?act=sendsms_zc', 'mobile='+g('mobile').value, getksms, 'POST', 'JSON');
+	Ajax.call('user.php?act=sendsms_zc', 'mobile='+g('mobile').value+'&captcha='+captcha, getksms, 'POST', 'JSON');
+	if(need_captcha){
+	    $('#fresh').trigger('click');
+	}
+
 }
 function getksms(data){
 	alert(data.content);
@@ -129,13 +144,26 @@ function lx_type(){
 			  <label>登录名</label><input type="text" name="username" id="username" class="w_dl_in1" onblur="yz_username();" />
 			  <p id="yz_username"></p>
 			 </li>
-			  <li>
-			  <label>手机</label><input type="text" name="mobile" id="mobile" class="w_dl_in1"/>
-			  <div class="w_hqyzm"><a onclick="ksmssend();" title="获取验证码" id="sendsms">获取验证码</a></div>
-			 </li>
 			 <li>
-			  <label>验证码</label><input type="text" name="yzm" class="w_dl_in1"/>
+                <label>手机</label><input type="text" name="mobile" id="mobile" class="w_dl_in1"/>
+             </li>
+			 {if $enabled_captcha == 1}
+               <li>
+                    <label>图片验证码</label>
+                    <input name="captcha" id="captcha" type="text" class="w_dl_in1" />
+                    <div class="w_hqyzm">
+                        <img id='fresh' src="./user.php?act=captcha&{$random}" alt="CAPTCHA" border="1" style="cursor:pointer;padding:20px;border-radius: 5px;" onclick= 'this.src="./user.php?act=captcha&"+Math.random()'>
+                     </div>
+
+                </li>
+             {/if}
+
+
+			 <li>
+			  <label> 短信验证码</label><input type="text" name="yzm" class="w_dl_in1"/>
+			   <div class="w_hqyzm"><a onclick="ksmssend();" title="获取短信验证码" id="sendsms">获取短信验证码</a></div>
 			 </li>
+
 			 <li>
 			  <label>密码</label><input type="text" name="password" class="w_dl_in1"/>
 			 </li>

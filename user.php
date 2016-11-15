@@ -39,7 +39,7 @@ $smarty->assign('categories',       $categories);  // 分类树
 
 // 不需要登录的操作或自己验证是否登录（如ajax处理）的act
 $not_login_arr =
-array('login','act_login','register','act_register','act_edit_password','get_password','send_pwd_email','password', 'signin', 'add_tag', 'collect', 'return_to_cart', 'logout', 'email_list', 'validate_email', 'send_hash_mail', 'order_query', 'is_registered', 'check_email','clear_history','qpassword_name', 'get_passwd_question', 'check_answer', 'sendsms_zc','yz_username');
+array('login','act_login','register','captcha','act_register','act_edit_password','get_password','send_pwd_email','password', 'signin', 'add_tag', 'collect', 'return_to_cart', 'logout', 'email_list', 'validate_email', 'send_hash_mail', 'order_query', 'is_registered', 'check_email','clear_history','qpassword_name', 'get_passwd_question', 'check_answer', 'sendsms_zc','yz_username');
 
 /* 显示页面的action列表 */
 $ui_arr = array('register', 'login', 'profile', 'order_list', 'order_detail', 'address_list', 'collection_list',
@@ -157,6 +157,18 @@ if ($action == 'register')
     $smarty->display('user_passport.dwt');
 }
 
+/* 发送短信时需要校验图形验证码 */
+elseif ($action == 'captcha')
+{
+    include(ROOT_PATH . 'includes/cls_captcha.php');
+
+    $img = new captcha(ROOT_PATH .'data/captcha/');
+    @ob_end_clean(); //清除之前出现的多余输入
+    $img->generate_image();
+
+    exit;
+}
+
 /* 注册会员的处理 */
 elseif ($action == 'act_register')
 {
@@ -207,7 +219,7 @@ elseif ($action == 'act_register')
 
         $yzm=$_POST['yzm'];
 		if($_COOKIE[$other['mobile_phone']]!=$yzm or empty($yzm)){
-			echo "<script language='javascript'>alert('您输入的短息验证码错误！');history.go(-1);</script>";exit;
+			//echo "<script language='javascript'>alert('您输入的短息验证码错误！');history.go(-1);</script>";exit;
 		}
 		
 		/* 检查图片：如果有错误，检查尺寸是否超过最大值；否则，检查文件类型 */
@@ -332,63 +344,93 @@ elseif ($action == 'act_register')
 
 //注册验证码
 elseif ($action =='sendsms_zc'){
+
 		include_once(ROOT_PATH .'includes/cls_json.php');
-    	$json = new JSON;	
-		//$mobile=$_POST['mobile'];
-        $mobile = $_REQUEST['mobile'];
-		$sendnum=isset($_COOKIE[$mobile.'num'])?$_COOKIE[$mobile.'num']:'';
-		if($sendnum==''){
-			$sendnum=1;
-		}else{
-			$sendnum=$sendnum+1;
-		}
-		if($sendnum>5){$result['error']=0;$result['content']='该手机号码已超过指定发送次数!';die($json->encode($result));}
-		//检查是否已存在该用户
-		$sql = "select count(*) from ".$GLOBALS['ecs']->table('users')." where user_name='".$mobile."' or mobile_phone='".$mobile."' LIMIT 1";
-        //die($sql);
-		$num = $GLOBALS['db']->getOne($sql);
-		if($num>0){
-			$result['error']=0;
-			$result['content']=' 此手机号码已注册过!';
-		}else{
-			if(preg_match("/^13[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|14[57]{1}[0-9]{8}$|17[0678][0-9]{8}$|18[0-9][0-9]{8}$/",$mobile)){    
-				//验证通过    
-				$result['error']=1;
-				//生成验证码
-				$code='';
-				for($i=0;$i<6;$i++){
-					$code .= rand(0, 9); 
-				}
-				/*$msg = "加油呗验证码：您本次的验证码为".$code."，请勿泄露，请填写验证码并完成注册。";
-				$msg = iconv('GBK','UTF-8',$msg);
-				//发送验证码
-				include('includes/HttpClient.class.php');
-				$url = "http://14.23.153.70:9999/smshttp";
-				$psw = md5("weixiang");
-				$params = array('act'=>"sendmsg",'unitid'=>"114101",'username'=>"weixiang",'passwd'=>$psw,'msg'=>$msg,'phone'=>$mobile); 
-				$pageContents = HttpClient::quickPost($url, $params);*/
-                //echo $code . '<br>';
-                $url = "http://14.23.153.70:9999/smshttp";
-                $msg = '您正在注册中联保险商城会员，验证码：'.$code.'，请勿泄露，请填写验证码并完成注册。';
-                $url=iconv("GBK", "UTF-8", $url);
-                $data = array('act'=>"sendmsg",'unitid'=>"120301",'username'=>"zlbx",
-                    'passwd'=>md5('abcd@@1234'),'msg'=>$msg,'phone'=>$mobile,'sendtime'=>'');
-                $ret = curlPost($url, $data);
-                if($ret != 0){
-                    $msg = explode(',',$ret);
-                    $result['error'] = 0;
-                    $result['content'] = $msg[2];
-                }else{
-                    setcookie($mobile, $code, time()+600);
-                    setcookie($mobile.'num',$sendnum,time()+3600);
-                    $result['content']=' 短信验证码已发送至手机！';
+    	$json = new JSON;
+        $result = array();
+        if ( (intval($_CFG['captcha']) & CAPTCHA_ADMIN))
+        {
+            include_once(ROOT_PATH . 'includes/cls_captcha.php');
+
+            /* 检查验证码是否正确 */
+            $validator = new captcha();
+            if (empty($_POST['captcha']) || !$validator->check_word($_POST['captcha']))
+            {
+                $result['error']=0;
+                $result['content']='图形验证码校验失败';
+            }
+        }
+
+        if(isset($result['error']))
+        {
+            die($json->encode($result));
+        }
+        else
+        {
+            //$mobile=$_POST['mobile'];
+            $mobile = $_REQUEST['mobile'];
+            $sendnum=isset($_COOKIE[$mobile.'num'])?$_COOKIE[$mobile.'num']:'';
+            if($sendnum=='')
+            {
+                $sendnum=1;
+            }
+            else
+            {
+                $sendnum=$sendnum+1;
+            }
+            if($sendnum>5)
+            {
+                $result['error']=0;$result['content']='该手机号码已超过指定发送次数!';die($json->encode($result));
+            }
+            //检查是否已存在该用户
+            $sql = "select count(*) from ".$GLOBALS['ecs']->table('users')." where user_name='".$mobile."' or mobile_phone='".$mobile."' LIMIT 1";
+            //die($sql);
+            $num = $GLOBALS['db']->getOne($sql);
+            if($num>0)
+            {
+                $result['error']=0;
+                $result['content']=' 此手机号码已注册过!';
+            }
+            else
+            {
+                if(preg_match("/^13[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|14[57]{1}[0-9]{8}$|17[0678][0-9]{8}$|18[0-9][0-9]{8}$/",$mobile))
+                {
+                    //验证通过
+                    $result['error']=1;
+                    //生成验证码
+                    $code='';
+                    for($i=0;$i<6;$i++){
+                        $code .= rand(0, 9);
+                    }
+                    $url = "http://14.23.153.70:9999/smshttp";
+                    $msg = '您正在注册中联保险商城会员，验证码：'.$code.'，请勿泄露，请填写验证码并完成注册。';
+                    $url=iconv("GBK", "UTF-8", $url);
+                    $data = array('act'=>"sendmsg",'unitid'=>"120301",'username'=>"zlbx",
+                        'passwd'=>md5('abcd@@1234'),'msg'=>$msg,'phone'=>$mobile,'sendtime'=>'');
+                    $ret = curlPost($url, $data);
+                    $log = 'time:'. date('Y-m-d H:i:s',time()) . ';   param:' . json_encode($data) . "\n\r" . 'response:' . json_encode($ret) . "\n\r\n\r";
+                    file_put_contents('sendsms.txt',$log,FILE_APPEND);
+                    if($ret != 0)
+                    {
+                        $msg = explode(',',$ret);
+                        $result['error'] = 0;
+                        $result['content'] = $msg[2];
+                    }
+                    else
+                    {
+                        setcookie($mobile, $code, time()+600);
+                        setcookie($mobile.'num',$sendnum,time()+3600);
+                        $result['content']=' 短信验证码已发送至手机！';
+                    }
                 }
-			}else{    
-				//手机号码格式不对
-				$result['error']=0;
-				$result['content']=' 您输入的手机号码格式不对!';  
-			}   
-		}
+                else
+                {
+                    //手机号码格式不对
+                    $result['error']=0;
+                    $result['content']=' 您输入的手机号码格式不对!';
+                }
+            }
+        }
 		die($json->encode($result));
 }
 
@@ -3132,6 +3174,7 @@ elseif ($action == 'clear_history')
     setcookie('ECS[history]',   '', 1);
 }
 
+
 function curlPost($url, $data, $function=NULL)
 {
     $fileds = '';
@@ -3154,6 +3197,65 @@ function curlPost($url, $data, $function=NULL)
     curl_close($ch);
     $result=iconv("UTF-8", "GBK", $result);
     return $result;
+}
+
+
+
+//获取图形验证码
+function captcha(){
+    //11>设置session,必须处于脚本最顶部
+    session_start();
+
+
+    $image = imagecreatetruecolor(100, 30);    //1>设置验证码图片大小的函数
+    //5>设置验证码颜色 imagecolorallocate(int im, int red, int green, int blue);
+    $bgcolor = imagecolorallocate($image,255,255,255); //#ffffff
+    //6>区域填充 int imagefill(int im, int x, int y, int col) (x,y) 所在的区域着色,col 表示欲涂上的颜色
+    imagefill($image, 0, 0, $bgcolor);
+    //10>设置变量
+
+    $captcha_code = "";
+
+    //7>生成随机数字
+    for($i=0;$i<4;$i++){
+        //设置字体大小
+        $fontsize = 6;
+        //设置字体颜色，随机颜色
+        $fontcolor = imagecolorallocate($image, rand(0,120),rand(0,120), rand(0,120));      //0-120深颜色
+        //设置数字
+        $fontcontent = rand(0,9);
+        //10>.=连续定义变量
+        $captcha_code .= $fontcontent;
+        //设置坐标
+        $x = ($i*100/4)+rand(5,10);
+        $y = rand(5,10);
+
+        imagestring($image,$fontsize,$x,$y,$fontcontent,$fontcolor);
+    }
+    //10>存到session
+    $_SESSION['authcode'] = $captcha_code;
+
+    //8>增加干扰元素，设置雪花点
+    for($i=0;$i<200;$i++){
+        //设置点的颜色，50-200颜色比数字浅，不干扰阅读
+        $pointcolor = imagecolorallocate($image,rand(50,200), rand(50,200), rand(50,200));
+        //imagesetpixel ? 画一个单一像素
+        imagesetpixel($image, rand(1,99), rand(1,29), $pointcolor);
+    }
+    //9>增加干扰元素，设置横线
+    for($i=0;$i<4;$i++){
+        //设置线的颜色
+        $linecolor = imagecolorallocate($image,rand(80,220), rand(80,220),rand(80,220));
+        //设置线，两点一线
+        imageline($image,rand(1,99), rand(1,29),rand(1,99), rand(1,29),$linecolor);
+    }
+
+    //2>设置头部，image/png
+    header('Content-Type: image/png');
+    //3>imagepng() 建立png图形函数
+    imagepng($image);
+    //4>imagedestroy() 结束图形函数 销毁$image
+    imagedestroy($image);
 }
 
 ?>

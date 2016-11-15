@@ -80,7 +80,7 @@ class imgupload{
     function save(){
         $this->check_path();
         $this->check_size();
-        $this->check_type();
+        //$this->check_type();
         $this->up_photo();
         $this->showphoto();
     }
