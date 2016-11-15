@@ -29,6 +29,7 @@
       <th><a href="javascript:listTable.sort('end_time'); ">{$lang.end_time}</a>{$sort_end_time}</th>
       <th>{$lang.min_amount}</th>
       <th>{$lang.max_amount}</th>
+      <th>最低购买商品数</th>
       <th><a href="javascript:listTable.sort('sort_order'); ">{$lang.sort_order}</a>{$sort_sort_order}</th>
       <th>{$lang.handler}</th>
     </tr>
@@ -41,6 +42,7 @@
       <td align="right">{$favourable.end_time}</td>
       <td align="right">{$favourable.min_amount}</td>
       <td align="right">{$favourable.max_amount}</td>
+        <td align="right">{$favourable.goods_count}</td>
       <td align="center"><span onclick="listTable.edit(this, 'edit_sort_order', {$favourable.act_id})">{$favourable.sort_order}</span></td>
       <td align="center">
         <a href="favourable.php?act=edit&amp;id={$favourable.act_id}" title="{$lang.edit}"><img src="images/icon_edit.gif" border="0" height="16" width="16" /></a>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>汽车保险--中联保险 </title>
+    <meta name="author" content="中联保险 ">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="description" content="中联保险">
+    <meta name="keywords" content="中联保险">
+    <meta name="author" content="中联保险">
+    <meta http-equiv="Expires" CONTENT="-1">
+    <meta http-equiv="Cache-Control" CONTENT="no-cache">
+    <meta http-equiv="Pragma" CONTENT="no-cache">
+    <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+    <link href="/css/jquery-ui-min.css" rel="stylesheet">
+    <script src="/js/jquery-1.9.1.min.js"></script>
+    <script src="/js/jquery-ui.min.js" ></script>
+
+    <style>
+        body {
+            font-family: "Trebuchet MS", "Helvetica", "Arial",  "Verdana", "sans-serif";
+            font-size: 62.5%;
+        }
+
+    </style>
+
+<body>
+
+    <div id="dialog-confirm" title="微信授权成功">
+        <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>您可以直接创建微信账号 或者绑定系统老账号</p>
+    </div>
+
+    <script>
+
+        $(function(){
+            $( "#dialog-confirm" ).dialog({
+                resizable: false,
+                height:140,
+                modal: true,
+                buttons: {
+                    "直接创建": function() {
+                        window.location.href = 'user.php?act=act_login_direct';
+                    },
+                    "绑定老账号": function() {
+                        window.location.href = 'user.php?act=login';
+                    }
+                },
+                close: function(event, ui){
+                    window.location.href = 'user.php?act=login';
+                }
+            });
+        })
+
+    </script>
+</body>
+</html>

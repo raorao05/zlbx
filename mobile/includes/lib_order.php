@@ -2451,12 +2451,14 @@ function compute_discount()
     /* 循环计算每个优惠活动的折扣 */
     foreach ($favourable_list as $favourable)
     {
+        $goods_count = 0;
         $total_amount = 0;
         if ($favourable['act_range'] == FAR_ALL)
         {
             foreach ($goods_list as $goods)
             {
                 $total_amount += $goods['subtotal'];
+                $goods_count += 1;
             }
         }
         elseif ($favourable['act_range'] == FAR_CATEGORY)
@@ -2475,6 +2477,7 @@ function compute_discount()
                 if (strpos(',' . $ids . ',', ',' . $goods['cat_id'] . ',') !== false)
                 {
                     $total_amount += $goods['subtotal'];
+                    $goods_count += 1;
                 }
             }
         }
@@ -2485,6 +2488,7 @@ function compute_discount()
                 if (strpos(',' . $favourable['act_range_ext'] . ',', ',' . $goods['brand_id'] . ',') !== false)
                 {
                     $total_amount += $goods['subtotal'];
+                    $goods_count += 1;
                 }
             }
         }
@@ -2504,7 +2508,9 @@ function compute_discount()
         }
 
         /* 如果金额满足条件，累计折扣 */
-        if ($total_amount > 0 && $total_amount >= $favourable['min_amount'] && ($total_amount <= $favourable['max_amount'] || $favourable['max_amount'] == 0))
+        $condition_1 = ($total_amount > 0 && $total_amount >= $favourable['min_amount'] && ($total_amount <= $favourable['max_amount'] || $favourable['max_amount'] == 0));
+        $condition_2 = ($goods_count >= $favourable['max_amount'] );
+        if ($condition_1 || $condition_2)
         {
             if ($favourable['act_type'] == FAT_DISCOUNT)
             {

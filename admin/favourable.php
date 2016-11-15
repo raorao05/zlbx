@@ -175,6 +175,7 @@ elseif ($_REQUEST['act'] == 'add' || $_REQUEST['act'] == 'edit')
             'act_range_ext' => '',
             'min_amount'    => 0,
             'max_amount'    => 0,
+            'goods_count'   => 0,
             'act_type'      => FAT_GOODS,
             'act_type_ext'  => 0,
             'gift'          => array()
@@ -295,6 +296,16 @@ elseif ($_REQUEST['act'] == 'insert' || $_REQUEST['act'] == 'update')
         sys_msg($_LANG['amount_error']);
     }
 
+    /* 检查商品数量*/
+    if(isset($_POST['goods_count']) && !is_numeric($_POST['goods_count'])){
+        sys_msg('商品数量必须是整数');
+    }
+    $goods_count = floatval($_POST['$goods_count']) >= 0 ? floatval($_POST['$goods_count']) : 0;
+    if ($max_amount > 0 && $min_amount > $max_amount)
+    {
+        sys_msg($_LANG['amount_error']);
+    }
+
     /* 取得赠品 */
     $gift = array();
     if (intval($_POST['act_type']) == FAT_GOODS && isset($_POST['gift_id']))
@@ -316,6 +327,7 @@ elseif ($_REQUEST['act'] == 'insert' || $_REQUEST['act'] == 'update')
         'act_range_ext' => intval($_POST['act_range']) == 0 ? '' : join(',', $_POST['act_range_ext']),
         'min_amount'    => floatval($_POST['min_amount']),
         'max_amount'    => floatval($_POST['max_amount']),
+        'goods_count'   => floatval($_POST['goods_count']),
         'act_type'      => intval($_POST['act_type']),
         'act_type_ext'  => floatval($_POST['act_type_ext']),
         'gift'          => serialize($gift)

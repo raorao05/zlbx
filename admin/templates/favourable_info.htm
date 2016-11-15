@@ -51,6 +51,11 @@
     <td><input name="max_amount" type="text" id="max_amount" value="{$favourable.max_amount}">
     {$lang.notice_max_amount}</td>
   </tr>
+    <tr>
+        <td class="label">илф╥йЩ╤Нобоч</td>
+        <td><input name="goods_count" type="text" id="goods_count" value="{$favourable.goods_count}">
+            0╠Мй╬ц╩спилф╥йЩа©се╩щ</td>
+    </tr>
   <tr>
     <td class="label"><a href="javascript:showNotice('NoticeActType');" title="{$lang.form_notice}">
         <img src="images/notice.gif" width="16" height="16" border="0" alt="{$lang.form_notice}"></a>{$lang.label_act_type}</td>
@@ -100,13 +105,13 @@
 <!--
 onload = function()
 {
-    // О©╫О©╫й╪О©╫О©╫И╤╘О©╫О©╫
+    // О©╫О©╫й╪О©╫О©╫И╤╘О©╫О©?
     startCheckOrder();
 //    changeRange(document.forms['theForm'].elements['act_range'].value);
 //    changeType(document.forms['theForm'].elements['act_type'].value);
 }
 /**
- * О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫
+ * О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©?
  */
 function validate()
 {
@@ -114,6 +119,7 @@ function validate()
     validator.required('act_name', act_name_not_null);
     validator.isNumber('min_amount', min_amount_not_number, true);
     validator.isNumber('max_amount', max_amount_not_number, true);
+    validator.isNumber('goods_count', max_amount_not_number, true);
     validator.isNumber('act_type_ext', act_type_ext_not_number, true);
     validator.islt('start_time', 'end_time', start_lt_end);
     if (document.forms['theForm'].elements['max_amount'].value > 0)
@@ -202,7 +208,7 @@ function addRange()
   var id = selResult.options[selResult.selectedIndex].value;
   var name = selResult.options[selResult.selectedIndex].text;
 
-  // О©╫О©╫О©╫О©╫г╥О©╫О©╫я╬О©╫О©╫О©╫О©╫О©╫
+  // О©╫О©╫О©╫О©╫г╥О©╫О©╫я╬О©╫О©╫О©╫О©╫О©?
   var exists = false;
   var eles = document.forms['theForm'].elements;
   for (var i = 0; i < eles.length; i++)
@@ -287,7 +293,7 @@ function addGift()
   var id = selResult.options[selResult.selectedIndex].value;
   var name = selResult.options[selResult.selectedIndex].text;
 
-  // О©╫О©╫О©╫О©╫г╥О©╫О©╫я╬О©╫О©╫О©╫О©╫О©╫
+  // О©╫О©╫О©╫О©╫г╥О©╫О©╫я╬О©╫О©╫О©╫О©╫О©?
   var exists = false;
   var eles = document.forms['theForm'].elements;
   for (var i = 0; i < eles.length; i++)

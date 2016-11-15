@@ -39,7 +39,7 @@ $smarty->assign('categories',       $categories);  // 分类树
 
 // 不需要登录的操作或自己验证是否登录（如ajax处理）的act
 $not_login_arr =
-array('login','act_login','register','captcha','act_register','act_edit_password','get_password','send_pwd_email','password', 'signin', 'add_tag', 'collect', 'return_to_cart', 'logout', 'email_list', 'validate_email', 'send_hash_mail', 'order_query', 'is_registered', 'check_email','clear_history','qpassword_name', 'get_passwd_question', 'check_answer', 'sendsms_zc','yz_username','bangding');
+array('login','act_login','act_login_direct','register','captcha','act_register','act_edit_password','get_password','send_pwd_email','password', 'signin', 'add_tag', 'collect', 'return_to_cart', 'logout', 'email_list', 'validate_email', 'send_hash_mail', 'order_query', 'is_registered', 'check_email','clear_history','qpassword_name', 'get_passwd_question', 'check_answer', 'sendsms_zc','yz_username','bangding');
 
 /* 显示页面的action列表 */
 $ui_arr = array('register', 'login', 'profile', 'order_list', 'order_detail', 'address_list', 'collection_list',
@@ -579,6 +579,92 @@ elseif ($action == 'act_login')
     {
         @$_SESSION['login_fail'] ++ ;
         show_message($_LANG['login_failure'], $_LANG['relogin_lnk'], 'user.php', 'error');
+    }
+}
+
+/* 微信直接登录 */
+elseif ($action == 'act_login_direct')
+{
+    $openid = isset($_COOKIE['sopenid']) ? $_COOKIE['sopenid'] : '';
+    if($openid)
+    {
+        $sql = "SELECT * FROM".$ecs->table('users')." where wx_open_id = '".$openid."'";
+        $row = $db->getRow($sql);
+        if($row)
+        {
+            $_SESSION['user_id'] = $row['user_id'];
+            show_message($_LANG['login_success'] . $ucdata , array($_LANG['back_up_page'], $_LANG['profile_lnk']), array($back_act,'user.php'), 'info');
+        }
+        else
+        {
+            include_once(ROOT_PATH . 'includes/lib_passport.php');
+            /* 创建账号 */
+            $username = isset($_COOKIE['nickname']) ? $_COOKIE['nickname'] : $openid;
+            $password = '123456';
+            $email = '';
+            if (register($username, $password, $email, $other) !== false)
+            {
+                /*把新注册用户的扩展信息插入数据库*/
+                $sql = 'SELECT id FROM ' . $ecs->table('reg_fields') . ' WHERE type = 0 AND display = 1 ORDER BY dis_order, id';   //读出所有自定义扩展字段的id
+                $fields_arr = $db->getAll($sql);
+
+                $extend_field_str = '';    //生成扩展字段的内容字符串
+                foreach ($fields_arr AS $val)
+                {
+                    $extend_field_index = 'extend_field' . $val['id'];
+                    if(!empty($_POST[$extend_field_index]))
+                    {
+                        $temp_field_content = strlen($_POST[$extend_field_index]) > 100 ? mb_substr($_POST[$extend_field_index], 0, 99) : $_POST[$extend_field_index];
+                        $extend_field_str .= " ('" . $_SESSION['user_id'] . "', '" . $val['id'] . "', '" . compile_str($temp_field_content) . "'),";
+                    }
+                }
+                $extend_field_str = substr($extend_field_str, 0, -1);
+
+                if ($extend_field_str)      //插入注册扩展数据
+                {
+                    $sql = 'INSERT INTO '. $ecs->table('reg_extend_info') . ' (`user_id`, `reg_field_id`, `content`) VALUES' . $extend_field_str;
+                    $db->query($sql);
+                }
+
+                /* 写入密码提示问题和答案 */
+                if (!empty($passwd_answer) && !empty($sel_question))
+                {
+                    $sql = 'UPDATE ' . $ecs->table('users') . " SET `passwd_question`='$sel_question', `passwd_answer`='$passwd_answer'  WHERE `user_id`='" . $_SESSION['user_id'] . "'";
+                    $db->query($sql);
+                }
+                /* 判断是否需要自动发送注册邮件 */
+                if ($GLOBALS['_CFG']['member_email_validate'] && $GLOBALS['_CFG']['send_verify_email'])
+                {
+                    send_regiter_hash($_SESSION['user_id']);
+                }
+                if($_COOKIE['sopenid']){
+                    //$sql="UPDATE ".  $ecs->table('user') ." SET wx_open_id =".$_COOKIE['sopenid']." WHERE user_id=".$_SESSION['user_id'];
+                    $sql="UPDATE ".  $ecs->table('users') ." SET wx_open_id ='".$_COOKIE['sopenid']."' WHERE user_id=".$_SESSION['user_id'];
+                    $db->query($sql);
+                }
+                if($_COOKIE['nickname']){
+                    $sql="UPDATE ".  $ecs->table('users') ." SET alias ='".$_COOKIE['nickname']."' WHERE user_id=".$_SESSION['user_id'];
+                    $db->query($sql);
+                }
+                if($_COOKIE['avatar']){
+                    $sql="UPDATE ".  $ecs->table('users') ." SET avatar ='".$_COOKIE['avatar']."' WHERE user_id=".$_SESSION['user_id'];
+                    $db->query($sql);
+                }
+                if($_COOKIE['sex']){
+                    $sql="UPDATE ".  $ecs->table('users') ." SET sex ='".$_COOKIE['sex']."' WHERE user_id=".$_SESSION['user_id'];
+                    $db->query($sql);
+                }
+                $ucdata = empty($user->ucdata)? "" : $user->ucdata;
+                //show_message(sprintf($_LANG['register_success'], $username . $ucdata), array($_LANG['back_up_page'], $_LANG['profile_lnk']), array($back_act, 'user.php'), 'info');
+                //show_message($_LANG['login_success'] . $ucdata , array($_LANG['back_home'], 'index.php'), array($back_act,'user.php'), 'info');
+                show_message($_LANG['login_success'] . $ucdata , array($_LANG['back_home'], $_LANG['profile_lnk']), array('/','index.php'), 'info');
+            }
+            else
+            {
+                $err->show($_LANG['sign_up'], 'user.php?act=register');
+            }
+
+        }
     }
 }
 

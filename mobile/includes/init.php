@@ -219,6 +219,11 @@ if(strpos($_SERVER['HTTP_USER_AGENT'],'MicroMessenger'))
 
     function httpGet($url) {
         $curl = curl_init();
+        $header = array(
+            "content-type" => "application/x-www-form-urlencoded",
+            "charset" => "UTF8"
+        );
+        curl_setopt($curl,CURLOPT_HTTPHEADER,$header);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_TIMEOUT, 500);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
@@ -230,57 +235,72 @@ if(strpos($_SERVER['HTTP_USER_AGENT'],'MicroMessenger'))
     }
 
 
-//微信appid
-    $appid = 'wx2c0db652b5b5b41c';
-    $secret ='717ecbe36a79e26523f211e3f4c00e7b';
-    $openid=$_COOKIE['sopenid'];
 
-    //debug用
-    //$openid = 'o3zeNwYpBnrHoknYwVK7PVOOlvo11234';
-    //setcookie("sopenid",'717ecbe36a79e26523f211e3f4c00e7b',time()+864000,"/");
-    //setcookie("nickname",'nickname123',time()+864000,"/");
-    //setcookie("sex",2,time()+864000,"/");
-    //setcookie("avatar",'http://wx.qlogo.cn/mmopen/PiajxSqBRaEIibjAsicLJSLP5egWpq51ASsr8djhBo0JibaicYQibicotBUiaU7doDXjIl65oMcs2bqZJNVAN3ibZ12G2eg/0',time()+864000,"/");
+    if(!$_SESSION['user_id']){
+        //微信appid
+        $appid = 'wx2c0db652b5b5b41c';
+        $secret ='717ecbe36a79e26523f211e3f4c00e7b';
+        $openid=$_COOKIE['sopenid'];
+
+        //debug用
+        /*
+        $openid = '717ecbe36a79e26523f211e3f4c00e7bdddd1';
+        setcookie("sopenid",'717ecbe36a79e26523f211e3f4c00e7bdddd1',time()+864000,"/");
+        setcookie("nickname",'nickname123',time()+864000,"/");
+        setcookie("sex",2,time()+864000,"/");
+        setcookie("avatar",'http://wx.qlogo.cn/mmopen/PiajxSqBRaEIibjAsicLJSLP5egWpq51ASsr8djhBo0JibaicYQibicotBUiaU7doDXjIl65oMcs2bqZJNVAN3ibZ12G2eg/0',time()+864000,"/");
+        */
 
 
-    if(!$openid){
-        $code=isset($_GET['code'])?$_GET['code']:null;
-        $url = get_url();
-        if($code==null){
-            $str="https://open.weixin.qq.com/connect/oauth2/authorize?appid={$appid}&redirect_uri=".$url."&scope=snsapi_userinfo&state=123&response_type=code#wechat_redirect";
-            header ("Location:".$str);
-        }else{
-            $str="https://api.weixin.qq.com/sns/oauth2/access_token?appid={$appid}&secret={$secret}&code=".$code."&grant_type=authorization_code";
-            /*$ch = curl_init() ;
-            curl_setopt($ch, CURLOPT_URL, $str);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
-            curl_setopt($ch, CURLOPT_HEADER, FALSE);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); //将curl_exec()获取的信息以文件流的形式返回，而不是直接输出。
-            $output = curl_exec($ch);*/
-            $output=httpGet($str);
-            $output=json_decode($output,true);
-            setcookie("sopenid",$output['openid'],time()+864000,"/");
-            $openid=$output['openid'];
-            $access_token=$output['access_token'];
-            $str="https://api.weixin.qq.com/sns/userinfo?access_token={$access_token}&openid={$openid}&lang=zh_CN ";
-            $output=httpGet($str);
-            $output=json_decode($output,true);
+        if(!$openid){
+            $code=isset($_GET['code'])?$_GET['code']:null;
+            $url = get_url();
+            if($code==null){
+                $str="https://open.weixin.qq.com/connect/oauth2/authorize?appid={$appid}&redirect_uri=".$url."&scope=snsapi_userinfo&state=123&response_type=code#wechat_redirect";
+                header ("Location:".$str);
+            }else{
+                $str="https://api.weixin.qq.com/sns/oauth2/access_token?appid={$appid}&secret={$secret}&code=".$code."&grant_type=authorization_code";
+                /*$ch = curl_init() ;
+                curl_setopt($ch, CURLOPT_URL, $str);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+                curl_setopt($ch, CURLOPT_HEADER, FALSE);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); //将curl_exec()获取的信息以文件流的形式返回，而不是直接输出。
+                $output = curl_exec($ch);*/
+                $output=httpGet($str);
+                $output=json_decode($output,true);
+                setcookie("sopenid",$output['openid'],time()+864000,"/");
+                $openid=$output['openid'];
+                $access_token=$output['access_token'];
+                $str="https://api.weixin.qq.com/sns/userinfo?access_token={$access_token}&openid={$openid}&lang=zh_CN ";
+                $output=httpGet($str);
+                $output=json_decode($output,true);
 
-            //用户个人资料写cookie
-            setcookie("nickname",$output['nickname'],time()+864000,"/");
-            setcookie("sex",$output['sex'],time()+864000,"/");
-            setcookie("avatar",$output['headimgurl'],time()+864000,"/");
+
+                $nickname = iconv("utf-8//IGNORE","gbk",$output['nickname']);
+
+
+                //用户个人资料写cookie
+                setcookie("nickname",$nickname,time()+864000,"/");
+                setcookie("sex",$output['sex'],time()+864000,"/");
+                setcookie("avatar",$output['headimgurl'],time()+864000,"/");
+            }
+        }
+        if($openid){
+            $sql = "SELECT * FROM".$ecs->table('users')." where wx_open_id = '".$openid."'";
+            $row = $db->getRow($sql);
+            if($row){
+                $_SESSION['user_id']=$row['user_id'];
+                recalculate_price();
+            }else{
+                if(!isset($_REQUEST['act'])){
+                    $smarty->display('login_choice.html');
+                    exit;
+                }
+
+            }
         }
     }
-    if($openid){
-        $sql = "SELECT * FROM".$ecs->table('users')." where wx_open_id = '".$openid."'";
-        $row = $db->getRow($sql);
-        if($row){
-            $_SESSION['user_id']=$row['user_id'];
-            recalculate_price();
 
-        }
-    }
 }
 ?>
