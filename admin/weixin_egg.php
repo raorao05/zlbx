@@ -121,37 +121,49 @@ function qcode_list(){
     //兑奖码
 	$keywords = empty($_REQUEST['keywords']) ? '' : trim($_REQUEST['keywords']);
 	if($keywords){
-		$where = " and " . $GLOBALS['ecs']->table('weixin_actlog') . ".code like '%{$keywords}%'";
+		$where .= " and " . $GLOBALS['ecs']->table('weixin_actlog') . ".code like '%{$keywords}%'";
 	}
 
     //奖品名
     $prizename = empty($_REQUEST['prizename']) ? '' : trim($_REQUEST['prizename']);
     if($prizename){
-        $where = " and " . $GLOBALS['ecs']->table('weixin_actlog') . ".class_name like '%{$prizename}%'";
+        $prizename = iconv('utf-8//IGNORE','gbk',$prizename);
+        $where .= " and " . $GLOBALS['ecs']->table('weixin_actlog') . ".class_name like '%{$prizename}%'";
     }
 
     //中奖时间
     $use_start_date = empty($_REQUEST['use_start_date']) ? '' : trim($_REQUEST['use_start_date']);
     if($use_start_date){
-        $where = " and " . $GLOBALS['ecs']->table('weixin_actlog') . ".createymd = '{$use_start_date}'";
+        $where .= " and " . $GLOBALS['ecs']->table('weixin_actlog') . ".createymd = '{$use_start_date}'";
     }
 
     //活动名称
-    $activename = empty($_REQUEST['$activename']) ? '' : trim($_REQUEST['$activename']);
+    $activename = empty($_REQUEST['activename']) ? '' : trim($_REQUEST['activename']);
     if($activename){
-        $where = " and " . $GLOBALS['ecs']->table('weixin_act') . ".title like '%{$activename}%'";
+        $activename = iconv('utf-8//IGNORE','gbk',$activename);
+        $where .= " and " . $GLOBALS['ecs']->table('weixin_act') . ".title = '{$activename}'";
     }
+
+
 
     //兑奖截止时间
     $use_end_date = empty($_REQUEST['use_end_date']) ? '' : trim($_REQUEST['use_end_date']);
     if($use_end_date){
-        $where = " and " . $GLOBALS['ecs']->table('weixin_act') . ".overymd = '{$use_end_date}'";
+        $where .= " and " . $GLOBALS['ecs']->table('weixin_act') . ".overymd = '{$use_end_date}'";
     }
 
     //是否开奖
     $is_send = empty($_REQUEST['is_send']) ? '' : trim($_REQUEST['is_send']);
     if($is_send){
-        $where = " and " . $GLOBALS['ecs']->table('weixin_actlog') . ".issend = '$is_send'";
+        $where .= " and " . $GLOBALS['ecs']->table('weixin_actlog') . ".issend = '$is_send'";
+    }
+
+
+    //用户账号
+    $username = empty($_REQUEST['username']) ? '' : trim($_REQUEST['username']);
+    if($username){
+        $username = iconv('utf-8//IGNORE','gbk',$username);
+        $where .= " and " . $GLOBALS['ecs']->table('users') . ".user_name like '%{$username}%'";
     }
 
 
@@ -159,12 +171,14 @@ function qcode_list(){
 	$sql =  $GLOBALS['ecs']->table('weixin_actlog') . " left join " . $GLOBALS['ecs']->table('users') ." on " . $GLOBALS['ecs']->table('weixin_actlog') . ".uid=" . $GLOBALS['ecs']->table('users') . ".user_id left join " . $GLOBALS['ecs']->table('weixin_act') . " on " . $GLOBALS['ecs']->table('weixin_actlog') . ".aid=" . $GLOBALS['ecs']->table('weixin_act') . ".aid
 		where code!='' {$where} order by lid desc";
 
+    //die($sql);
+
 
 	$filter['record_count'] = $GLOBALS['db']->getOne("SELECT COUNT(*) FROM " . $GLOBALS['ecs']->table('weixin_actlog'));
 	$filter = page_and_size($filter);
 	$filter['start'] = intval($filter['start']);
 	$filter['page_size'] = intval($filter['page_size']);
-    
+
 
 	$user_list = $GLOBALS['db']->getAll("SELECT " . $GLOBALS['ecs']->table('weixin_actlog') . ".*," . $GLOBALS['ecs']->table('users') . ".user_name as nickname," . $GLOBALS['ecs']->table('weixin_act') . ".title,". $GLOBALS['ecs']->table('weixin_act') .".overymd FROM".$sql." limit {$filter['start']},{$filter['page_size']}");
 	$arr = array(

@@ -12,7 +12,7 @@
 
         奖项名称：<input type="text" name="prizename" />
         活动名称：<input type="text" name="activename" />
-        用户账号：<input type="text" name="nickname" />
+        用户账号：<input type="text" name="username" />
         兑奖码：&nbsp;&nbsp;  <input type="text" name="keyword" /> <br><br>
         中奖时间：<input name="use_start_date" type="text" id="use_start_date" size="22" value='' onfocus="return showCalendar('use_start_date', '%Y-%m-%d', false, false, 'use_start_date');"/>
         兑奖截止时间：<input name="use_end_date" type="text" id="use_end_date" size="22" value='' onfocus="return showCalendar('use_end_date', '%Y-%m-%d', false, false, 'use_end_date');" /><br><br>
@@ -126,7 +126,7 @@
         listTable.filter['keywords']       = Utils.trim(document.forms['searchForm'].elements['keyword'].value);
         listTable.filter['prizename']      = Utils.trim(document.forms['searchForm'].elements['prizename'].value);
         listTable.filter['activename']     = Utils.trim(document.forms['searchForm'].elements['activename'].value);
-        listTable.filter['nickname']       = Utils.trim(document.forms['searchForm'].elements['nickname'].value);
+        listTable.filter['username']       = Utils.trim(document.forms['searchForm'].elements['username'].value);
         listTable.filter['use_end_date']   = Utils.trim(document.forms['searchForm'].elements['use_end_date'].value);
         listTable.filter['use_start_date'] = Utils.trim(document.forms['searchForm'].elements['use_start_date'].value);
         listTable.filter['is_send']        = Utils.trim(document.forms['searchForm'].elements['is_send'].value);
