@@ -699,12 +699,14 @@ elseif ($_REQUEST['step'] == 'checkout')
     {
         // 取得用户可用红包
         $user_bonus = user_bonus($_SESSION['user_id'], $total['goods_price']);
+
         if (!empty($user_bonus))
         {
             foreach ($user_bonus AS $key => $val)
             {
                 $user_bonus[$key]['bonus_money_formated'] = price_format($val['type_money'], false);
             }
+            //print_r($user_bonus);
             $smarty->assign('bonus_list', $user_bonus);
         }
 
@@ -1160,10 +1162,13 @@ elseif ($_REQUEST['step'] == 'change_bonus')
     /* 获得收货人信息 */
     $consignee = get_consignee($_SESSION['user_id']);
 
+
     /* 对商品信息赋值 */
     $cart_goods = cart_goods($flow_type); // 取得商品列表，计算合计
 
-    if (empty($cart_goods) || !check_consignee_info($consignee, $flow_type))
+
+    //if (empty($cart_goods) || !check_consignee_info($consignee, $flow_type))
+    if (empty($cart_goods) )
     {
         $result['error'] = $_LANG['no_goods_in_cart'];
     }
@@ -1176,7 +1181,6 @@ elseif ($_REQUEST['step'] == 'change_bonus')
         $order = flow_order_info();
 
         $bonus = bonus_info(intval($_GET['bonus']));
-
         if ((!empty($bonus) && $bonus['user_id'] == $_SESSION['user_id']) || $_GET['bonus'] == 0)
         {
             $order['bonus_id'] = intval($_GET['bonus']);

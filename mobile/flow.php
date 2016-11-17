@@ -1163,7 +1163,8 @@ elseif ($_REQUEST['step'] == 'change_bonus')
     /* 对商品信息赋值 */
     $cart_goods = cart_goods($flow_type); // 取得商品列表，计算合计
 
-    if (empty($cart_goods) || !check_consignee_info($consignee, $flow_type))
+    //if (empty($cart_goods) || !check_consignee_info($consignee, $flow_type))
+    if (empty($cart_goods) )
     {
         $result['error'] = $_LANG['no_goods_in_cart'];
     }

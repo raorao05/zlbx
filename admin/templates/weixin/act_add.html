@@ -1,16 +1,28 @@
 {include file="pageheader.htm"}
-{insert_scripts files="../js/utils.js,listtable.js"}
+{insert_scripts files="../js/utils.js,listtable.js,jquery.js"}
 <div class="list-div" id="listDiv">
-    <form name="theForm" method="post" action="weixin_egg.php?act=add&aid={$smarty.get.aid}&lid={$actList.lid}">
+    <form name="theForm" method="post" action="weixin_egg.php?act=add&aid={$smarty.get.aid}&lid={$actList.lid}" onsubmit="return my_submit()">
         <table width="100%">
             <tbody>
             <tr>
                 <td class="label">奖项名称 :</td>
-                <td><input type="text" name="title" value="{$actList.title}"/></td>
+                <td><input type="text" id="title" name="title" value="{$actList.title}"/></td>
+            </tr>
+            <tr>
+                <td class="label">奖品类型 :</td>
+                <td>
+                    <select id="prize_type" name="prize_type">
+                        <option value ="1" {if $actList.awardtype eq 1}selected{/if}>实物</option>
+                        <option value ="2" {if $actList.awardtype eq 2}selected{/if}>红包</option>
+                    </select>
+                </td>
             </tr>
             <tr>
                 <td class="label">奖品名称 :</td>
-                <td><input type="text" name="awardname" value="{$actList.awardname}"/></td>
+                <td id="prize_name">
+                    <input type="text" id="awardname" name="awardname" value="{$actList.awardname}"/>
+                </td>
+                <input type="hidden" id="bonus_type_id" name="bonus_type_id" value=""/>
             </tr>
             <tr>
                 <td class="label">奖项状态 :</td>
@@ -19,11 +31,11 @@
             </tr>
             <tr>
                 <td class="label">奖项数量 :</td>
-                <td><input type="text" name="num" value="{$actList.num}" /></td>
+                <td><input type="text" id="num" name="num" value="{$actList.num}" /></td>
             </tr>
             <tr>
                 <td class="label">中奖概率 :</td>
-                <td><input type="text" name="randnum" value="{$actList.randnum}" />%</td>
+                <td><input type="text" id="randnum" name="randnum" value="{$actList.randnum}" />%</td>
             </tr>
             <tr>
                 <td colspan="2" align="center">
@@ -34,4 +46,82 @@
             </tbody></table>
     </form>
 </div>
+<script>
+    var bonus_type_id = "{$actList.bonus_type_id}";
+    $(function(){
+        var prize_type = $('#prize_type option:selected').val();
+        //console.log(prize_type);
+        if(prize_type == 2){
+            $('#prize_name').html();
+            $('#prize_type').trigger('change');
+        }
+    })
+    $('#prize_type').change(function(){
+        var option = $('#prize_type option:selected').val();
+        if(option == 2){
+            var select = '<select name="awardname" id="awardname">';
+            //获取系统已经存在的红包类型
+            $.getJSON('bonus.php?act=ajax_list',function(data){
+                if(data.length == 0){
+                    select = '<span>系统尚未具备红包类型,请点击 <a style="color:red" href="bonus.php?act=add">这里</a> 添加后再设置奖项</span>';
+                }else{
+                    for(var i=0 ;i < data.length; i++){
+                        console.log(data[i].type_id,bonus_type_id);
+                        if(data[i].type_id == bonus_type_id){
+                            select += '<option selected value="' + decodeURI(data[i].type_name) + '" bonus_type_id="' + data[i].type_id + '">' + decodeURI(data[i].type_name) + '</option>';
+                        }else{
+                            select += '<option value="' + decodeURI(data[i].type_name) + '" bonus_type_id="' + data[i].type_id + '">' + decodeURI(data[i].type_name) + '</option>';
+                        }
+
+                    }
+                }
+                $('#prize_name').html(select);
+                //$(#prize_name)
+            })
+
+        }else{
+            var input = '<input type="text" name="awardname" id="awardname" value="{$actList.awardname}"/>'
+            $('#prize_name').html(input);
+        }
+    })
+
+    function my_submit(){
+        var title = $('#title').val();
+        if(!title){
+            alert('请输入奖项名称');
+            return false;
+        }
+        var awardname = $('#awardname').val();
+        if(!awardname){
+            alert('请输入奖品名称');
+            return false;
+        }
+        var num = $('#num').val();
+        if(!num){
+            alert('请输入奖项数量');
+            return false;
+        }else{
+            if(!(/^(\+|-)?\d+$/.test( num ))){
+                alert("奖项数量必须是正整数！");
+                return false;
+            }
+        }
+        var randnum = $('#randnum').val();
+        if(!randnum){
+            alert('请输入中奖概率');
+            return false;
+        }else if(isNaN(randnum)){
+            alert('中奖概率必须是数字');
+            return false;
+        }
+
+        var prize_type = $('#prize_type').val();
+        if(prize_type == 2){
+            var bonus_type_id = $('#awardname option:selected').attr('bonus_type_id');
+            $('#bonus_type_id').val(bonus_type_id);
+        }
+        return true;
+    }
+
+</script>
 {include file="pagefooter.htm"}

@@ -343,6 +343,27 @@ function get_back(msg){
              <strong>{$payment.pay_name}</strong>
               手续费：{$payment.format_pay_fee}</span>
             <!-- {/foreach} 循环支付方式 -->
+               <div class="flowBox">
+                  <h6><span>{$lang.other_info}</span></h6>
+                    <table width="99%" align="center" border="0" cellpadding="5" cellspacing="1" bgcolor="#dddddd">
+                          <!-- {if $allow_use_bonus} 是否使用红包 -->
+                          <tr>
+                            <td bgcolor="#ffffff"><strong>{$lang.use_bonus}:</strong></td>
+                            <td bgcolor="#ffffff">
+                              {$lang.select_bonus}
+                              <select name="bonus" onchange="changeBonus(this.value)" id="ECS_BONUS" style="border:1px solid #ccc;">
+                                <option value="0" {if $order.bonus_id eq 0}selected{/if}>{$lang.please_select}</option>
+                                <!-- {foreach from=$bonus_list item=bonus} -->
+                                <option value="{$bonus.bonus_id}" {if $order.bonus_id eq $bonus.bonus_id}selected{/if}>{$bonus.type_name}[{$bonus.bonus_money_formated}]</option>
+                                <!-- {/foreach} -->
+                              </select>
+                            </td>
+                          </tr>
+                          <!-- {/if} 是否使用红包 -->
+
+
+                        </table>
+                 </div>
   </div>
   <div class="w_qrxx_2">
   

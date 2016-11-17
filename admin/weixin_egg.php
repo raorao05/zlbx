@@ -59,13 +59,15 @@ switch ($act){
 		$randnum = round($_POST ['randnum'],2);
 		$isopen = intval($_POST ['isopen']);
 		$num = intval($_POST ['num']);
+        $awardtype = intval($_POST['prize_type']);
+        $bonus_type_id = intval($_POST['bonus_type_id']);
 		if($lid > 0){
 			$actList = $db->getRow ( "SELECT * FROM  " . $ecs->table('weixin_actlist') . "  where lid=$lid" );
 			$smarty->assign ( 'actList', $actList );
-			$sql = "update ". $ecs->table('weixin_actlist') ."  set title='$title',randnum=$randnum,num=$num,isopen=$isopen,awardname='$awardname' where lid=$lid";
+			$sql = "update ". $ecs->table('weixin_actlist') ."  set title='$title',randnum=$randnum,num=$num,isopen=$isopen,awardname='$awardname',awardtype='$awardtype',bonus_type_id='$bonus_type_id' where lid=$lid";
 		}else{
-			$sql = "insert into ". $ecs->table('weixin_actlist') ."  (title,randnum,isopen,num,aid,awardname)
-			value ('$title','$randnum','$isopen','$num',$aid,'$awardname')";
+			$sql = "insert into ". $ecs->table('weixin_actlist') ."  (title,randnum,isopen,num,aid,awardname,awardtype,bonus_type_id)
+			value ('$title','$randnum','$isopen','$num',$aid,'$awardname','$awardtype','$bonus_type_id')";
 		}
 		if($_POST){
 			$ret = $db->query($sql);

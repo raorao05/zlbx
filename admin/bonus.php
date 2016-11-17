@@ -54,6 +54,32 @@ if ($_REQUEST['act'] == 'list')
 }
 
 /*------------------------------------------------------ */
+//-- 红包类型列表页面,返回ajax请求
+/*------------------------------------------------------ */
+if ($_REQUEST['act'] == 'ajax_list')
+{
+
+
+    $list = get_type_list();
+    $items = $list['item'];
+    $ret = array();
+    foreach($items as $k => $v)
+    {
+        if($v['send_type'] == 0)
+        {
+            $v['send_start_date'] = date('Y-m-d',$v['send_start_date']);
+            $v['send_end_date']   = date('Y-m-d',$v['send_end_date']);
+            $v['use_start_date']  = date('Y-m-d',$v['use_start_date']);
+            $v['use_end_date']    = date('Y-m-d',$v['use_end_date']);
+            $v['type_name']       = urlencode(iconv("gbk","utf-8//IGNORE",$v['type_name']));
+            $ret[$k] = $v;
+        }
+    }
+    echo json_encode($ret);
+    exit;
+}
+
+/*------------------------------------------------------ */
 //-- 翻页、排序
 /*------------------------------------------------------ */
 
@@ -799,6 +825,7 @@ if ($_REQUEST['act'] == 'bonus_list')
     assign_query_info();
     $smarty->display('bonus_list.htm');
 }
+
 
 /*------------------------------------------------------ */
 //-- 红包列表翻页、排序

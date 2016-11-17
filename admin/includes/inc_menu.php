@@ -37,13 +37,13 @@ $modules['02_cat_and_goods']['11_goods_trash']      = 'goods.php?act=trash';    
 //$modules['02_cat_and_goods']['goods_auto']             = 'goods_auto.php?act=list';
 
 
-/*$modules['03_promotion']['02_snatch_list']          = 'snatch.php?act=list';
+/*$modules['03_promotion']['02_snatch_list']          = 'snatch.php?act=list';*/
 $modules['03_promotion']['04_bonustype_list']       = 'bonus.php?act=list';
-$modules['03_promotion']['06_pack_list']            = 'pack.php?act=list';
-$modules['03_promotion']['07_card_list']            = 'card.php?act=list';
-$modules['03_promotion']['08_group_buy']            = 'group_buy.php?act=list';
-$modules['03_promotion']['09_topic']                = 'topic.php?act=list';
-$modules['03_promotion']['10_auction']              = 'auction.php?act=list';*/
+//$modules['03_promotion']['06_pack_list']            = 'pack.php?act=list';
+//$modules['03_promotion']['07_card_list']            = 'card.php?act=list';
+//$modules['03_promotion']['08_group_buy']            = 'group_buy.php?act=list';
+//$modules['03_promotion']['09_topic']                = 'topic.php?act=list';
+//$modules['03_promotion']['10_auction']              = 'auction.php?act=list';
 $modules['03_promotion']['08_group_buy']            = 'group_buy.php?act=list';
 $modules['03_promotion']['12_favourable']           = 'favourable.php?act=list';
 $modules['03_promotion']['16_favourable']           = 'weixin_egg.php?act=list';

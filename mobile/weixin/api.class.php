@@ -466,12 +466,21 @@ class weixinapi{
 	}
 	function randAward($aid){
 		//if(intval(rand(1,5)) != 1) return false;
-		$actList = $GLOBALS['db']->getAll ( "SELECT title,lid,randnum,awardname,num FROM ".$GLOBALS['ecs']->table('weixin_actlist')." where aid=$aid and isopen=1 and num>num2 order by num desc" );
+		$actList = $GLOBALS['db']->getAll ( "SELECT * FROM ".$GLOBALS['ecs']->table('weixin_actlist')." where aid=$aid and isopen=1 and num>num2 order by num desc" );
 		if($actList){
 			foreach($actList as $v){
 				if(intval(rand(1,10000)) <= $v['randnum']*100){
 					$v['code'] = uniqid();
 					$GLOBALS['db']->query("update " . $GLOBALS['ecs']->table('weixin_actlist') . " set num2=num2+1 where lid={$v['lid']}");
+					if($v['awardtype'] == 2){
+                        /* 向会员红包表录入数据 */
+                        $user_id = $_SESSION['user_id'];
+                        $bonus_type_id = $v['bonus_type_id'];
+                        $sql = "INSERT INTO " . $GLOBALS['ecs']->table('user_bonus') .
+                            "(bonus_type_id, bonus_sn, user_id, used_time, order_id, emailed) " .
+                            "VALUES ('$bonus_type_id', 0, '$user_id', 0, 0, " .BONUS_MAIL_SUCCEED. ")";
+                        $GLOBALS['db']->query($sql);
+					}
 					return $v;
 				}
 			}

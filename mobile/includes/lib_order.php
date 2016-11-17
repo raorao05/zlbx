@@ -858,12 +858,21 @@ function get_order_sn()
  */
 function cart_goods($type = CART_GENERAL_GOODS,$rec_id='')
 {
-    $sql = "SELECT rec_id, user_id, goods_id, goods_name, goods_sn, goods_number, " .
+    if($rec_id){
+        $sql = "SELECT rec_id, user_id, goods_id, goods_name, goods_sn, goods_number, " .
             "market_price, goods_price, goods_attr, is_real, extension_code, parent_id, is_gift, is_shipping,insure_id, " .
             "goods_price * goods_number AS subtotal " .
             "FROM " . $GLOBALS['ecs']->table('cart') .
             " WHERE session_id = '" . SESS_ID . "' " .
             "AND rec_type = '$type' and rec_id=$rec_id";
+    }else{
+        $sql = "SELECT rec_id, user_id, goods_id, goods_name, goods_sn, goods_number, " .
+            "market_price, goods_price, goods_attr, is_real, extension_code, parent_id, is_gift, is_shipping,insure_id, " .
+            "goods_price * goods_number AS subtotal " .
+            "FROM " . $GLOBALS['ecs']->table('cart') .
+            " WHERE session_id = '" . SESS_ID . "' " .
+            "AND rec_type = '$type' ";
+    }
 
     $arr = $GLOBALS['db']->getRow($sql);
 
