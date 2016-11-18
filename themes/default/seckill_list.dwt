@@ -13,7 +13,11 @@
 <link rel="icon" href="animated_favicon.gif" type="image/gif" />
 <link href="{$ecs_css_path}" rel="stylesheet" type="text/css" />
 <link href="/css/w_css.css" type="text/css" rel="stylesheet" />
+<link href="/css/jquery.countdown.css" type="text/css" rel="stylesheet" />
 <script type="text/javascript" src="/js/jquery.js"></script>
+<script type="text/javascript" src="/js/jquery.plugin.js"></script>
+<script type="text/javascript" src="/js/jquery.countdown.js"></script>
+
 {* 包含脚本文件 *}
 {insert_scripts files='common.js,lefttime.js'}
 
@@ -325,8 +329,8 @@ fieldset, img, button, input {
 </style>
 
 <!-- {if $gb_list} 如果有团购活动 -->
-<!-- {foreach from=$gb_list item=seckill} 循环团购活动开始 -->
-<div id="v:deals_div" class="miaosha_wrap" style="margin:5px auto;">
+<!-- {foreach from=$gb_list key=index item=seckill} 循环团购活动开始 -->
+<div id="v:deals_div_{$index}" class="miaosha_wrap" style="margin:5px auto;">
 <div class="tuan_detail last">
 
 <div class="index_tuan_tit">
@@ -355,13 +359,32 @@ fieldset, img, button, input {
 <div class="tuan_countdown">
 {if $seckill.cur_status eq 0}
 <h4 id="v:endtitle_193146">秒杀开始时间</h4>
+
+
+<!--
 <p class="end_time" id="v:endtime_193146" style="display:none"></p>
 <p id="v:lefttime_193146" style="">
+
 <span class="item"><span id="v:leftday_193146" class="day">{$seckill.surplus_day}</span>天</span>
 <span class="item"><span id="v:lefthour_193146" class="hour_num">{$seckill.surplus_hour}</span>时</span>
 <span class="item"><span id="v:leftminute_193146" class="minute_num">{$seckill.surplus_minute}</span>分</span>
 <span class="item"><span class="second_num" ><span id="v:leftsecond_193146" class="bg_millisecond">{$seckill.surplus_seconds}</span></span>秒</span>
 </p>
+-->
+
+
+<p id="defaultCountdown{$index}"></p>
+
+
+
+<script>
+    $(function(){
+        var austDay{$index} = new Date();
+        austDay{$index} = new Date('{$seckill.formated_start_date}');
+        $('#defaultCountdown{$index}').countdown({until: austDay{$index},padZeroes:true,significant:4,format:'Y-O-D H:M:S'});
+    })
+</script>
+
 {elseif $seckill.cur_status eq 1}
 <p style="font-weight:bold; height:100px; line-height:100px; font-size:14px; text-align:center;">秒杀活动正在进行...</p>
 {else $seckill.cur_status eq 2}
@@ -436,5 +459,7 @@ fieldset, img, button, input {
 <!--友情链接 end-->
 <div class="blank"></div>
 <!-- #BeginLibraryItem "/library/page_footer.lbi" --><!-- #EndLibraryItem -->
+
+
 </body>
 </html>
