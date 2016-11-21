@@ -39,7 +39,7 @@ $smarty->assign('categories',       $categories);  // 分类树
 
 // 不需要登录的操作或自己验证是否登录（如ajax处理）的act
 $not_login_arr =
-array('login','act_login','act_login_direct','register','captcha','act_register','act_edit_password','get_password','send_pwd_email','password', 'signin', 'add_tag', 'collect', 'return_to_cart', 'logout', 'email_list', 'validate_email', 'send_hash_mail', 'order_query', 'is_registered', 'check_email','clear_history','qpassword_name', 'get_passwd_question', 'check_answer', 'sendsms_zc','yz_username','bangding');
+array('clear','login','act_login','act_login_direct','register','captcha','act_register','act_edit_password','get_password','send_pwd_email','password', 'signin', 'add_tag', 'collect', 'return_to_cart', 'logout', 'email_list', 'validate_email', 'send_hash_mail', 'order_query', 'is_registered', 'check_email','clear_history','qpassword_name', 'get_passwd_question', 'check_answer', 'sendsms_zc','yz_username','bangding');
 
 /* 显示页面的action列表 */
 $ui_arr = array('register', 'login', 'profile', 'order_list', 'order_detail', 'address_list', 'collection_list',
@@ -3314,6 +3314,18 @@ elseif ($action == 'clear_history')
     setcookie('ECS[history]',   '', 1);
 }
 
+/* 清除所有的cookie */
+
+elseif ($action == 'clear')
+{
+    $openid = $_COOKIE['sopenid'];
+    $nickname = $_COOKIE['nickname'];
+    setcookie("nickname",'',time()-3600,"/");
+    setcookie("sopenid",'',time()-3600,"/");
+    setcookie("sex",'',time()-3600,"/");
+    setcookie("avatar",'',time()-3600,"/");
+    echo $openid . '<br>' . $nickname;
+}
 function curlPost($url, $data, $function=NULL)
 {
     $fileds = '';

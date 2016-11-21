@@ -219,11 +219,6 @@ if(strpos($_SERVER['HTTP_USER_AGENT'],'MicroMessenger'))
 
     function httpGet($url) {
         $curl = curl_init();
-        $header = array(
-            "content-type" => "application/x-www-form-urlencoded",
-            "charset" => "UTF8"
-        );
-        curl_setopt($curl,CURLOPT_HTTPHEADER,$header);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_TIMEOUT, 500);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
@@ -260,24 +255,33 @@ if(strpos($_SERVER['HTTP_USER_AGENT'],'MicroMessenger'))
                 header ("Location:".$str);
             }else{
                 $str="https://api.weixin.qq.com/sns/oauth2/access_token?appid={$appid}&secret={$secret}&code=".$code."&grant_type=authorization_code";
-                /*$ch = curl_init() ;
-                curl_setopt($ch, CURLOPT_URL, $str);
-                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-                curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
-                curl_setopt($ch, CURLOPT_HEADER, FALSE);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); //将curl_exec()获取的信息以文件流的形式返回，而不是直接输出。
-                $output = curl_exec($ch);*/
                 $output=httpGet($str);
                 $output=json_decode($output,true);
                 setcookie("sopenid",$output['openid'],time()+864000,"/");
+
+                /* 清除历史旧cookie */
+//                setcookie("nickname",'',time()-3600,"/");
+//                setcookie("sex",'',time()-3600,"/");
+//                setcookie("avatar",'',time()-3600,"/");
+
                 $openid=$output['openid'];
                 $access_token=$output['access_token'];
+
+                /* 刷新access_token
+                $refresh_token=$output['refresh_token'];
+                $str = "https://api.weixin.qq.com/sns/oauth2/refresh_token?appid={$appid}&grant_type=refresh_token&refresh_token={$refresh_token}";
+                $data=httpGet($str);
+                $data=json_decode($data,true);
+                $access_token = $data['access_token'];
+                */
+
                 $str="https://api.weixin.qq.com/sns/userinfo?access_token={$access_token}&openid={$openid}&lang=zh_CN ";
                 $output=httpGet($str);
                 $output=json_decode($output,true);
 
 
                 $nickname = iconv("utf-8//IGNORE","gbk",$output['nickname']);
+                file_put_contents('userinfo.txt',$str. "\n\r" . $nickname."\n\r" . $output['nickname'] . "\n\r",FILE_APPEND);
 
 
                 //用户个人资料写cookie
