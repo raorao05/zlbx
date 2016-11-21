@@ -10,7 +10,16 @@
         <input name="start_date" type="text" id="start_date" size="15" value='{$start_date}' readonly="readonly" /><input name="selbtn1" type="button" id="selbtn1" onclick="return showCalendar('start_date', '%Y-%m-%d', false, false, 'selbtn1');" value="{$lang.btn_select}" class="button"/>&nbsp;&nbsp;
         {$lang.end_date}&nbsp;
         <input name="end_date" type="text" id="end_date" size="15" value='{$end_date}' readonly="readonly" /><input name="selbtn2" type="button" id="selbtn2" onclick="return showCalendar('end_date', '%Y-%m-%d', false, false, 'selbtn2');" value="{$lang.btn_select}" class="button"/>&nbsp;&nbsp;
-        <input type="submit" name="submit" value="{$lang.query}" class="button" />
+          用户类型&nbsp;
+          <select name="user_type" />
+          <option value="0" selected>全部</option>
+          <option value="1">普通注册用户</option>
+          <option value="2">代理人</option>
+          </select>
+
+          用户账号&nbsp;
+          <input name="user_name" type="text" id="user_name" size="15">
+          <input type="submit" name="submit" value="{$lang.query}" class="button" />
       </form>
     </div>
     <form method="POST" action="" name="listForm">
@@ -23,7 +32,7 @@
          <th>订单数量</th>
          <th>保费合计</th>
          <th>保费合计排名</th>
-         <th>备注</th>
+
 
     </tr>
   {foreach from=$goods_sales_list  item=list}
@@ -73,6 +82,8 @@ function getList()
     listTable.filter['start_date'] = frm.elements['start_date'].value;
     listTable.filter['end_date'] = frm.elements['end_date'].value;
     listTable.filter['page'] = 1;
+    listTable.filter['user_type'] = frm.elements['user_type'].value;
+    listTable.filter['user_name'] = frm.elements['user_name'].value;
     listTable.loadList();
     getDownUrl();
 }
@@ -89,8 +100,10 @@ function getDownUrl()
         var frm =  document.forms['TimeInterval'];
         listTable.filter['start_date'] = frm.elements['start_date'].value;
         listTable.filter['end_date'] = frm.elements['end_date'].value;
+          listTable.filter['user_type'] = frm.elements['user_type'].value;
+          listTable.filter['user_name'] = frm.elements['user_name'].value;
       }
-      aTags[i].href = "business_product_stat.php?act=download&start_date=" + listTable.filter['start_date'] + "&end_date=" + listTable.filter['end_date'];
+      aTags[i].href = "business_product_stat.php?act=download&start_date=" + listTable.filter['start_date'] + "&end_date=" + listTable.filter['end_date'] + "&user_type=" + listTable.filter['user_type'] + '&user_name=' + listTable.filter['user_name'];
     }
   }
 }

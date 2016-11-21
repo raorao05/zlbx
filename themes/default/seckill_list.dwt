@@ -379,9 +379,10 @@ fieldset, img, button, input {
 
 <script>
     $(function(){
+        var end = '<p style="font-weight:bold; height:100px; line-height:100px; font-size:14px; text-align:center;">秒杀活动正在进行...</p>';
         var austDay{$index} = new Date();
         austDay{$index} = new Date('{$seckill.formated_start_date}');
-        $('#defaultCountdown{$index}').countdown({until: austDay{$index},padZeroes:true,significant:4,format:'Y-O-D H:M:S'});
+        $('#defaultCountdown{$index}').countdown({until: austDay{$index},padZeroes:true,significant:4,format:'Y-O-D H:M:S',expiryText:end});
     })
 </script>
 

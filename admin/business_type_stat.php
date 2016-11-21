@@ -48,7 +48,7 @@ if (isset($_REQUEST['act']) && ($_REQUEST['act'] == 'query' ||  $_REQUEST['act']
         echo ecs_iconv(EC_CHARSET, 'GB2312', '订单数量') . "\t";
         echo ecs_iconv(EC_CHARSET, 'GB2312', '保费合计') . "\t";
         echo ecs_iconv(EC_CHARSET, 'GB2312', '保费合计排名') . "\t";
-        echo ecs_iconv(EC_CHARSET, 'GB2312', '备注') . "\t";
+        echo ecs_iconv(EC_CHARSET, 'GB2312', '用户类型') . "\t";
         echo "\n";
 
 
@@ -59,7 +59,18 @@ if (isset($_REQUEST['act']) && ($_REQUEST['act'] == 'query' ||  $_REQUEST['act']
             echo ecs_iconv(EC_CHARSET, 'GB2312', $value['total_orders']) . "\t";
             echo ecs_iconv(EC_CHARSET, 'GB2312', $value['money']) . "\t";
             echo ecs_iconv(EC_CHARSET, 'GB2312', $value['id']) . "\t";
-            echo ecs_iconv(EC_CHARSET, 'GB2312', '') . "\t";
+            if($user_type == 0)
+            {
+                echo ecs_iconv(EC_CHARSET, 'GB2312', '全部用户') . "\t";
+            }
+            else if($user_type == 1)
+            {
+                echo ecs_iconv(EC_CHARSET, 'GB2312', '普通注册用户') . "\t";
+            }
+            else if($user_type == 2)
+            {
+                echo ecs_iconv(EC_CHARSET, 'GB2312', '代理人') . "\t";
+            }
             echo "\n";
         }
         exit;
@@ -132,12 +143,36 @@ else
  */
 function get_sale_list($is_pagination = true){
 
+    $sale_list_data = array(
+        array(
+            'id' => 0,
+            'cat_name' => '',
+            'total_orders' => 0,
+            'money' => 0,
+            'id' => 0
+        )
+    );
 
-    $sale_list_data = array();
     /* 时间参数 */
     $filter['start_date'] = empty($_REQUEST['start_date']) ? local_strtotime('-7 days') : local_strtotime($_REQUEST['start_date']);
     $filter['end_date'] = empty($_REQUEST['end_date']) ? local_strtotime('today') : local_strtotime($_REQUEST['end_date']);
 
+    /* 是否区分代理人和普通注册用户 */
+    $filter['user_type'] = empty($_REQUEST['user_type']) ? 0 : $_REQUEST['user_type'];
+
+    /* 用户账号 */
+    $filter['user_name'] = empty($_REQUEST['user_name']) ? '' : $_REQUEST['user_name'];
+
+    $user_id = '';
+    if($filter['user_name'])
+    {
+        $sql = "SELECT user_id FROM " . $GLOBALS['ecs']->table('users') . "WHERE user_name = '" . $filter['user_name'] . "'";
+        $user_id = $GLOBALS['db']->getOne($sql);
+        if(!$user_id)
+        {
+            $user_id = '123456789';
+        }
+    }
 
 
     /* 获取所有下属一级分类的产品 */
@@ -145,8 +180,10 @@ function get_sale_list($is_pagination = true){
     $sql = "SELECT * FROM  `shop_category` WHERE  `parent_id` = '$cat_id'";
     $cat_list_level1 = $GLOBALS['db']->getAll($sql);
 
-    if($cat_list_level1) {
-        foreach ($cat_list_level1 as $k => $v) {
+    if($cat_list_level1)
+    {
+        foreach ($cat_list_level1 as $k => $v)
+        {
             $sale_list_data[$k]['cat_id'] = $v['cat_id'];
             $sale_list_data[$k]['cat_name'] = $v['cat_name'];
 
@@ -154,27 +191,86 @@ function get_sale_list($is_pagination = true){
 
             //获取该分类下所有的goods_id
             $child_good_id_lists = '';
-            foreach ($d as $key => $item) {
+            foreach ($d as $key => $item)
+            {
                 $child_id = $item['cat_id'];
                 $sql = "SELECT goods_id FROM " . $GLOBALS['ecs']->table('goods') . "WHERE cat_id = '$child_id'";
 
                 $m = $GLOBALS['db']->getAll($sql);
 
-                foreach ($m as $n) {
+                foreach ($m as $n)
+                {
                     $child_good_id_lists .= $n['goods_id'] . ',';
                 }
 
             }
             $child_good_id_lists = trim($child_good_id_lists, ',');
-            if ($child_good_id_lists) {
-                /* 查询数据的条件 */
-                $where = " WHERE og.order_id = oi.order_id" . order_query_sql('finished', 'oi.') .
-                    "  AND oi.add_time >= '" . $filter['start_date'] . "' AND oi.add_time < ' " . ($filter['end_date'] + 86400) .
-                    "' AND og.goods_id in ($child_good_id_lists)";
+            if ($child_good_id_lists)
+            {
+                if($filter['user_type'])
+                {
+                    if ($filter['user_type'] == '2')
+                    {
+                        if($user_id)
+                        {
+                            $where = " WHERE og.order_id = oi.order_id" . order_query_sql('finished', 'oi.') .
+                                "  AND oi.add_time >= '" . $filter['start_date'] . "' AND oi.add_time < ' " . ($filter['end_date'] + 86400) .
+                                "' AND og.goods_id in ($child_good_id_lists)" .
+                                " AND oi.user_id=u.user_id AND u.user_rank='2' AND oi.user_id='$user_id'" ;
+
+                        }
+                        else
+                        {
+                            $where = " WHERE og.order_id = oi.order_id" . order_query_sql('finished', 'oi.') .
+                                "  AND oi.add_time >= '" . $filter['start_date'] . "' AND oi.add_time < ' " . ($filter['end_date'] + 86400) .
+                                "' AND og.goods_id in ($child_good_id_lists)" .
+                                " AND oi.user_id=u.user_id AND u.user_rank='2'" ;
+                        }
+                    }
+                    else if($filter['user_type'] == '1')
+                    {
+                        if($user_id)
+                        {
+                            $where = " WHERE og.order_id = oi.order_id" . order_query_sql('finished', 'oi.') .
+                                "  AND oi.add_time >= '" . $filter['start_date'] . "' AND oi.add_time < ' " . ($filter['end_date'] + 86400) .
+                                "' AND og.goods_id in ($child_good_id_lists)" .
+                                " AND oi.user_id=u.user_id AND u.user_rank <> '2' AND oi.user_id='$user_id'" ;
+
+                        }
+                        else
+                        {
+                            $where = " WHERE og.order_id = oi.order_id" . order_query_sql('finished', 'oi.') .
+                                "  AND oi.add_time >= '" . $filter['start_date'] . "' AND oi.add_time < ' " . ($filter['end_date'] + 86400) .
+                                "' AND og.goods_id in ($child_good_id_lists)" .
+                                " AND oi.user_id=u.user_id AND u.user_rank <> '2'" ;
+                        }
+                    }
+
+                }
+                else
+                {
+                    if($user_id)
+                    {
+                        $where = " WHERE og.order_id = oi.order_id" . order_query_sql('finished', 'oi.') .
+                            "  AND oi.add_time >= '" . $filter['start_date'] . "' AND oi.add_time < ' " . ($filter['end_date'] + 86400) .
+                            "' AND og.goods_id in ($child_good_id_lists)" .
+                            " AND oi.user_id=u.user_id  AND oi.user_id='$user_id'" ;
+
+                    }
+                    else
+                    {
+                        $where = " WHERE og.order_id = oi.order_id" . order_query_sql('finished', 'oi.') .
+                            "  AND oi.add_time >= '" . $filter['start_date'] . "' AND oi.add_time < ' " . ($filter['end_date'] + 86400) .
+                            "' AND og.goods_id in ($child_good_id_lists)" .
+                            " AND oi.user_id=u.user_id " ;
+                    }
+                }
+
 
                 $sql = "SELECT COUNT(og.goods_id) FROM " .
                     $GLOBALS['ecs']->table('order_info') . ' AS oi,' .
-                    $GLOBALS['ecs']->table('order_goods') . ' AS og ' .
+                    $GLOBALS['ecs']->table('order_goods') . ' AS og, ' .
+                    $GLOBALS['ecs']->table('users') . 'AS u' .
                     $where;
                 $total_orders = $GLOBALS['db']->getOne($sql);
 
@@ -182,27 +278,34 @@ function get_sale_list($is_pagination = true){
                 $filter = page_and_size($filter);
 
 
-                $sql = "SELECT SUM(oi.order_amount) AS money FROM " . $GLOBALS['ecs']->table('order_goods') . " AS og, " . $GLOBALS['ecs']->table('order_info') . " AS oi " .
+                $sql = "SELECT SUM(oi.order_amount) AS money FROM " . $GLOBALS['ecs']->table('order_goods') . " AS og, " .
+                                                                      $GLOBALS['ecs']->table('order_info') . " AS oi, " .
+                                                                      $GLOBALS['ecs']->table('users') . 'AS u' .
                     $where;
 
-                if ($is_pagination) {
+                if ($is_pagination)
+                {
                     $sql .= " LIMIT " . $filter['start'] . ', ' . $filter['page_size'];
                 }
                 $data = $GLOBALS['db']->getAll($sql);
 
                 $data = $data[0];
-                if ($data['money']) {
+                if ($data['money'])
+                {
                     $data['total_orders'] = $total_orders;
                     $filter['page_count'] = 1;
                     $filter['record_count'] = 1;
-                } else {
+                } else
+                {
                     $data = array(
                         'total_orders' => 0,
                         'money' => 0
                     );
                 }
 
-            } else {
+            }
+            else
+            {
                 $data = array(
                     'total_orders' => 0,
                     'money' => 0
@@ -211,49 +314,112 @@ function get_sale_list($is_pagination = true){
             $sale_list_data[$k]['money'] = $data['money'];
             $sale_list_data[$k]['total_orders'] = $data['total_orders'];
         }
-    }else{ // 本身已经是最细粒度的分类
+    }
+    else
+    { // 本身已经是最细粒度的分类
         $sql = "SELECT goods_id FROM " . $GLOBALS['ecs']->table('goods') . "WHERE cat_id = '$cat_id'";
         $m = $GLOBALS['db']->getAll($sql);
         $child_good_id_lists = '';
-        foreach ($m as $n) {
+        foreach ($m as $n)
+        {
             $child_good_id_lists .= $n['goods_id'] . ',';
         }
         $child_good_id_lists = trim($child_good_id_lists, ',');
-        if ($child_good_id_lists) {
-            /* 查询数据的条件 */
-            $where = " WHERE og.order_id = oi.order_id" . order_query_sql('finished', 'oi.') .
-                "  AND oi.add_time >= '" . $filter['start_date'] . "' AND oi.add_time < ' " . ($filter['end_date'] + 86400) .
-                "' AND og.goods_id in ($child_good_id_lists)";
+        if ($child_good_id_lists)
+        {
+            if($filter['user_type'])
+            {
+                if ($filter['user_type'] == '2')
+                {
+                    if ($user_id)
+                    {
+                        $where = " WHERE og.order_id = oi.order_id" . order_query_sql('finished', 'oi.') .
+                            "  AND oi.add_time >= '" . $filter['start_date'] . "' AND oi.add_time < ' " . ($filter['end_date'] + 86400) .
+                            "' AND og.goods_id in ($child_good_id_lists)".
+                            " AND oi.user_id=u.user_id AND u.user_rank='2' AND oi.user_id='$user_id'" ;
+                    }
+                    else
+                    {
+                        $where = " WHERE og.order_id = oi.order_id" . order_query_sql('finished', 'oi.') .
+                            "  AND oi.add_time >= '" . $filter['start_date'] . "' AND oi.add_time < ' " . ($filter['end_date'] + 86400) .
+                            "' AND og.goods_id in ($child_good_id_lists)".
+                            " AND oi.user_id=u.user_id AND u.user_rank='2' " ;
+                    }
+                }
+                else if($filter['user_type'] == '1')
+                {
+                    if ($user_id)
+                    {
+                        $where = " WHERE og.order_id = oi.order_id" . order_query_sql('finished', 'oi.') .
+                            "  AND oi.add_time >= '" . $filter['start_date'] . "' AND oi.add_time < ' " . ($filter['end_date'] + 86400) .
+                            "' AND og.goods_id in ($child_good_id_lists)".
+                            " AND oi.user_id=u.user_id AND u.user_rank <> '2' AND oi.user_id='$user_id'" ;
+                    }
+                    else
+                    {
+                        $where = " WHERE og.order_id = oi.order_id" . order_query_sql('finished', 'oi.') .
+                            "  AND oi.add_time >= '" . $filter['start_date'] . "' AND oi.add_time < ' " . ($filter['end_date'] + 86400) .
+                            "' AND og.goods_id in ($child_good_id_lists)".
+                            " AND oi.user_id=u.user_id AND u.user_rank <> '2' " ;
+                    }
+                }
+            }
+            else
+            {
+                if ($user_id)
+                {
+                    $where = " WHERE og.order_id = oi.order_id" . order_query_sql('finished', 'oi.') .
+                        "  AND oi.add_time >= '" . $filter['start_date'] . "' AND oi.add_time < ' " . ($filter['end_date'] + 86400) .
+                        "' AND og.goods_id in ($child_good_id_lists)".
+                        " AND oi.user_id=u.user_id  AND oi.user_id='$user_id'" ;
+                }
+                else
+                {
+                    $where = " WHERE og.order_id = oi.order_id" . order_query_sql('finished', 'oi.') .
+                        "  AND oi.add_time >= '" . $filter['start_date'] . "' AND oi.add_time < ' " . ($filter['end_date'] + 86400) .
+                        "' AND og.goods_id in ($child_good_id_lists)".
+                        " AND oi.user_id=u.user_id " ;
+                }
+            }
 
             $sql = "SELECT COUNT(og.goods_id) FROM " .
                 $GLOBALS['ecs']->table('order_info') . ' AS oi,' .
-                $GLOBALS['ecs']->table('order_goods') . ' AS og ' .
+                $GLOBALS['ecs']->table('order_goods') . ' AS og, ' .
+                $GLOBALS['ecs']->table('users') . ' AS u ' .
                 $where;
             $total_orders = $GLOBALS['db']->getOne($sql);
 
             /* 分页大小*/
             $filter = page_and_size($filter);
-            $sql = "SELECT SUM(oi.order_amount) AS money FROM " . $GLOBALS['ecs']->table('order_goods') . " AS og, " . $GLOBALS['ecs']->table('order_info') . " AS oi " .
+            $sql = "SELECT SUM(oi.order_amount) AS money FROM " . $GLOBALS['ecs']->table('order_goods') . " AS og, " .
+                                                                  $GLOBALS['ecs']->table('order_info') . " AS oi, " .
+                                                                  $GLOBALS['ecs']->table('users') . " AS u " .
                 $where;
 
-            if ($is_pagination) {
+            if ($is_pagination)
+            {
                 $sql .= " LIMIT " . $filter['start'] . ', ' . $filter['page_size'];
             }
             $data = $GLOBALS['db']->getAll($sql);
 
             $data = $data[0];
-            if ($data['money']) {
+            if ($data['money'])
+            {
                 $data['total_orders'] = $total_orders;
                 $filter['page_count'] = 1;
                 $filter['record_count'] = 1;
-            } else {
+            }
+            else
+            {
                 $data = array(
                     'total_orders' => 0,
                     'money' => 0
                 );
             }
 
-        } else {
+        }
+        else
+        {
             $data = array(
                 'total_orders' => 0,
                 'money' => 0
@@ -268,13 +434,15 @@ function get_sale_list($is_pagination = true){
 
     /* 按照订单金额排序 */
     $money_list = array();
-    foreach ($sale_list_data as $k => $v) {
+    foreach ($sale_list_data as $k => $v)
+    {
         $money_list[$k] = $v['money'];
     }
     array_multisort($money_list, SORT_DESC, SORT_NUMERIC, $sale_list_data);
 
     /* 增加额外数据支持 */
-    foreach ($sale_list_data as $k => $v) {
+    foreach ($sale_list_data as $k => $v)
+    {
         $sale_list_data[$k]['id'] = $k + 1;
         $sale_list_data[$k]['money'] = price_format($v['money']);
     }
