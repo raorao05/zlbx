@@ -290,7 +290,8 @@ elseif ($_REQUEST['act'] == 'buy')
     $_SESSION['extension_id'] = $seckill_id;
 
     /* 进入收货人页面 */
-    ecs_header("Location: ./flow.php?step=consignee\n");
+    ecs_header("Location: ./flow.php?step=cart\n");
+    //ecs_header("Location: ./flow.php?step=consignee\n");
     exit;
 }
 

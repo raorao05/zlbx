@@ -1286,8 +1286,17 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0)
  */
 function clear_cart($type = CART_GENERAL_GOODS,$rec_id='')
 {
-    $sql = "DELETE FROM " . $GLOBALS['ecs']->table('cart') .
+    if($rec_id)
+    {
+        $sql = "DELETE FROM " . $GLOBALS['ecs']->table('cart') .
             " WHERE session_id = '" . SESS_ID . "' AND rec_type = '$type' and rec_id=$rec_id";
+    }
+    else
+    {
+        $sql = "DELETE FROM " . $GLOBALS['ecs']->table('cart') .
+            " WHERE session_id = '" . SESS_ID . "' AND rec_type = '$type'";
+    }
+
     $GLOBALS['db']->query($sql);
 }
 
