@@ -58,7 +58,7 @@ define('ERR_NEED_SELECT_ATTR',      6); // 需要用户选择属性
 
 /* 购物车商品类型 */
 define('CART_GENERAL_GOODS',        0); // 普通商品
-//define('CART_GROUP_BUY_GOODS',      1); // 团购商品
+define('CART_GROUP_BUY_GOODS',      1); // 团购商品
 define('CART_AUCTION_GOODS',        2); // 拍卖商品
 define('CART_SNATCH_GOODS',         3); // 夺宝奇兵
 define('CART_EXCHANGE_GOODS',       4); // 积分商城

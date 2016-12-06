@@ -286,7 +286,7 @@ elseif ($_REQUEST['act'] == 'buy')
         'is_real'        => $goods['is_real'],
         'extension_code' => addslashes($goods['extension_code']),
         'parent_id'      => 0,
-        'rec_type'       => CART_GROUP_BUY_GOODS,
+        'rec_type'       => 'CART_GROUP_BUY_GOODS',
         'is_gift'        => 0
     );
     $db->autoExecute($ecs->table('cart'), $cart, 'INSERT');
